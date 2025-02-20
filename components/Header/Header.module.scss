@@ -1,0 +1,14 @@
+.header {
+  position: fixed;
+  z-index: 1;
+  width: 100vw;
+  display: flex;
+  justify-content: space-between;
+
+  padding: 50px;
+  
+  &__links {
+    display: flex;
+    gap: 30px;
+  }
+}

@@ -1,0 +1,47 @@
+$borderWidth: 2px;
+$borderMargin: 30px;
+
+.background {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 100px;
+
+  &__rect {
+    position: absolute;
+
+    width: 98px;
+    height: 98px;
+
+    &__topleft {
+      top: $borderMargin;
+      left: $borderMargin;
+      border-top: $borderWidth solid white;
+      border-left: $borderWidth solid white;
+    }
+
+    &__topright {
+      top: $borderMargin;
+      right: $borderMargin;
+      border-top: $borderWidth solid white;
+      border-right: $borderWidth solid white;
+    }
+
+    &__bottomleft {
+      bottom: $borderMargin;
+      left: $borderMargin;
+      border-bottom: $borderWidth solid white;
+      border-left: $borderWidth solid white;
+    }
+
+    &__bottomright {
+      bottom: $borderMargin;
+      right: $borderMargin;
+      border-bottom: $borderWidth solid white;
+      border-right: $borderWidth solid white;
+    }
+  }
+}
