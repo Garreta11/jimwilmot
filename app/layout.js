@@ -34,12 +34,12 @@ const delightFont = localFont({
       style: 'normal',
     },
     {
-      path: './fonts/Delight/Delight-Extrabold.woff2',
+      path: './fonts/Delight/Delight-ExtraBold.woff2',
       weight: '800',
       style: 'normal',
     },
     {
-      path: './fonts/Delight/Delight-Extralight.woff2',
+      path: './fonts/Delight/Delight-ExtraLight.woff2',
       weight: '200',
       style: 'normal',
     },
