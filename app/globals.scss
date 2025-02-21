@@ -1,5 +1,6 @@
 :root {
-  --background: #ffffff;
+  --background: #F3EFD2;
+  --white: #ffffff;
   --foreground: #171717;
 }
 
@@ -26,8 +27,12 @@ body {
 
 * {
   box-sizing: border-box;
+  font-family: var(--font-delight), sans-serif;
   padding: 0;
   margin: 0;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 a {

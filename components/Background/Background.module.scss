@@ -10,6 +10,9 @@ $borderMargin: 30px;
   height: 100vh;
   padding: 100px;
 
+  mix-blend-mode: difference;
+
+
   &__rect {
     position: absolute;
 

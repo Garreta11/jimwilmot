@@ -8,7 +8,7 @@ export async function getHomepage(id) {
       _id,
       _createdAt,
       title,
-      "heroImage": heroImage.asset->url
+      "hero": hero.asset->url
     }
   `;
 
@@ -66,6 +66,8 @@ export async function getProjectsList() {
       _createdAt,
       title,
       "slug": slug.current,
+      category,
+      "heroUrl": hero.asset->url
     }`;
   const data = await client.fetch(query);
   return data;

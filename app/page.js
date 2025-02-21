@@ -5,9 +5,11 @@ import { getHomepage } from './utils/sanity-utils';
 const Home = async () => {
   const home = await getHomepage('singleton-homepage');
 
+  console.log(home);
+
   return (
     <div className={styles.page}>
-      <Hero img={home.heroImage} />
+      <Hero media={home.hero} />
     </div>
   );
 };

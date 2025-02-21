@@ -19,10 +19,9 @@ export const homeType = defineType({
       type: 'string',
     }),
     defineField({
-      name: 'heroImage',
-      title: 'Hero Image',
-      type: 'image',
-      options: { hotspot: true },
+      title: 'Hero',
+      name: 'hero',
+      type: 'file',
     }),
   ],
 });

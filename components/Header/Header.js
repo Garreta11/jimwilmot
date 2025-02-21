@@ -5,16 +5,26 @@ import Image from 'next/image';
 const Header = () => {
   const links = [
     {
-      name: 'Work',
+      name: 'work',
       href: '/work',
     },
     {
-      name: 'About',
-      href: '/about',
+      name: 'info',
+      href: '/info',
+    },
+    {
+      name: 'studios',
+      href: '/studios',
     },
   ];
   return (
     <div className={styles.header}>
+      <Link className={styles.header__logo} href='/'>
+        <div>
+          <h1>Jim Wilmot</h1>
+          <h3>Filmmaker & Creative Director</h3>
+        </div>
+      </Link>
       <Link href='/'>
         {/* <h1>Logo</h1> */}
         <Image src='logo.svg' width={63} height={65} alt='logo' />

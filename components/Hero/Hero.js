@@ -1,21 +1,31 @@
-import Image from 'next/image';
+'use client';
+import { useRef } from 'react';
 import styles from './Hero.module.scss';
 import { getImageDimensions } from '@sanity/asset-utils';
 
 const Hero = (props) => {
-  const { img } = props;
+  const { media } = props;
+
+  console.log(media);
+
+  const mediaRef = useRef();
 
   // Get width & height dynamically
-  const { width, height } = getImageDimensions(img);
+  // const { width, height } = getImageDimensions(img);
   return (
     <div className={styles.hero}>
-      <Image
-        className={styles.hero__img}
-        src={img}
-        width={width}
-        height={height}
-        alt='Hero Image'
-      />
+      <video
+        ref={mediaRef}
+        className={`${styles.hero__media}`}
+        muted
+        autoPlay
+        loop
+        controls={false}
+        playsInline={true}
+      >
+        <source src={media} type='video/mp4' />
+        Your browser does not support the video tag.
+      </video>
     </div>
   );
 };

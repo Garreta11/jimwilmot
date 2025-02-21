@@ -13,12 +13,10 @@ import { apiVersion, dataset, projectId } from './sanity/env';
 import { schema } from './sanity/schemaTypes';
 import { structure } from './sanity/structure';
 
-console.log(schema);
-
 export default defineConfig({
   basePath: '/studio',
-  projectId,
-  dataset,
+  projectId: 'w3dlp9lz',
+  dataset: 'development',
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
   plugins: [
