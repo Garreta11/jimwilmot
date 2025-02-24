@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import gsap from 'gsap';
 import Lenis from 'lenis';
 import ScrollTrigger from 'gsap/src/ScrollTrigger';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const PageWrapper = ({ children }) => {
@@ -22,6 +23,13 @@ const PageWrapper = ({ children }) => {
 
     // Disable lag smoothing in GSAP to prevent any delay in scroll animations
     gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove((time) => {
+        lenis.raf(time * 1000);
+      });
+      lenis.destroy();
+    };
   }, []);
   return <>{children}</>;
 };

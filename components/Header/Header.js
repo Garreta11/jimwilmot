@@ -21,7 +21,7 @@ const Header = () => {
     <div className={styles.header}>
       <Link className={styles.header__logo} href='/'>
         <div>
-          <h1>Jim Wilmot</h1>
+          <h1>Jim Wilberg</h1>
           <h3>Filmmaker & Creative Director</h3>
         </div>
       </Link>

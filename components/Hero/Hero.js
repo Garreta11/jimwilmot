@@ -20,7 +20,8 @@ const Hero = (props) => {
       },
       {
         maskSize: '5000%',
-        duration: 1,
+        duration: 5,
+        ease: 'expo.inOut',
       }
     );
   }, []);

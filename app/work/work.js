@@ -2,16 +2,22 @@
 
 import styles from './page.module.scss';
 import Link from 'next/link';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
+import { videoFullscreen } from './animations';
+import { useRouter } from 'next/navigation';
 
 const WorkPage = ({ projects }) => {
+  const router = useRouter();
+
   const radius = 600;
   const [currentVideo, setCurrentVideo] = useState(projects[0]?.heroUrl || '');
   const [mainProject, setMainProject] = useState(projects[0]?.heroUrl || '');
   const containerRef = useRef(null);
   const itemRefs = useRef([]);
   const videoRefs = useRef([]);
+  const videoRef = useRef(null);
+  const [timeline, setTimeline] = useState(null);
 
   useEffect(() => {
     if (!containerRef.current || !projects.length) return;
@@ -129,7 +135,7 @@ const WorkPage = ({ projects }) => {
         ))}
       </div>
 
-      <div className={styles.page__video}>
+      <div ref={videoRef} className={styles.page__video}>
         {projects.map((item, index) => (
           <video
             key={index}
