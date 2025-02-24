@@ -26,8 +26,7 @@ const Header = () => {
         </div>
       </Link>
       <Link href='/'>
-        {/* <h1>Logo</h1> */}
-        <Image src='logo.svg' width={63} height={65} alt='logo' />
+        <Image src='/logo.svg' width={63} height={65} alt='logo' />
       </Link>
       <div className={styles.header__links}>
         {links.map((link, index) => (

@@ -1,7 +1,7 @@
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 
 const hiddenDocTypes = (listItem) =>
-  !['homepage', 'work', 'about'].includes(listItem.getId());
+  !['homepage', 'work', 'about', 'selectedProjects'].includes(listItem.getId());
 
 export const structure = (S) =>
   S.list()
@@ -32,4 +32,12 @@ export const structure = (S) =>
             .documentId('singleton-about')
         ),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
+      S.listItem()
+        .title('Selected Projects')
+        .child(
+          S.editor()
+            .id('selectedProjects')
+            .schemaType('selectedProjects')
+            .documentId('selectedProjects')
+        ),
     ]);

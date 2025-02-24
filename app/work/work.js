@@ -69,7 +69,7 @@ const WorkPage = ({ projects }) => {
 
       setCurrentVideo(projects[rightmostIndex]?.heroUrl);
       setMainProject(projects[rightmostIndex]);
-      console.log(projects[rightmostIndex]?.title);
+      console.log(projects[rightmostIndex]);
     };
 
     updatePosition();
@@ -123,7 +123,7 @@ const WorkPage = ({ projects }) => {
                     .join(' ')}
                 </span>
               </h3>
-              <p>Directed by Jim Wilmot</p>
+              <p>{item.subtitle}</p>
             </Link>
           </div>
         ))}

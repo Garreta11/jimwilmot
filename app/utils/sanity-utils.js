@@ -44,6 +44,29 @@ export async function getAboutpage(id) {
   return data;
 }
 
+// Get Selected Projects
+export async function getSelectedProjects(id) {
+  const query = groq`
+    *[_type == "selectedProjects" && _id == $id][0] {
+      _id,
+      _createdAt,
+      title,
+      projects[]->{
+        _id,
+        title,
+        subtitle,
+        category,
+        "slug": slug.current,
+        "heroUrl": hero.asset->url, // Example of fetching asset URL,
+        "thumbnailUrl": thumbnail.asset->url
+      }
+    }
+  `;
+
+  const data = await client.fetch(query, { id });
+  return data;
+}
+
 // Single Project
 export async function getProject(slug) {
   const query = groq`
@@ -51,7 +74,19 @@ export async function getProject(slug) {
       _id,
       _createdAt,
       title,
-      "slug": slug.current,
+      subtitle,
+      category,
+      "heroUrl": hero.asset->url,
+      credits,
+      pageBuilder[]{
+        ...,
+        _type == "imageBlock" => {
+          "imageUrl": image.asset->url
+        },
+        _type == "textBlock" => {
+          text
+        }
+      }
     }`;
 
   const data = await client.fetch(query, { slug });
@@ -65,6 +100,7 @@ export async function getProjectsList() {
       _id,
       _createdAt,
       title,
+      subtitle,
       "slug": slug.current,
       category,
       "heroUrl": hero.asset->url

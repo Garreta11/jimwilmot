@@ -1,17 +1,30 @@
 'use client';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Hero.module.scss';
-import { getImageDimensions } from '@sanity/asset-utils';
+import gsap from 'gsap';
 
 const Hero = (props) => {
   const { media } = props;
-
-  console.log(media);
-
   const mediaRef = useRef();
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
-  // Get width & height dynamically
-  // const { width, height } = getImageDimensions(img);
+  const handleVideoLoaded = () => {
+    setVideoLoaded(true);
+  };
+
+  useEffect(() => {
+    gsap.fromTo(
+      mediaRef.current,
+      {
+        maskSize: '0%',
+      },
+      {
+        maskSize: '5000%',
+        duration: 1,
+      }
+    );
+  }, []);
+
   return (
     <div className={styles.hero}>
       <video
@@ -21,7 +34,8 @@ const Hero = (props) => {
         autoPlay
         loop
         controls={false}
-        playsInline={true}
+        playsInline
+        onLoadedData={handleVideoLoaded} // Detect when the video is loaded
       >
         <source src={media} type='video/mp4' />
         Your browser does not support the video tag.

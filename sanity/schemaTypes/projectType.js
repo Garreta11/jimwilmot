@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity';
+import { defineField, defineType, defineArrayMember } from 'sanity';
 
 export const projectType = defineType({
   name: 'projects',
@@ -16,9 +16,8 @@ export const projectType = defineType({
       type: 'string',
     }),
     defineField({
-      title: 'Hero',
-      name: 'hero',
-      type: 'file',
+      name: 'subtitle',
+      type: 'string',
     }),
     defineField({
       name: 'category',
@@ -32,9 +31,59 @@ export const projectType = defineType({
           { title: 'Commercial', value: 'commercial' },
           { title: 'Editorial', value: 'editorial' },
         ],
-        layout: 'dropdown', // You can change this to 'radio' if you prefer
+        layout: 'dropdown',
       },
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      title: 'Hero',
+      name: 'hero',
+      type: 'file',
+    }),
+    defineField({
+      name: 'thumbnail',
+      title: 'Thumbnail',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
+      name: 'credits',
+      type: 'array',
+      title: 'Credits',
+      of: [{ type: 'block' }],
+    }),
+    defineField({
+      name: 'pageBuilder',
+      type: 'array',
+      title: 'Page builder',
+      of: [
+        defineArrayMember({
+          name: 'imageBlock',
+          title: 'Image',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'image',
+              type: 'image',
+              options: { hotspot: true },
+            }),
+          ],
+        }),
+        defineArrayMember({
+          name: 'textBlock',
+          title: 'Text',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'text',
+              type: 'array',
+              of: [{ type: 'block' }],
+            }),
+          ],
+        }),
+      ],
     }),
   ],
 });
