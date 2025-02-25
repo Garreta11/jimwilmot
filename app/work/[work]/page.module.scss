@@ -6,26 +6,29 @@
     
     &__title {
       mix-blend-mode: difference;
-      height: 100vh;
+      height: calc(100vh - 320px);
       display: flex;
       justify-content: center;
-      &__wrapper {
-        width: fit-content;
-      }
-      a {
-        text-wrap-mode: nowrap;
-      }
-  
-      h3 {
-        font-size: 32px;
-        font-weight: 700;
-        line-height: 1;
-      }
+      align-items: center;
       
-      p {
-        font-weight: 700;
-        line-height: 1;
-        font-size: 16px;
+      &__wrapper {
+        /* width: 800px; */
+        width: fit-content;
+        a {
+          text-wrap-mode: nowrap;
+        }
+    
+        h3 {
+          font-size: 32px;
+          font-weight: 700;
+          line-height: 1;
+        }
+        
+        p {
+          font-weight: 700;
+          line-height: 1;
+          font-size: 16px;
+        }
       }
     }
 
@@ -34,6 +37,7 @@
       text-align: center;
       width: 100%;
       min-height: 100vh;
+      padding: 160px 0px;
     }
 
     &__builder {

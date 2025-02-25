@@ -3,8 +3,8 @@ import { getProject } from '@/app/utils/sanity-utils.js';
 import { PortableText } from '@portabletext/react';
 
 const Project = async ({ params }) => {
-  const slug = params.work;
-  const project = await getProject(slug);
+  const { work } = await params;
+  const project = await getProject(work);
 
   return (
     <div className={styles.page}>

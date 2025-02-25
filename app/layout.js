@@ -4,6 +4,7 @@ import Header from '@/components/Header/Header';
 import localFont from 'next/font/local';
 import Footer from '@/components/Footer/Footer';
 import PageWrapper from '@/components/PageWrapper/PageWrapper';
+import { TransitionProvider } from './context/TransitionContext';
 
 export const metadata = {
   title: 'Jim Wilmot',
@@ -66,12 +67,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang='en'>
       <body className={`${delightFont.className} `}>
-        <PageWrapper>
-          <Header />
-          {children}
-          <Footer />
-          <Background />
-        </PageWrapper>
+        <TransitionProvider>
+          <PageWrapper>
+            <Header />
+            {children}
+            <Footer />
+            <Background />
+          </PageWrapper>
+        </TransitionProvider>
       </body>
     </html>
   );

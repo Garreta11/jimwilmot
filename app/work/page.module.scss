@@ -7,13 +7,13 @@
   &__wrapper {
     position: fixed;
     width: 100%;
-    /* height: calc(100% - 250px); */
     height: 100%;
-    //left: calc(-60% + 20px);
+
     left: -55%;
     top: 50%;
     transform: translateY(-50%);
-    /* overflow: hidden; */
+
+    overflow: hidden;
     mix-blend-mode: difference;
     z-index: 1;
   }

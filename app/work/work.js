@@ -2,10 +2,11 @@
 
 import styles from './page.module.scss';
 import Link from 'next/link';
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import gsap from 'gsap';
-import { videoFullscreen } from './animations';
+import { TransitionContext } from '../context/TransitionContext';
 import { useRouter } from 'next/navigation';
+import { videoFullscreen } from './animations';
 
 const WorkPage = ({ projects }) => {
   const router = useRouter();
@@ -13,14 +14,16 @@ const WorkPage = ({ projects }) => {
   const radius = 600;
   const [currentVideo, setCurrentVideo] = useState(projects[0]?.heroUrl || '');
   const [mainProject, setMainProject] = useState(projects[0]?.heroUrl || '');
+  const wrapperRef = useRef(null);
   const containerRef = useRef(null);
   const itemRefs = useRef([]);
   const videoRefs = useRef([]);
   const videoRef = useRef(null);
-  const [timeline, setTimeline] = useState(null);
+
+  const { timeline } = useContext(TransitionContext);
 
   useEffect(() => {
-    if (!containerRef.current || !projects.length) return;
+    if (!wrapperRef.current || !projects.length) return;
 
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
@@ -28,10 +31,10 @@ const WorkPage = ({ projects }) => {
 
     projects.forEach((item, index) => {
       const angle = index * angleIncrement - Math.PI / 4;
-      const x = centerX + radius * Math.cos(angle) * 0.7;
-      const y = centerY + radius * Math.sin(angle);
+      const x = centerX + radius * Math.cos(angle) * 0.9;
+      const y = centerY + radius * Math.sin(angle) * 0.5;
 
-      gsap.set(containerRef.current.children[index], {
+      gsap.set(wrapperRef.current.children[index], {
         x,
         y,
       });
@@ -44,16 +47,12 @@ const WorkPage = ({ projects }) => {
 
       itemRefs.current.forEach((item, index) => {
         const angle = index * angleIncrement + scrollAmount;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
+        const x = centerX + radius * Math.cos(angle) * 0.9;
+        const y = centerY + radius * Math.sin(angle) * 0.5;
         const normalizeAngle = (a) => Math.atan2(Math.sin(a), Math.cos(a));
         const diff = Math.abs(normalizeAngle(angle));
-        const maxAngle = Math.PI / 4;
+        const maxAngle = Math.PI / 2;
         const newOpacity = diff >= maxAngle ? 0 : 1 - diff / maxAngle;
-
-        // Interpolate font size between 16 and 32
-        const newFontSizeH3 = 16 + newOpacity * (32 - 16);
-        const newFontSizeP = 8 + newOpacity * (16 - 8);
 
         const newScale = newOpacity;
 
@@ -63,7 +62,7 @@ const WorkPage = ({ projects }) => {
           rightmostIndex = index;
         }
 
-        gsap.to(containerRef.current.children[index], {
+        gsap.to(wrapperRef.current.children[index], {
           duration: 0.05,
           x,
           y,
@@ -75,7 +74,6 @@ const WorkPage = ({ projects }) => {
 
       setCurrentVideo(projects[rightmostIndex]?.heroUrl);
       setMainProject(projects[rightmostIndex]);
-      console.log(projects[rightmostIndex]);
     };
 
     updatePosition();
@@ -89,7 +87,7 @@ const WorkPage = ({ projects }) => {
         const isActive = projects[index].heroUrl === currentVideo;
 
         if (isActive) {
-          video.play();
+          //video.play();
         } else {
           video.pause();
         }
@@ -103,14 +101,34 @@ const WorkPage = ({ projects }) => {
     });
   }, [currentVideo, projects]);
 
+  const handleClickProject = () => {
+    timeline.pause().clear();
+    const project = projects.find(
+      (project) => project.heroUrl === currentVideo
+    );
+    const url = `/work/${project.slug}`;
+
+    // Set the onComplete callback globally on the timeline
+    timeline.eventCallback('onComplete', () => {
+      console.log('Video animation complete!');
+      router.push(url);
+      timeline.pause().clear();
+    });
+
+    timeline.add(videoFullscreen(wrapperRef, videoRef));
+
+    timeline.play();
+  };
+
   return (
-    <div className={styles.page}>
-      <div className={styles.page__wrapper} ref={containerRef}>
+    <div ref={containerRef} className={styles.page}>
+      <div className={styles.page__wrapper} ref={wrapperRef}>
         {projects.map((item, index) => (
           <div
             key={index}
             ref={(el) => (itemRefs.current[index] = el)}
-            className={styles.page__item}
+            //className={styles.page__item}
+            className={`workItems ${styles.page__item} ${index === projects.findIndex((p) => p.heroUrl === currentVideo) ? 'currentItem' : ''}`}
             onMouseEnter={() => {
               setCurrentVideo(item.heroUrl);
             }}
@@ -118,7 +136,13 @@ const WorkPage = ({ projects }) => {
               setCurrentVideo(mainProject?.heroUrl);
             }}
           >
-            <Link href={`/work/${item.slug}`}>
+            <Link
+              href={`/work/${item.slug}`}
+              onClick={(e) => {
+                e.preventDefault(); // Prevent default Next.js Link navigation
+                handleClickProject(); // Run the animation and navigation
+              }}
+            >
               <h3>
                 {item.title}
                 <span>
@@ -135,7 +159,11 @@ const WorkPage = ({ projects }) => {
         ))}
       </div>
 
-      <div ref={videoRef} className={styles.page__video}>
+      <div
+        ref={videoRef}
+        className={styles.page__video}
+        onClick={() => handleClickProject()}
+      >
         {projects.map((item, index) => (
           <video
             key={index}
