@@ -140,6 +140,7 @@ const WorkPage = ({ projects }) => {
               href={`/work/${item.slug}`}
               onClick={(e) => {
                 e.preventDefault(); // Prevent default Next.js Link navigation
+                setCurrentVideo(item.heroUrl); // Ensures correct video is selected
                 handleClickProject(); // Run the animation and navigation
               }}
             >
