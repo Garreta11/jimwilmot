@@ -37,7 +37,12 @@ const Header = () => {
         </div>
       </Link>
       <Link className={styles.header__icon} href='/'>
-        <Image src='/logo.svg' width={63} height={65} alt='logo' />
+        <Image
+          src={isStudioPage ? '/logo-rainbow.png' : '/logo.svg'}
+          width={63}
+          height={65}
+          alt='logo'
+        />
       </Link>
       <div className={styles.header__links}>
         {links.map((link, index) => (
