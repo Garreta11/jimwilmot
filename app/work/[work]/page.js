@@ -13,15 +13,26 @@ const Project = async ({ params }) => {
           <div className={styles.page__wrapper__title__wrapper}>
             <h3>
               {project.title}
-              <span>
+              {/* <span>
                 &nbsp;|&nbsp;
                 {project.category
                   .split('-')
                   .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                   .join(' ')}
-              </span>
+              </span> */}
             </h3>
-            <p>{project.subtitle}</p>
+            <p>
+              {project.subtitle}
+              &emsp;
+              <span>
+                &nbsp;[&nbsp;
+                {project.category
+                  .split('-')
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ')}
+                &nbsp;]&nbsp;
+              </span>
+            </p>
           </div>
         </div>
 

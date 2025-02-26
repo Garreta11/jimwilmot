@@ -63,10 +63,62 @@ const delightFont = localFont({
   display: 'swap', // Optional font display strategy
 });
 
+const nohemiFont = localFont({
+  src: [
+    {
+      path: './fonts/Nohemi/Nohemi-Black.woff2',
+      weight: '900',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Nohemi/Nohemi-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Nohemi/Nohemi-ExtraBold.woff2',
+      weight: '800',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Nohemi/Nohemi-ExtraLight.woff2',
+      weight: '200',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Nohemi/Nohemi-Light.woff2',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Nohemi/Nohemi-Medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Nohemi/Nohemi-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Nohemi/Nohemi-SemiBold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: './fonts/Nohemi/Nohemi-Thin.woff2',
+      weight: '100',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-nohemi', // Optional CSS variable
+  display: 'swap', // Optional font display strategy
+});
+
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className={`${delightFont.className} `}>
+      <body className={`${delightFont.className} ${nohemiFont.className} `}>
         <TransitionProvider>
           <PageWrapper>
             <Header />

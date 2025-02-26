@@ -27,6 +27,7 @@
     height: fit-content;
     cursor: pointer;
     transform-origin: left;
+    text-transform: uppercase;
 
     a {
       text-wrap-mode: nowrap;
@@ -34,12 +35,12 @@
 
     h3 {
       font-size: 32px;
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1;
     }
     
     p {
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1;
       font-size: 16px;
     }
@@ -62,6 +63,25 @@
       position: absolute;
       top: 0;
       left: 0;
+    }
+
+    &__count {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: difference;
+
+      p {
+        display: flex;
+        gap: 10px;
+
+        span {
+          width: 20px;
+        }
+
+      }
+
     }
   }
 }

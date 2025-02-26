@@ -10,7 +10,7 @@
 
   bottom: 0;
 
-  font-size: 20px;
+  font-size: 12px;
 
   &__socialmedia {
     display: flex;
@@ -19,5 +19,6 @@
   &__contact {
     display: flex;
     gap: 30px;
+    text-transform: uppercase;
   }
 }

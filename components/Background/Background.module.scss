@@ -16,8 +16,8 @@ $borderMargin: 30px;
   &__rect {
     position: absolute;
 
-    width: 98px;
-    height: 98px;
+    width: 50px;
+    height: 50px;
 
     &__topleft {
       top: $borderMargin;
@@ -45,6 +45,11 @@ $borderMargin: 30px;
       right: $borderMargin;
       border-bottom: $borderWidth solid white;
       border-right: $borderWidth solid white;
+    }
+
+    &__studio {
+      border-image: linear-gradient(45deg, rgba(67,101,206,1) 0%, rgba(150,84,118,1) 25%, rgba(221,70,43,1) 50%, rgba(227,212,49,1) 75%, rgba(63,164,96,1) 100%);
+      border-image-slice: 1;
     }
   }
 }

@@ -12,8 +12,11 @@ const WorkPage = ({ projects }) => {
   const router = useRouter();
 
   const radius = 600;
+
   const [currentVideo, setCurrentVideo] = useState(projects[0]?.heroUrl || '');
   const [mainProject, setMainProject] = useState(projects[0]?.heroUrl || '');
+  const [count, setCount] = useState('01');
+
   const wrapperRef = useRef(null);
   const containerRef = useRef(null);
   const itemRefs = useRef([]);
@@ -41,7 +44,10 @@ const WorkPage = ({ projects }) => {
     });
 
     const updatePosition = () => {
-      const scrollAmount = window.scrollY * 0.005;
+      // const scrollAmount = window.scrollY * 0.005;
+      const scrollProgress =
+        window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      const scrollAmount = scrollProgress * projects.length * angleIncrement;
       let maxX = -Infinity;
       let rightmostIndex = -1;
 
@@ -99,6 +105,12 @@ const WorkPage = ({ projects }) => {
         });
       }
     });
+
+    let index = projects.findIndex(
+      (project) => project.heroUrl === currentVideo
+    );
+    index++;
+    setCount(index.toString().padStart(2, '0'));
   }, [currentVideo, projects]);
 
   const handleClickProject = () => {
@@ -144,17 +156,19 @@ const WorkPage = ({ projects }) => {
                 handleClickProject(); // Run the animation and navigation
               }}
             >
-              <h3>
-                {item.title}
+              <h3>{item.title}</h3>
+              <p>
+                {item.subtitle}
+                &emsp;
                 <span>
-                  &nbsp;|&nbsp;
+                  &nbsp;[&nbsp;
                   {item.category
                     .split('-')
                     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
                     .join(' ')}
+                  &nbsp;]&nbsp;
                 </span>
-              </h3>
-              <p>{item.subtitle}</p>
+              </p>
             </Link>
           </div>
         ))}
@@ -179,6 +193,12 @@ const WorkPage = ({ projects }) => {
             Your browser does not support the video tag.
           </video>
         ))}
+
+        <div className={styles.page__video__count}>
+          <p>
+            [<span>{count}</span> / <span>{projects.length}</span>]
+          </p>
+        </div>
       </div>
     </div>
   );

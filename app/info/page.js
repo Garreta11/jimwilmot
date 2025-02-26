@@ -6,7 +6,7 @@ const Info = async () => {
   console.log(about);
   return (
     <div className={styles.page}>
-      <h1>{about.title}</h1>
+      <p>[&emsp;INFO&emsp;]</p>
     </div>
   );
 };

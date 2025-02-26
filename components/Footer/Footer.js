@@ -4,11 +4,11 @@ import Link from 'next/link';
 const Footer = () => {
   const socialmedia = [
     {
-      name: 'instagram',
+      name: 'INSTAGRAM',
       src: 'https://instagram.com',
     },
     {
-      name: 'linkedin',
+      name: 'LINKEDIN',
       src: 'https://linkedin.com',
     },
   ];
