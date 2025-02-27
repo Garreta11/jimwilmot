@@ -15,6 +15,36 @@
   &__socialmedia {
     display: flex;
     gap: 30px;
+
+    &__item {
+      width: 90px;
+      
+      a {
+        display: flex;
+        gap: 0px;
+        
+        justify-content: center;  
+        transition: all ease 0.3s;
+        &:hover {
+          gap: 5px;
+          &::before {
+            opacity: 1;
+          }
+          &::after {
+            opacity: 1;
+          }
+        }
+        &::before {
+          content: '[';
+          opacity: 0;
+        }
+        &::after {
+          content: ']';
+          opacity: 0;
+        }
+      }
+    }
+
   }
   &__contact {
     display: flex;

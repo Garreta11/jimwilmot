@@ -16,6 +16,8 @@
     overflow: hidden;
     mix-blend-mode: difference;
     z-index: 1;
+
+    pointer-events: none;
   }
 
   &__item {
@@ -28,6 +30,8 @@
     cursor: pointer;
     transform-origin: left;
     text-transform: uppercase;
+
+    pointer-events: all;
 
     a {
       text-wrap-mode: nowrap;
@@ -55,6 +59,7 @@
     height: 75%;
 
     transform: translate(-50%, -50%);
+    cursor: pointer;
 
     &__media {
       width: 100%;

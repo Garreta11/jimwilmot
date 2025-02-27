@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 import styles from './Header.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
+import TextGlitch from '../TextGlitch/TextGlitch';
 
 const Header = () => {
   const pathname = usePathname(); // Get the current URL path
@@ -45,11 +46,20 @@ const Header = () => {
         />
       </Link>
       <div className={styles.header__links}>
-        {links.map((link, index) => (
-          <div key={index} className={styles.header__links__item}>
-            <Link href={link.href}>{link.name}</Link>
-          </div>
-        ))}
+        {links.map((link, index) => {
+          const isActive =
+            pathname === link.href || pathname.startsWith(link.href);
+          return (
+            <div
+              key={index}
+              className={`${styles.header__links__item} ${isActive ? styles.header__links__item__active : ''}`}
+            >
+              <Link href={link.href}>
+                <TextGlitch>{link.name}</TextGlitch>
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

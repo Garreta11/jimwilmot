@@ -37,6 +37,8 @@ export async function getAboutpage(id) {
       _id,
       _createdAt,
       title,
+      description,
+      "profile":profilepicture.asset->url
     }
   `;
 
@@ -70,27 +72,62 @@ export async function getSelectedProjects(id) {
 // Single Project
 export async function getProject(slug) {
   const query = groq`
-    *[_type == 'projects' && slug.current == $slug][0] {
-      _id,
-      _createdAt,
-      title,
-      subtitle,
-      category,
-      "heroUrl": hero.asset->url,
-      credits,
-      pageBuilder[]{
-        ...,
-        _type == "imageBlock" => {
-          "imageUrl": image.asset->url
+      *[_type == 'projects' && slug.current == $slug][0] {
+        _id,
+        _createdAt,
+        title,
+        subtitle,
+        category,
+        "heroUrl": hero.asset->url,
+        credits,
+        pageBuilder[] {
+          ...,
+          _type == "imageBlock" => {
+            "imageUrl": image.asset->url
+          },
+          _type == "textBlock" => {
+            text
+          }
         },
-        _type == "textBlock" => {
-          text
+        // Get the previous and next projects based on creation date (_createdAt)
+        "prevProject": *[_type == 'projects' && _createdAt < ^._createdAt] | order(_createdAt desc)[0] {
+          _id,
+          title,
+          slug,
+          "heroUrl": hero.asset->url
+        },
+        "nextProject": *[_type == 'projects' && _createdAt > ^._createdAt] | order(_createdAt asc)[0] {
+          _id,
+          title,
+          slug,
+          "heroUrl": hero.asset->url
+        },
+        // Get the first and last project for looping
+        "firstProject": *[_type == 'projects'] | order(_createdAt asc)[0] {
+          _id,
+          title,
+          slug,
+          "heroUrl": hero.asset->url
+        },
+        "lastProject": *[_type == 'projects'] | order(_createdAt desc)[0] {
+          _id,
+          title,
+          slug,
+          "heroUrl": hero.asset->url
         }
-      }
-    }`;
+      }`;
 
   const data = await client.fetch(query, { slug });
-  return data;
+
+  // Handle looping when the project is the first or last
+  const prevProject = data.prevProject || data.lastProject;
+  const nextProject = data.nextProject || data.firstProject;
+
+  return {
+    ...data,
+    prevProject,
+    nextProject,
+  };
 }
 
 // All Projects List

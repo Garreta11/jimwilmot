@@ -6,7 +6,8 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import gsap from 'gsap';
 import { TransitionContext } from '../context/TransitionContext';
 import { useRouter } from 'next/navigation';
-import { videoFullscreen } from './animations';
+import { projectSelectedFromWork } from '../animations';
+import TextGlitch from '@/components/TextGlitch/TextGlitch';
 
 const WorkPage = ({ projects }) => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const WorkPage = ({ projects }) => {
   const itemRefs = useRef([]);
   const videoRefs = useRef([]);
   const videoRef = useRef(null);
+  const countRef = useRef(null);
 
   const { timeline } = useContext(TransitionContext);
 
@@ -44,7 +46,6 @@ const WorkPage = ({ projects }) => {
     });
 
     const updatePosition = () => {
-      // const scrollAmount = window.scrollY * 0.005;
       const scrollProgress =
         window.scrollY / (document.body.scrollHeight - window.innerHeight);
       const scrollAmount = scrollProgress * projects.length * angleIncrement;
@@ -93,7 +94,7 @@ const WorkPage = ({ projects }) => {
         const isActive = projects[index].heroUrl === currentVideo;
 
         if (isActive) {
-          //video.play();
+          video.play();
         } else {
           video.pause();
         }
@@ -127,7 +128,7 @@ const WorkPage = ({ projects }) => {
       timeline.pause().clear();
     });
 
-    timeline.add(videoFullscreen(wrapperRef, videoRef));
+    timeline.add(projectSelectedFromWork(wrapperRef, videoRef, countRef));
 
     timeline.play();
   };
@@ -156,19 +157,23 @@ const WorkPage = ({ projects }) => {
                 handleClickProject(); // Run the animation and navigation
               }}
             >
-              <h3>{item.title}</h3>
-              <p>
-                {item.subtitle}
-                &emsp;
-                <span>
-                  &nbsp;[&nbsp;
-                  {item.category
-                    .split('-')
-                    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ')}
-                  &nbsp;]&nbsp;
-                </span>
-              </p>
+              <TextGlitch>
+                <h3>{item.title}</h3>
+                <p>
+                  {item.subtitle}
+                  &emsp;
+                  <span>
+                    &nbsp;[&nbsp;
+                    {item.category
+                      .split('-')
+                      .map(
+                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                      )
+                      .join(' ')}
+                    &nbsp;]&nbsp;
+                  </span>
+                </p>
+              </TextGlitch>
             </Link>
           </div>
         ))}
@@ -194,7 +199,7 @@ const WorkPage = ({ projects }) => {
           </video>
         ))}
 
-        <div className={styles.page__video__count}>
+        <div ref={countRef} className={styles.page__video__count}>
           <p>
             [<span>{count}</span> / <span>{projects.length}</span>]
           </p>

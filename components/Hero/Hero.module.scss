@@ -13,4 +13,12 @@
     mask-image: url("/logo.svg");
     mask-repeat: no-repeat;
   }
+
+  &__sound {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 12px;
+    mix-blend-mode: difference;
+  }
 }

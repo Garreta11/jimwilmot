@@ -47,7 +47,6 @@
 
     &__item {
       width: 70px;
-      
       a {
         display: flex;
         gap: 0px;
@@ -55,7 +54,7 @@
         justify-content: center;  
         transition: all ease 0.3s;
         &:hover {
-          gap: 10px;
+          gap: 5px;
           &::before {
             opacity: 1;
           }
@@ -72,8 +71,18 @@
           opacity: 0;
         }
       }
-      
 
+      &__active {
+        a {
+          gap: 5px;
+          &::before {
+            opacity: 1;
+          }
+          &::after {
+            opacity: 1;
+          }
+        }
+      }
     }
 
   }

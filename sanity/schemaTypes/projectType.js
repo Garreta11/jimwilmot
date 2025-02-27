@@ -4,25 +4,29 @@ export const projectType = defineType({
   name: 'projects',
   title: 'Projects',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'topRow',
+      title: 'Project Info',
+      options: { columns: 2 },
+    },
+  ],
   fields: [
-    defineField({
-      name: 'slug',
-      type: 'slug',
-      options: { source: 'title' },
-      validation: (rule) => rule.required(),
-    }),
     defineField({
       name: 'title',
       type: 'string',
+      fieldset: 'topRow',
     }),
     defineField({
       name: 'subtitle',
       type: 'string',
+      fieldset: 'topRow',
     }),
     defineField({
       name: 'category',
       title: 'Category',
       type: 'string',
+      fieldset: 'topRow',
       options: {
         list: [
           { title: 'Live Promo', value: 'live-promo' },
@@ -33,6 +37,13 @@ export const projectType = defineType({
         ],
         layout: 'dropdown',
       },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      type: 'slug',
+      options: { source: 'title' },
+      fieldset: 'topRow',
       validation: (rule) => rule.required(),
     }),
     defineField({
