@@ -4,17 +4,40 @@ export const studioType = defineType({
   name: 'studio',
   title: 'Studio',
   type: 'document',
+  fieldsets: [
+    {
+      name: 'topRow',
+      title: 'Project Info',
+      options: { columns: 2 },
+    },
+  ],
   fields: [
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      fieldset: 'topRow',
+    }),
     defineField({
       name: 'slug',
       type: 'slug',
       options: { source: 'title' },
       validation: (rule) => rule.required(),
+      fieldset: 'topRow',
+    }),
+
+    defineField({
+      title: 'Hero',
+      name: 'hero',
+      type: 'file',
     }),
     defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
+      name: 'thumbnail',
+      title: 'Thumbnail',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
     }),
   ],
 });

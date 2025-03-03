@@ -56,7 +56,7 @@ export async function getSelectedProjects(id) {
       projects[]->{
         _id,
         title,
-        subtitle,
+        client,
         category,
         "slug": slug.current,
         "heroUrl": hero.asset->url, // Example of fetching asset URL,
@@ -76,7 +76,7 @@ export async function getProject(slug) {
         _id,
         _createdAt,
         title,
-        subtitle,
+        client,
         category,
         "heroUrl": hero.asset->url,
         credits,
@@ -137,7 +137,7 @@ export async function getProjectsList() {
       _id,
       _createdAt,
       title,
-      subtitle,
+      client,
       "slug": slug.current,
       category,
       "heroUrl": hero.asset->url

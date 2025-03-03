@@ -4,7 +4,7 @@
   padding: 160px 50px;
 
   display: grid;
-  gap: 20px;
+  row-gap: 100px;
   grid-template-columns: repeat(12, 1fr);
   
   &__description {
@@ -19,6 +19,10 @@
       width: 100%;
       height: auto;
     }
+  }
+
+  &__contactform {
+    grid-column: 1 / span 12;
   }
 
 }

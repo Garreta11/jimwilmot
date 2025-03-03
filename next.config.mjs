@@ -8,7 +8,20 @@ const nextConfig = {
         hostname: 'cdn.sanity.io',
         port: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'assets.codepen.io',
+        port: '',
+      },
     ],
+  },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs)$/,
+      use: 'raw-loader',
+    });
+
+    return config;
   },
 };
 

@@ -4,8 +4,15 @@ import Link from 'next/link';
 import { PortableText } from '@portabletext/react';
 import useMousePosition from '@/app/hooks/useMousePosition';
 import { TransitionContext } from '@/app/context/TransitionContext';
+import { TimeContext } from '@/app/context/TimeContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState, useContext } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  useContext,
+  useLayoutEffect,
+} from 'react';
 import gsap from 'gsap';
 import { projectNextPrev } from '@/app/animations';
 
@@ -16,9 +23,15 @@ const ProjectWrapper = ({ project }) => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const nextPrevRef = useRef(null);
+  const videoRef = useRef(null);
   const [isHovered, setIsHovered] = useState(true);
 
   const { timeline } = useContext(TransitionContext);
+  const { videoTime } = useContext(TimeContext);
+
+  useEffect(() => {
+    videoRef.current.currentTime = videoTime;
+  }, [videoTime]);
 
   // Animate hero__sound to follow the mouse
   useEffect(() => {
@@ -62,9 +75,8 @@ const ProjectWrapper = ({ project }) => {
       <div className={styles.page__wrapper}>
         <div className={styles.page__wrapper__title}>
           <div className={styles.page__wrapper__title__wrapper}>
-            <h3>{project.title}</h3>
-            <p>
-              {project.subtitle}
+            <h3>
+              {project.client}
               &emsp;
               <span>
                 &nbsp;[&nbsp;
@@ -74,7 +86,8 @@ const ProjectWrapper = ({ project }) => {
                   .join(' ')}
                 &nbsp;]&nbsp;
               </span>
-            </p>
+            </h3>
+            <h3>{project.title}</h3>
           </div>
         </div>
 
@@ -169,6 +182,7 @@ const ProjectWrapper = ({ project }) => {
 
       <div className={styles.page__video}>
         <video
+          ref={videoRef}
           className={styles.page__video__media}
           muted
           loop

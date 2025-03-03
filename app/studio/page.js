@@ -1,11 +1,8 @@
 import styles from './page.module.scss';
+import StudioWrapper from './StudioWrapper';
 
 const Studios = async () => {
-  return (
-    <div className={styles.page}>
-      <p>[&emsp;STUDIO&emsp;]</p>
-    </div>
-  );
+  return <StudioWrapper />;
 };
 
 export default Studios;

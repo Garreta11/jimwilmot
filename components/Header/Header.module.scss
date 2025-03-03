@@ -12,8 +12,9 @@
     width: calc(100% / 3);
     &__wrapper {
       display: flex;
-      gap: 50px;
+      gap: 0px;
       text-transform: uppercase;
+      flex-direction: column;
       
       h1 {
         /* font-size: 40px; */
@@ -42,7 +43,7 @@
     height: fit-content;
     display: flex;
     justify-content: flex-end;
-    gap: 30px;
+    gap: 120px;
     font-size: 12px;
 
     &__item {

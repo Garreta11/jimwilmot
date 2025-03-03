@@ -8,14 +8,15 @@ import { TransitionContext } from '../context/TransitionContext';
 import { useRouter } from 'next/navigation';
 import { projectSelectedFromWork } from '../animations';
 import TextGlitch from '@/components/TextGlitch/TextGlitch';
+import { TimeContext } from '../context/TimeContext';
 
 const WorkPage = ({ projects }) => {
   const router = useRouter();
 
-  const radius = 600;
+  const radius = 800;
 
-  const [currentVideo, setCurrentVideo] = useState(projects[0]?.heroUrl || '');
-  const [mainProject, setMainProject] = useState(projects[0]?.heroUrl || '');
+  const [currentVideo, setCurrentVideo] = useState(projects[0] || '');
+  const [mainProject, setMainProject] = useState(projects[0] || '');
   const [count, setCount] = useState('01');
 
   const wrapperRef = useRef(null);
@@ -26,6 +27,7 @@ const WorkPage = ({ projects }) => {
   const countRef = useRef(null);
 
   const { timeline } = useContext(TransitionContext);
+  const { setVideoTime } = useContext(TimeContext);
 
   useEffect(() => {
     if (!wrapperRef.current || !projects.length) return;
@@ -33,65 +35,76 @@ const WorkPage = ({ projects }) => {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     const angleIncrement = (2 * Math.PI) / projects.length;
+    let scrollOffset = 0;
+
+    const normalizeAngle = (a) => Math.atan2(Math.sin(a), Math.cos(a));
 
     projects.forEach((item, index) => {
-      const angle = index * angleIncrement - Math.PI / 4;
+      const angle = index * angleIncrement;
       const x = centerX + radius * Math.cos(angle) * 0.9;
       const y = centerY + radius * Math.sin(angle) * 0.5;
+
+      const diff = Math.abs(normalizeAngle(angle));
+      const maxAngle = Math.PI / 3;
+      const newOpacity = diff >= maxAngle ? 0 : 1 - diff / maxAngle;
+      const newScale = newOpacity;
 
       gsap.set(wrapperRef.current.children[index], {
         x,
         y,
+        opacity: newOpacity,
+        scale: newScale,
       });
     });
 
     const updatePosition = () => {
-      const scrollProgress =
-        window.scrollY / (document.body.scrollHeight - window.innerHeight);
-      const scrollAmount = scrollProgress * projects.length * angleIncrement;
+      const indexScroll = parseInt(scrollOffset * projects.length);
+
+      let closestIndex = -1;
       let maxX = -Infinity;
-      let rightmostIndex = -1;
 
       itemRefs.current.forEach((item, index) => {
-        const angle = index * angleIncrement + scrollAmount;
+        const angle = (index + indexScroll) * angleIncrement;
         const x = centerX + radius * Math.cos(angle) * 0.9;
         const y = centerY + radius * Math.sin(angle) * 0.5;
-        const normalizeAngle = (a) => Math.atan2(Math.sin(a), Math.cos(a));
-        const diff = Math.abs(normalizeAngle(angle));
-        const maxAngle = Math.PI / 2;
-        const newOpacity = diff >= maxAngle ? 0 : 1 - diff / maxAngle;
 
+        const diff = Math.abs(normalizeAngle(angle));
+        const maxAngle = Math.PI / 3;
+        const newOpacity = diff >= maxAngle ? 0 : 1 - diff / maxAngle;
         const newScale = newOpacity;
 
-        // To Know the selected project
         if (x > maxX) {
           maxX = x;
-          rightmostIndex = index;
+          closestIndex = index;
         }
 
-        gsap.to(wrapperRef.current.children[index], {
-          duration: 0.05,
+        gsap.to(item, {
+          duration: 0.5,
           x,
           y,
           opacity: newOpacity,
           scale: newScale,
-          ease: 'power1',
+          ease: 'none',
         });
       });
 
-      setCurrentVideo(projects[rightmostIndex]?.heroUrl);
-      setMainProject(projects[rightmostIndex]);
+      setCurrentVideo(projects[closestIndex]);
+      setMainProject(projects[closestIndex]);
     };
 
-    updatePosition();
-    document.addEventListener('scroll', updatePosition);
-    return () => document.removeEventListener('scroll', updatePosition);
+    const handleWheel = (event) => {
+      scrollOffset += event.deltaY * 0.0001; // Adjust sensitivity
+      updatePosition();
+    };
+
+    document.addEventListener('wheel', handleWheel);
+    return () => document.removeEventListener('wheel', handleWheel);
   }, [projects]);
 
   useEffect(() => {
     videoRefs.current.forEach((video, index) => {
       if (video) {
-        const isActive = projects[index].heroUrl === currentVideo;
+        const isActive = projects[index] === currentVideo;
 
         if (isActive) {
           video.play();
@@ -107,18 +120,24 @@ const WorkPage = ({ projects }) => {
       }
     });
 
-    let index = projects.findIndex(
-      (project) => project.heroUrl === currentVideo
-    );
+    let index = projects.findIndex((project) => project === currentVideo);
     index++;
     setCount(index.toString().padStart(2, '0'));
   }, [currentVideo, projects]);
 
   const handleClickProject = () => {
+    videoRefs.current.forEach((video, index) => {
+      if (video) {
+        const isActive = projects[index] === currentVideo;
+        if (isActive) {
+          setVideoTime(video.currentTime);
+          video.pause();
+        }
+      }
+    });
+
     timeline.pause().clear();
-    const project = projects.find(
-      (project) => project.heroUrl === currentVideo
-    );
+    const project = projects.find((project) => project === currentVideo);
     const url = `/work/${project.slug}`;
 
     // Set the onComplete callback globally on the timeline
@@ -140,27 +159,25 @@ const WorkPage = ({ projects }) => {
           <div
             key={index}
             ref={(el) => (itemRefs.current[index] = el)}
-            //className={styles.page__item}
-            className={`workItems ${styles.page__item} ${index === projects.findIndex((p) => p.heroUrl === currentVideo) ? 'currentItem' : ''}`}
+            className={`workItems ${index} ${styles.page__item} ${index === projects.findIndex((p) => p === currentVideo) ? styles.page__item__current : ''}`}
             onMouseEnter={() => {
-              setCurrentVideo(item.heroUrl);
+              setCurrentVideo(item);
             }}
             onMouseLeave={() => {
-              setCurrentVideo(mainProject?.heroUrl);
+              setCurrentVideo(mainProject);
             }}
           >
             <Link
               href={`/work/${item.slug}`}
               onClick={(e) => {
                 e.preventDefault(); // Prevent default Next.js Link navigation
-                setCurrentVideo(item.heroUrl); // Ensures correct video is selected
+                setCurrentVideo(item); // Ensures correct video is selected
                 handleClickProject(); // Run the animation and navigation
               }}
             >
               <TextGlitch>
-                <h3>{item.title}</h3>
-                <p>
-                  {item.subtitle}
+                <h3>
+                  {item.client}
                   &emsp;
                   <span>
                     &nbsp;[&nbsp;
@@ -172,7 +189,8 @@ const WorkPage = ({ projects }) => {
                       .join(' ')}
                     &nbsp;]&nbsp;
                   </span>
-                </p>
+                </h3>
+                <h3>{item.title}</h3>
               </TextGlitch>
             </Link>
           </div>

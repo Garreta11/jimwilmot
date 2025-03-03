@@ -3,11 +3,12 @@ import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 gsap.registerPlugin(ScrollToPlugin);
 
 gsap.defaults({
-  duration: 2,
+  duration: 0.5,
   ease: 'power1.inOut',
 });
 
 export const projectSelectedFromWork = (wrapper, video, count) => {
+  const duration = 0.5;
   const tl = gsap.timeline();
 
   const projects = document.querySelectorAll('.workItems');
@@ -19,30 +20,16 @@ export const projectSelectedFromWork = (wrapper, video, count) => {
         {
           x: '-50%',
           opacity: 0,
+          duration: duration,
         },
         '<'
       );
     }
   });
 
-  tl.to(wrapper.current, { left: 0 }, '<');
+  tl.to(wrapper.current, { left: 0, duration: duration }, '<');
 
-  tl.to(count.current, { opacity: 0 }, '<');
-
-  projects.forEach((project) => {
-    if (project.classList.contains('currentItem')) {
-      tl.to(
-        project,
-        {
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          scale: 1,
-        },
-        '<'
-      );
-    }
-  });
+  tl.to(count.current, { opacity: 0, duration: duration }, '<');
 
   // Video Fullscreen
   tl.to(
@@ -50,18 +37,10 @@ export const projectSelectedFromWork = (wrapper, video, count) => {
     {
       width: '100%',
       height: '100%',
+      duration: duration,
     },
     '<'
   );
-  /* tl.to(
-    video.current,
-    {
-      width: '0%',
-      height: '0%',
-      duration: 0.3,
-    },
-    '<'
-  ); */
 
   return tl;
 };

@@ -14,16 +14,24 @@
     "@sanity/icons": "^3.5.7",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.74.1",
+    "glslify": "^7.1.1",
+    "glslify-loader": "^2.0.0",
     "gsap": "^3.12.7",
     "lenis": "^1.1.20",
     "next": "15.1.6",
     "next-sanity": "^9.8.51",
+    "nodemailer": "^6.10.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.4.0",
+    "resend": "^4.1.2",
     "sanity": "^3.74.1",
     "sass": "^1.84.0",
     "split-type": "^0.3.4",
-    "styled-components": "^6.1.15"
+    "styled-components": "^6.1.15",
+    "three": "^0.174.0"
+  },
+  "devDependencies": {
+    "raw-loader": "^4.0.2"
   }
 }

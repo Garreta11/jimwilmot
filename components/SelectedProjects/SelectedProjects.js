@@ -6,16 +6,27 @@ import Image from 'next/image';
 import { TransitionContext } from '@/app/context/TransitionContext';
 import { useRouter } from 'next/navigation';
 import { projectSelectedProject } from '@/app/animations';
+import { TimeContext } from '@/app/context/TimeContext';
 
 const SelectedProjects = ({ projects }) => {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [clickedIndex, setClickedIndex] = useState(null);
   const containerRef = useRef();
   const itemRefs = useRef([]);
+  const videoRefs = useRef([]);
 
   const { timeline } = useContext(TransitionContext);
+  const { setVideoTime } = useContext(TimeContext);
 
   const handleClickSelectedProject = (index, url) => {
+    setClickedIndex(index);
+
+    if (videoRefs.current[index]) {
+      setVideoTime(videoRefs.current[index].currentTime);
+      videoRefs.current[index].pause();
+    }
+
     timeline.pause().clear();
     timeline.eventCallback('onComplete', () => {
       console.log('Video animation complete!');
@@ -55,6 +66,7 @@ const SelectedProjects = ({ projects }) => {
             className={`${styles.selectedprojects__item__video} ${
               hoveredIndex === index ? styles.hovered : ''
             }`}
+            ref={(el) => (videoRefs.current[index] = el)}
             muted
             loop
             autoPlay
@@ -67,7 +79,7 @@ const SelectedProjects = ({ projects }) => {
           <Image
             className={`${styles.selectedprojects__item__thumbnail} ${
               hoveredIndex === index ? styles.hovered : ''
-            }`}
+            } ${clickedIndex === index ? styles.hidden : ''}`}
             src={project.thumbnailUrl}
             width={1440}
             height={1080}
@@ -79,16 +91,8 @@ const SelectedProjects = ({ projects }) => {
               hoveredIndex === index ? styles.hovered : ''
             }`}
           >
-            <p>{project.title}</p>
             <p>
-              <span>
-                [&nbsp;
-                {project.category
-                  .split('-')
-                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                  .join(' ')}
-                &nbsp;]
-              </span>
+              {project.client} | {project.title}
             </p>
           </div>
         </Link>

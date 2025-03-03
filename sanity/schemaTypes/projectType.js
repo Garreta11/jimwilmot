@@ -18,7 +18,7 @@ export const projectType = defineType({
       fieldset: 'topRow',
     }),
     defineField({
-      name: 'subtitle',
+      name: 'client',
       type: 'string',
       fieldset: 'topRow',
     }),
@@ -30,8 +30,10 @@ export const projectType = defineType({
       options: {
         list: [
           { title: 'Live Promo', value: 'live-promo' },
+          { title: 'Short Video', value: 'short-video' },
           { title: 'Music Video', value: 'music-video' },
-          { title: 'Narrative', value: 'narrative' },
+          { title: 'Performance Film', value: 'performance-film' },
+          { title: 'Live To Air Multicam', value: 'live-to-air-multicam' },
           { title: 'Commercial', value: 'commercial' },
           { title: 'Editorial', value: 'editorial' },
         ],
