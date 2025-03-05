@@ -116,10 +116,39 @@ const nohemiFont = localFont({
   display: 'swap', // Optional font display strategy
 });
 
+const spaceMonoFont = localFont({
+  src: [
+    {
+      path: './fonts/SpaceMono/SpaceMono-Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/SpaceMono/SpaceMono-BoldItalic.ttf',
+      weight: '700',
+      style: 'italic',
+    },
+    {
+      path: './fonts/SpaceMono/SpaceMono-Regular.ttf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/SpaceMono/SpaceMono-Italic.ttf',
+      weight: '400',
+      style: 'italic',
+    },
+  ],
+  variable: '--font-spacemono', // Optional CSS variable
+  display: 'swap', // Optional font display strategy
+});
+
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className={`${delightFont.className} ${nohemiFont.className} `}>
+      <body
+        className={`${delightFont.className} ${nohemiFont.className} ${spaceMonoFont.className} `}
+      >
         <TimeProvider>
           <TransitionProvider>
             <PageWrapper>

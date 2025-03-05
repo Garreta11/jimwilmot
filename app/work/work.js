@@ -9,15 +9,17 @@ import { useRouter } from 'next/navigation';
 import { projectSelectedFromWork } from '../animations';
 import TextGlitch from '@/components/TextGlitch/TextGlitch';
 import { TimeContext } from '../context/TimeContext';
+import useMousePosition from '@/app/hooks/useMousePosition';
 
 const WorkPage = ({ projects }) => {
   const router = useRouter();
-
+  const { x, y } = useMousePosition();
   const radius = 800;
 
   const [currentVideo, setCurrentVideo] = useState(projects[0] || '');
   const [mainProject, setMainProject] = useState(projects[0] || '');
   const [count, setCount] = useState('01');
+  const [isHovered, setIsHovered] = useState(false);
 
   const wrapperRef = useRef(null);
   const containerRef = useRef(null);
@@ -25,6 +27,7 @@ const WorkPage = ({ projects }) => {
   const videoRefs = useRef([]);
   const videoRef = useRef(null);
   const countRef = useRef(null);
+  const mouseRef = useRef(null);
 
   const { timeline } = useContext(TransitionContext);
   const { setVideoTime } = useContext(TimeContext);
@@ -125,6 +128,27 @@ const WorkPage = ({ projects }) => {
     setCount(index.toString().padStart(2, '0'));
   }, [currentVideo, projects]);
 
+  useEffect(() => {
+    if (mouseRef.current) {
+      gsap.to(mouseRef.current, {
+        x: x,
+        y: y,
+        duration: 1,
+        ease: 'power2.out',
+      });
+    }
+  }, [x, y]);
+
+  useEffect(() => {
+    if (mouseRef.current) {
+      gsap.to(mouseRef.current, {
+        opacity: isHovered ? 1 : 0,
+        duration: 0.3,
+        ease: 'power2.out',
+      });
+    }
+  }, [isHovered]);
+
   const handleClickProject = () => {
     videoRefs.current.forEach((video, index) => {
       if (video) {
@@ -201,6 +225,8 @@ const WorkPage = ({ projects }) => {
         ref={videoRef}
         className={styles.page__video}
         onClick={() => handleClickProject()}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         {projects.map((item, index) => (
           <video
@@ -222,6 +248,10 @@ const WorkPage = ({ projects }) => {
             [<span>{count}</span> / <span>{projects.length}</span>]
           </p>
         </div>
+      </div>
+
+      <div ref={mouseRef} className={styles.page__mouse}>
+        <p>[ WATCH PROJECT ]</p>
       </div>
     </div>
   );

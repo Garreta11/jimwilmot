@@ -2,6 +2,7 @@
   width: 100vw;
   height: 100vh;
   position: fixed;
+  pointer-events: none;
 
   &__canvas {
     position: fixed;
@@ -15,11 +16,13 @@
 
   &__grid{
     position: fixed;
-    top: 0; left: 0;
-    width: 150%;
-    height: 150%;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    pointer-events: none;
     
     > div{
       position: relative;
@@ -27,10 +30,35 @@
     
     &__plane{
       position: absolute;
-      inset: 0.5rem;
+      inset: 3rem;
       padding: 0;
       margin: 0;
+      opacity: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      pointer-events: none;
+      img {
+        height: 100%;
+        width: auto;
+      }
     }
   }
   
+}
+
+.masonry-grid {
+  display: flex;
+  margin-left: -10px;
+  width: auto;
+}
+
+.masonry-column {
+  padding-left: 10px;
+}
+
+.masonry-item {
+  width: 100%;
+  margin-bottom: 10px;
 }

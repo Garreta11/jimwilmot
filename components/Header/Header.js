@@ -1,14 +1,21 @@
 'use client'; // Required for hooks in client components
 
 import { usePathname } from 'next/navigation';
+import gsap from 'gsap';
 import styles from './Header.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import TextGlitch from '../TextGlitch/TextGlitch';
+import useMousePosition from '@/app/hooks/useMousePosition';
+import { useEffect, useRef } from 'react';
 
 const Header = () => {
   const pathname = usePathname(); // Get the current URL path
   const isStudioPage = pathname === '/studio'; // Check if current path is "/studio"
+
+  const { x, y } = useMousePosition();
+
+  const iconRef = useRef();
 
   const links = [
     {
@@ -25,26 +32,53 @@ const Header = () => {
     },
   ];
 
+  useEffect(() => {
+    if (!iconRef.current) return;
+
+    const intensity = 50;
+
+    const icon = iconRef.current;
+    const rect = icon.getBoundingClientRect();
+    const iconCenterX = rect.left + rect.width / 2;
+    const iconCenterY = rect.top + rect.height / 2;
+
+    const deltaX = x - iconCenterX;
+    const deltaY = y - iconCenterY;
+
+    const rotateX = -(deltaY / window.innerHeight) * intensity;
+    const rotateY = (deltaX / window.innerWidth) * intensity;
+
+    gsap.to(icon, {
+      rotateX: rotateX,
+      rotateY: rotateY,
+      transformPerspective: 5000,
+      ease: 'power2.out',
+      duration: 1, // Smooth transition effect
+    });
+  }, [x, y]);
+
   return (
     <div className={styles.header}>
-      <Link className={styles.header__logo} href='/'>
-        <div className={styles.header__logo__wrapper}>
+      <div className={styles.header__logo}>
+        <Link className={styles.header__logo__wrapper} href='/'>
           <h1>{isStudioPage ? 'Wilberg.studio' : 'Jim Wilberg'}</h1>
           <h3>
             {isStudioPage
               ? 'CREATIVE SERVICES FOR BRANDS, ARTISTS AND LIVE SPACES'
               : 'FILM DIRECTOR FOR MUSIC, COMMERCIAL AND LIVE PROJECTS'}
           </h3>
-        </div>
-      </Link>
-      <Link className={styles.header__icon} href='/'>
-        <Image
-          src={isStudioPage ? '/logo-rainbow.png' : '/logo.svg'}
-          width={63}
-          height={65}
-          alt='logo'
-        />
-      </Link>
+        </Link>
+      </div>
+      <div className={styles.header__icon}>
+        <Link ref={iconRef} href='/'>
+          <Image
+            src={isStudioPage ? '/logo-rainbow.png' : '/logo.svg'}
+            width={63}
+            height={65}
+            alt='logo'
+          />
+        </Link>
+      </div>
       <div className={styles.header__links}>
         {links.map((link, index) => {
           const isActive =
@@ -54,9 +88,15 @@ const Header = () => {
               key={index}
               className={`${styles.header__links__item} ${isActive ? styles.header__links__item__active : ''}`}
             >
-              <Link href={link.href}>
-                <TextGlitch>{link.name}</TextGlitch>
-              </Link>
+              {link.href.startsWith('/studio') ? (
+                <a href={link.href}>
+                  <TextGlitch>{link.name}</TextGlitch>
+                </a>
+              ) : (
+                <Link href={link.href}>
+                  <TextGlitch>{link.name}</TextGlitch>
+                </Link>
+              )}
             </div>
           );
         })}

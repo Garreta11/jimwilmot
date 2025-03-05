@@ -145,3 +145,17 @@ export async function getProjectsList() {
   const data = await client.fetch(query);
   return data;
 }
+
+// All Studio Projects
+export async function getStudioProjects() {
+  const query = groq`
+    *[_type == 'studio'] | order(order asc){
+      _id,
+      _createdAt,
+      title,
+      "slug": slug.current,
+      "thumbnailUrl": thumbnail.asset->url
+    }`;
+  const data = await client.fetch(query);
+  return data;
+}

@@ -1,8 +1,9 @@
-import styles from './page.module.scss';
 import StudioWrapper from './StudioWrapper';
+import { getStudioProjects } from '../utils/sanity-utils';
 
 const Studios = async () => {
-  return <StudioWrapper />;
+  const projects = await getStudioProjects();
+  return <StudioWrapper projects={projects} />;
 };
 
 export default Studios;

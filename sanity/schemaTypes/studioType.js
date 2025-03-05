@@ -7,7 +7,7 @@ export const studioType = defineType({
   fieldsets: [
     {
       name: 'topRow',
-      title: 'Project Info',
+      title: 'Studiio Project Info',
       options: { columns: 2 },
     },
   ],
@@ -24,12 +24,6 @@ export const studioType = defineType({
       options: { source: 'title' },
       validation: (rule) => rule.required(),
       fieldset: 'topRow',
-    }),
-
-    defineField({
-      title: 'Hero',
-      name: 'hero',
-      type: 'file',
     }),
     defineField({
       name: 'thumbnail',

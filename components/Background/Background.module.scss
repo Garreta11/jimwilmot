@@ -1,5 +1,5 @@
 $borderWidth: 2px;
-$borderMargin: 30px;
+$borderMargin: 10px;
 
 .background {
   position: fixed;
@@ -8,7 +8,6 @@ $borderMargin: 30px;
   left: 0;
   width: 100vw;
   height: 100vh;
-  padding: 100px;
 
   mix-blend-mode: difference;
 
@@ -16,8 +15,8 @@ $borderMargin: 30px;
   &__rect {
     position: absolute;
 
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
 
     &__topleft {
       top: $borderMargin;
