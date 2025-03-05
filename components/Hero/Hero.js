@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './Hero.module.scss';
 import gsap from 'gsap';
 import useMousePosition from '@/app/hooks/useMousePosition';
+import { heroInitAnimation } from '@/app/animations';
 
 const Hero = (props) => {
   const { media } = props;
@@ -18,17 +19,7 @@ const Hero = (props) => {
   };
 
   useEffect(() => {
-    gsap.fromTo(
-      mediaRef.current,
-      {
-        maskSize: '0%',
-      },
-      {
-        maskSize: '5000%',
-        duration: 5,
-        ease: 'expo.inOut',
-      }
-    );
+    heroInitAnimation(mediaRef.current);
   }, []);
 
   // Animate hero__sound to follow the mouse

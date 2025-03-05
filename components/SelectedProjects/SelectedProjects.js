@@ -46,12 +46,15 @@ const SelectedProjects = ({ projects }) => {
   };
 
   return (
-    <div ref={containerRef} className={styles.selectedprojects}>
+    <div
+      ref={containerRef}
+      className={`selectedprojects ${styles.selectedprojects}`}
+    >
       {projects.projects.map((project, index) => (
         <Link
           key={index}
           href={`/work/${project.slug}`}
-          className={`${styles.selectedprojects__item} ${
+          className={`selectedprojects__item ${styles.selectedprojects__item} ${
             hoveredIndex === index ? styles.hovered__item : ''
           }`}
           ref={(el) => (itemRefs.current[index] = el)}

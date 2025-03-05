@@ -4,8 +4,51 @@ gsap.registerPlugin(ScrollToPlugin);
 
 gsap.defaults({
   duration: 0.5,
-  ease: 'power1.inOut',
+  ease: 'power1.out',
 });
+
+export const heroInitAnimation = (media) => {
+  const tl = gsap.timeline();
+
+  tl.fromTo(
+    media,
+    {
+      maskSize: '0%',
+    },
+    {
+      maskSize: '50%',
+      duration: 3,
+      delay: 1,
+    }
+  );
+  tl.to(media, {
+    maskSize: '4500%',
+    duration: 1,
+    ease: 'power1.in',
+  });
+
+  const selectedprojects = document.querySelectorAll('.selectedprojects');
+  tl.fromTo(
+    selectedprojects,
+    { xPercent: -10 },
+    { xPercent: 0, duration: 1, ease: 'power1.out' }
+  );
+  const selectedprojects__items = document.querySelectorAll(
+    '.selectedprojects__item'
+  );
+  tl.to(
+    selectedprojects__items,
+    {
+      clipPath: ' inset(0px 0% 0px 0px)',
+      stagger: 0.1,
+      duration: 1,
+      ease: 'power1.in',
+    },
+    '<'
+  );
+
+  return tl;
+};
 
 export const projectSelectedFromWork = (wrapper, video, count) => {
   const duration = 0.5;
