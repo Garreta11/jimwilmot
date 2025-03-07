@@ -58,7 +58,7 @@ const Header = () => {
   }, [x, y]);
 
   return (
-    <div className={styles.header}>
+    <div className={`header ${styles.header}`}>
       <div className={styles.header__logo}>
         <Link className={styles.header__logo__wrapper} href='/'>
           <h1>{isStudioPage ? 'Wilberg.studio' : 'Jim Wilberg'}</h1>

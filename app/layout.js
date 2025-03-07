@@ -6,6 +6,7 @@ import Footer from '@/components/Footer/Footer';
 import PageWrapper from '@/components/PageWrapper/PageWrapper';
 import { TransitionProvider } from './context/TransitionContext';
 import { TimeProvider } from './context/TimeContext';
+import { LoadingProvider } from './context/LoadingContext';
 
 export const metadata = {
   title: 'Jim Wilmot',
@@ -149,16 +150,18 @@ export default function RootLayout({ children }) {
       <body
         className={`${delightFont.className} ${nohemiFont.className} ${spaceMonoFont.className} `}
       >
-        <TimeProvider>
-          <TransitionProvider>
-            <PageWrapper>
-              <Header />
-              {children}
-              <Footer />
-              <Background />
-            </PageWrapper>
-          </TransitionProvider>
-        </TimeProvider>
+        <LoadingProvider>
+          <TimeProvider>
+            <TransitionProvider>
+              <PageWrapper>
+                <Header />
+                {children}
+                <Footer />
+                <Background />
+              </PageWrapper>
+            </TransitionProvider>
+          </TimeProvider>
+        </LoadingProvider>
       </body>
     </html>
   );

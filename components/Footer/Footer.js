@@ -15,7 +15,7 @@ const Footer = () => {
   ];
 
   return (
-    <div className={styles.footer}>
+    <div className={`footer ${styles.footer}`}>
       <div className={styles.footer__contact}>
         <div>
           <p>jim@wilberg.studio</p>

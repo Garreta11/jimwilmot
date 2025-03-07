@@ -18,14 +18,16 @@ export default class Experience {
     }
     Experience.instance = this;
 
-    console.log('EXPERIENCE');
-
     // Options
     this.targetElement = _options.targetElement;
     if (!this.targetElement) {
       console.warn("Missing 'targetElement' property");
       return;
     }
+
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+
     this.tick = 0;
     this.tx = 0;
     this.ty = 0;
@@ -126,7 +128,6 @@ export default class Experience {
     this.planes = planes.map((el, i) => {
       const plane = new Plane();
       plane.init(el, i);
-
       this.scene.add(plane);
       return plane;
     });
@@ -160,6 +161,10 @@ export default class Experience {
 
   onMouseMove = (e) => {
     const cursor = getCursor(e);
+
+    this.mouse.x = (cursor.x / window.innerWidth) * 2 - 1;
+    this.mouse.y = -(cursor.y / window.innerHeight) * 2 + 1;
+
     if (this.isDragging) {
       this.tx = this.on.x + cursor.x * this.dragIntensity;
       this.ty = this.on.y - cursor.y * this.dragIntensity;
@@ -179,6 +184,15 @@ export default class Experience {
 
     this.on.x = this.tx - cursor.x * this.dragIntensity;
     this.on.y = this.ty + cursor.y * this.dragIntensity;
+
+    // Perform raycasting to detect the clicked plane
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    const intersects = this.raycaster.intersectObjects(this.planes);
+
+    if (intersects.length > 0) {
+      const clickedPlane = intersects[0].object;
+      console.log('Clicked plane:', clickedPlane.userData);
+    }
   };
 
   onMouseUp = (e) => {

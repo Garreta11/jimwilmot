@@ -45,6 +45,11 @@ export default class Plane extends THREE.Object3D {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.add(this.mesh);
     this.resize();
+
+    // Add custom userData
+    this.mesh.userData = {
+      customProperty: this.el, // Add any other custom data you need
+    };
   }
 
   update = (x, y, max, diff) => {

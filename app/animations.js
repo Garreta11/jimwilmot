@@ -9,7 +9,21 @@ gsap.defaults({
 
 export const heroInitAnimation = (media) => {
   const tl = gsap.timeline();
+  // Rectangles
+  tl.fromTo('.background', { opacity: 0 }, { opacity: 1, duration: 1 });
+  tl.fromTo(
+    '.background__rect',
+    { width: '10px', height: '10px' },
+    { width: '70px', height: '70px' }
+  );
+  tl.fromTo(
+    '.background',
+    { width: '10vw', height: '10vh' },
+    { width: '100vw', height: '100vh', duration: 2 },
+    '<'
+  );
 
+  // First Animation Face
   tl.fromTo(
     media,
     {
@@ -17,21 +31,27 @@ export const heroInitAnimation = (media) => {
     },
     {
       maskSize: '50%',
-      duration: 3,
-      delay: 1,
-    }
+      duration: 2,
+    },
+    '<'
   );
+
+  // Second Animation Face
   tl.to(media, {
     maskSize: '4500%',
     duration: 1,
     ease: 'power1.in',
   });
 
+  tl.to('.header', { opacity: 1 });
+  tl.to('.footer', { opacity: 1 }, '<');
+
+  // Selected Projects Animation
   const selectedprojects = document.querySelectorAll('.selectedprojects');
   tl.fromTo(
     selectedprojects,
-    { xPercent: -10 },
-    { xPercent: 0, duration: 1, ease: 'power1.out' }
+    { xPercent: 20 },
+    { xPercent: 0, duration: 0.5, ease: 'power1.out' }
   );
   const selectedprojects__items = document.querySelectorAll(
     '.selectedprojects__item'
@@ -41,7 +61,6 @@ export const heroInitAnimation = (media) => {
     {
       clipPath: ' inset(0px 0% 0px 0px)',
       stagger: 0.1,
-      duration: 1,
       ease: 'power1.in',
     },
     '<'

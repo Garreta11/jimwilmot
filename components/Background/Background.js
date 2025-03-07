@@ -8,24 +8,24 @@ const Background = () => {
   const isStudioPage = pathname === '/studio'; // Check if current path is "/studio"
 
   return (
-    <div className={styles.background}>
+    <div className={`background ${styles.background}`}>
       <div
-        className={`${styles.background__rect} ${styles.background__rect__topleft} ${
+        className={`background__rect ${styles.background__rect} ${styles.background__rect__topleft} ${
           isStudioPage ? styles.background__rect__studio : ''
         }`}
       ></div>
       <div
-        className={`${styles.background__rect} ${styles.background__rect__topright} ${
+        className={`background__rect ${styles.background__rect} ${styles.background__rect__topright} ${
           isStudioPage ? styles.background__rect__studio : ''
         }`}
       ></div>
       <div
-        className={`${styles.background__rect} ${styles.background__rect__bottomleft} ${
+        className={`background__rect ${styles.background__rect} ${styles.background__rect__bottomleft} ${
           isStudioPage ? styles.background__rect__studio : ''
         }`}
       ></div>
       <div
-        className={`${styles.background__rect} ${styles.background__rect__bottomright} ${
+        className={`background__rect ${styles.background__rect} ${styles.background__rect__bottomright} ${
           isStudioPage ? styles.background__rect__studio : ''
         }`}
       ></div>

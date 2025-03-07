@@ -1,0 +1,30 @@
+.loader {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* pointer-events: all; */
+
+  &__title {
+    text-align: center;
+    mix-blend-mode: difference;
+    span {
+      font-size: 30px;
+    }
+  }
+
+  &__canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    /* z-index: 10; */
+  }
+
+
+
+}

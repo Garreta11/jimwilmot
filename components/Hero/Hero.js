@@ -1,22 +1,18 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import styles from './Hero.module.scss';
 import gsap from 'gsap';
 import useMousePosition from '@/app/hooks/useMousePosition';
 import { heroInitAnimation } from '@/app/animations';
+import { LoadingContext } from '@/app/context/LoadingContext';
 
 const Hero = (props) => {
   const { media } = props;
   const mediaRef = useRef();
   const soundRef = useRef(); // Reference for hero__sound
-  const [videoLoaded, setVideoLoaded] = useState(false);
   const [isHovered, setIsHovered] = useState(false); // Track hover state
   const [isMuted, setIsMuted] = useState(true);
   const { x, y } = useMousePosition();
-
-  const handleVideoLoaded = () => {
-    setVideoLoaded(true);
-  };
 
   useEffect(() => {
     heroInitAnimation(mediaRef.current);
@@ -91,7 +87,6 @@ const Hero = (props) => {
         loop
         controls={false}
         playsInline
-        onLoadedData={handleVideoLoaded} // Detect when the video is loaded
       >
         <source src={media} type='video/mp4' />
         Your browser does not support the video tag.
