@@ -11,7 +11,7 @@ import { useEffect, useRef } from 'react';
 
 const Header = () => {
   const pathname = usePathname(); // Get the current URL path
-  const isStudioPage = pathname === '/studio'; // Check if current path is "/studio"
+  const isStudioPage = pathname.includes('/studio'); // Check if pathname contains '/studio'
 
   const { x, y } = useMousePosition();
 

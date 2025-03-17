@@ -1,9 +1,11 @@
 import { defineField, defineType, defineArrayMember } from 'sanity';
+import { PlayIcon } from '@sanity/icons';
 
 export const projectType = defineType({
   name: 'projects',
   title: 'Projects',
   type: 'document',
+  icon: PlayIcon,
   fieldsets: [
     {
       name: 'topRow',
@@ -49,8 +51,13 @@ export const projectType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      title: 'Hero',
+      title: 'Short Video',
       name: 'hero',
+      type: 'file',
+    }),
+    defineField({
+      title: 'Full Video',
+      name: 'fullvideo',
       type: 'file',
     }),
     defineField({
@@ -83,6 +90,29 @@ export const projectType = defineType({
               options: { hotspot: true },
             }),
           ],
+          preview: {
+            select: {
+              title: 'image.asset.originalFilename',
+              media: 'image',
+            },
+          },
+        }),
+        defineArrayMember({
+          name: 'videoBlock',
+          title: 'Video',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'video',
+              type: 'file',
+            }),
+          ],
+          preview: {
+            select: {
+              title: 'video.asset.originalFilename',
+              media: 'video',
+            },
+          },
         }),
         defineArrayMember({
           name: 'textBlock',

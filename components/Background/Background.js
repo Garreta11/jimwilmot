@@ -5,7 +5,7 @@ import styles from './Background.module.scss';
 
 const Background = () => {
   const pathname = usePathname(); // Get the current URL path
-  const isStudioPage = pathname === '/studio'; // Check if current path is "/studio"
+  const isStudioPage = pathname.includes('/studio'); // Check if pathname contains '/studio'
 
   return (
     <div className={`background ${styles.background}`}>

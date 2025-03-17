@@ -3,26 +3,40 @@
   width: 100vw;
   padding: 160px 50px;
 
-  display: grid;
-  row-gap: 100px;
-  grid-template-columns: repeat(12, 1fr);
   
-  &__description {
-    mix-blend-mode: difference;
-    font-size: 30px;
-    grid-column: 1 / span 7;
+  
+  &__wrapper {
+    min-height: 200vh;
+    position: relative;
+    display: grid;
+    row-gap: 100px;
+    grid-template-columns: repeat(12, 1fr);
+    &__description {
+      mix-blend-mode: difference;
+      font-size: 30px;
+      grid-column: 1 / span 7;
+    }
   }
+  
 
   &__image {
-    grid-column: 4 / span 12;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 0;
     img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
     }
   }
 
   &__contactform {
-    grid-column: 1 / span 12;
+    position: relative;
+    z-index: 1;
+    background-color: #F3EFD2;
+    padding: 100px 50px;
+    width: 80%;
+    margin: 0 auto;
   }
-
 }

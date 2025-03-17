@@ -1,15 +1,21 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import styles from './page.module.scss';
 import Experience from './Experience';
 import LoaderStudio from '@/components/LoaderStudio/LoaderStudio';
+import { useRouter } from 'next/navigation';
+import { TransitionContext } from '@/app/context/TransitionContext';
 
 const StudioWrapper = ({ projects }) => {
+  const router = useRouter();
+
   const containerRef = useRef(null);
   const outputRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const [hasWaited, setHasWaited] = useState(false);
+
+  const { timeline } = useContext(TransitionContext);
 
   useEffect(() => {
     const loadImages = async () => {
@@ -47,6 +53,8 @@ const StudioWrapper = ({ projects }) => {
 
     outputRef.current = new Experience({
       targetElement: containerRef.current,
+      router,
+      timeline,
     });
 
     return () => {
@@ -62,7 +70,7 @@ const StudioWrapper = ({ projects }) => {
   }, [imagesLoaded, hasWaited]);
 
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} studio__wrapper`}>
       {/* {!isLoaded && !hasWaited && <LoaderStudio />} */}
       <LoaderStudio />
 

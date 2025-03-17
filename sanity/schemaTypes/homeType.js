@@ -1,11 +1,11 @@
 import { defineType, defineField } from 'sanity';
-import { HomeIcon } from '@sanity/icons';
+import { EarthGlobeIcon } from '@sanity/icons';
 
 export const homeType = defineType({
   name: 'homepage',
   title: 'Homepage',
   type: 'document',
-  icon: HomeIcon,
+  icon: EarthGlobeIcon,
   fields: [
     defineField({
       name: 'slug',

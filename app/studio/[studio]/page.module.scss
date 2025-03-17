@@ -1,0 +1,38 @@
+.project {
+
+  min-height: 200vh;
+
+  &__title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+  }
+
+  &__img {
+    width: auto;
+    height: 100vh;
+    object-fit: cover;
+    opacity: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+
+  &__goback {
+    position: fixed;
+    z-index: 2;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    mix-blend-mode: difference;
+    span {
+      font-size: 30px;
+    }
+  }
+
+}

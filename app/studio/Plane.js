@@ -48,7 +48,7 @@ export default class Plane extends THREE.Object3D {
 
     // Add custom userData
     this.mesh.userData = {
-      customProperty: this.el, // Add any other custom data you need
+      slug: this.el.dataset.slug, // Add any other custom data you need
     };
   }
 

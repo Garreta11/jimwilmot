@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import gsap from 'gsap';
-
 import Plane from './Plane';
+import { studioFadeOut } from '../animations';
 
 const mouseMultiplier = 0.6;
 
@@ -24,6 +24,10 @@ export default class Experience {
       console.warn("Missing 'targetElement' property");
       return;
     }
+    this.router = _options.router;
+    this.timeline = _options.timeline;
+
+    console.log(this.timeline);
 
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
@@ -191,7 +195,16 @@ export default class Experience {
 
     if (intersects.length > 0) {
       const clickedPlane = intersects[0].object;
-      console.log('Clicked plane:', clickedPlane.userData);
+      if (clickedPlane.userData && clickedPlane.userData.slug) {
+        this.timeline.pause().clear();
+        this.timeline.eventCallback('onComplete', () => {
+          this.router.push(`/studio/${clickedPlane.userData.slug}`);
+          this.timeline.pause().clear();
+        });
+
+        this.timeline.add(studioFadeOut());
+        this.timeline.play();
+      }
     }
   };
 

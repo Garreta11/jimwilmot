@@ -79,6 +79,7 @@ export async function getProject(slug) {
         client,
         category,
         "heroUrl": hero.asset->url,
+        "fullvideoUrl": fullvideo.asset->url,
         credits,
         pageBuilder[] {
           ...,
@@ -87,33 +88,44 @@ export async function getProject(slug) {
           },
           _type == "textBlock" => {
             text
+          },
+          _type == "videoBlock" => {
+            "videoUrl": video.asset->url
           }
         },
         // Get the previous and next projects based on creation date (_createdAt)
         "prevProject": *[_type == 'projects' && _createdAt < ^._createdAt] | order(_createdAt desc)[0] {
           _id,
           title,
+          client,
           slug,
-          "heroUrl": hero.asset->url
+          "heroUrl": hero.asset->url,
+          "thumbnailUrl": thumbnail.asset->url
         },
         "nextProject": *[_type == 'projects' && _createdAt > ^._createdAt] | order(_createdAt asc)[0] {
           _id,
           title,
+          client,
           slug,
-          "heroUrl": hero.asset->url
+          "heroUrl": hero.asset->url,
+          "thumbnailUrl": thumbnail.asset->url
         },
         // Get the first and last project for looping
         "firstProject": *[_type == 'projects'] | order(_createdAt asc)[0] {
           _id,
           title,
+          client,
           slug,
-          "heroUrl": hero.asset->url
+          "heroUrl": hero.asset->url,
+          "thumbnailUrl": thumbnail.asset->url
         },
         "lastProject": *[_type == 'projects'] | order(_createdAt desc)[0] {
           _id,
           title,
+          client,
           slug,
-          "heroUrl": hero.asset->url
+          "heroUrl": hero.asset->url,
+          "thumbnailUrl": thumbnail.asset->url
         }
       }`;
 
@@ -157,5 +169,20 @@ export async function getStudioProjects() {
       "thumbnailUrl": thumbnail.asset->url
     }`;
   const data = await client.fetch(query);
+  return data;
+}
+
+// Single Studio Project
+export async function getStudioProject(slug) {
+  const query = groq`
+    *[_type == 'studio' && slug.current == $slug][0] {
+      _id,
+      _createdAt,
+      title,
+      "slug": slug.current,
+      "thumbnailUrl": thumbnail.asset->url
+    }`;
+
+  const data = await client.fetch(query, { slug });
   return data;
 }

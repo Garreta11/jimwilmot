@@ -10,6 +10,7 @@ import { projectSelectedFromWork } from '../animations';
 import TextGlitch from '@/components/TextGlitch/TextGlitch';
 import { TimeContext } from '../context/TimeContext';
 import useMousePosition from '@/app/hooks/useMousePosition';
+import { workPageAnimation } from '../animations';
 
 const WorkPage = ({ projects }) => {
   const router = useRouter();
@@ -34,6 +35,8 @@ const WorkPage = ({ projects }) => {
 
   useEffect(() => {
     if (!wrapperRef.current || !projects.length) return;
+
+    workPageAnimation();
 
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
@@ -177,8 +180,8 @@ const WorkPage = ({ projects }) => {
   };
 
   return (
-    <div ref={containerRef} className={styles.page}>
-      <div className={styles.page__wrapper} ref={wrapperRef}>
+    <div ref={containerRef} className={`${styles.page}`}>
+      <div className={`${styles.page__wrapper} work__wrapper`} ref={wrapperRef}>
         {projects.map((item, index) => (
           <div
             key={index}
@@ -223,7 +226,7 @@ const WorkPage = ({ projects }) => {
 
       <div
         ref={videoRef}
-        className={styles.page__video}
+        className={`${styles.page__video} work__video`}
         onClick={() => handleClickProject()}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}

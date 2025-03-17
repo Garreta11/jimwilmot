@@ -6,15 +6,10 @@ import useMousePosition from '@/app/hooks/useMousePosition';
 import { TransitionContext } from '@/app/context/TransitionContext';
 import { TimeContext } from '@/app/context/TimeContext';
 import { useRouter } from 'next/navigation';
-import {
-  useEffect,
-  useRef,
-  useState,
-  useContext,
-  useLayoutEffect,
-} from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import gsap from 'gsap';
 import { projectNextPrev } from '@/app/animations';
+import Image from 'next/image';
 
 const ProjectWrapper = ({ project }) => {
   const router = useRouter();
@@ -120,6 +115,24 @@ const ProjectWrapper = ({ project }) => {
                 </div>
               );
             }
+
+            if (block._type === 'videoBlock') {
+              return (
+                <div
+                  key={index}
+                  className={`${styles.page__wrapper__builder__item} ${styles.page__wrapper__builder__video}`}
+                >
+                  <video
+                    className={`${styles.page__wrapper__builder__video__media}`}
+                    controls={true}
+                    playsInline
+                  >
+                    <source src={block.videoUrl} type='video/mp4' />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              );
+            }
             return null;
           })}
         </div>
@@ -145,11 +158,21 @@ const ProjectWrapper = ({ project }) => {
               muted
               loop
               playsInline
+              autoPlay
             >
               <source src={project.prevProject.heroUrl} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
-            <p className={styles.page__wrapper__nextprev__text}>[ prev ]</p>
+            <Image
+              className={`${styles.page__wrapper__nextprev__prev__thumbnail}`}
+              src={project.prevProject.thumbnailUrl}
+              width={1440}
+              height={1080}
+              alt='image'
+            />
+            <p className={styles.page__wrapper__nextprev__text}>
+              {project.prevProject.client} | {project.prevProject.title}
+            </p>
           </Link>
           <Link
             ref={nextRef}
@@ -171,11 +194,21 @@ const ProjectWrapper = ({ project }) => {
               muted
               loop
               playsInline
+              autoPlay
             >
               <source src={project.nextProject.heroUrl} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
-            <p className={styles.page__wrapper__nextprev__text}>[ next ]</p>
+            <Image
+              className={`${styles.page__wrapper__nextprev__next__thumbnail}`}
+              src={project.nextProject.thumbnailUrl}
+              width={1440}
+              height={1080}
+              alt='image'
+            />
+            <p className={styles.page__wrapper__nextprev__text}>
+              {project.nextProject.client} | {project.nextProject.title}
+            </p>
           </Link>
         </div>
       </div>

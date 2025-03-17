@@ -69,6 +69,20 @@ export const heroInitAnimation = (media) => {
   return tl;
 };
 
+export const workPageAnimation = () => {
+  const tl = gsap.timeline();
+
+  tl.fromTo(
+    '.work__wrapper',
+    { left: '-100vw' },
+    { left: '-60vw', duration: 1 }
+  );
+
+  tl.fromTo('.work__video', { scale: 0 }, { scale: 1 });
+
+  return tl;
+};
+
 export const projectSelectedFromWork = (wrapper, video, count) => {
   const duration = 0.5;
   const tl = gsap.timeline();
@@ -178,6 +192,14 @@ export const projectNextPrev = (project, other, container) => {
     },
     '<'
   );
+
+  return tl;
+};
+
+export const studioFadeOut = () => {
+  const tl = gsap.timeline();
+
+  tl.to('.studio__wrapper', { opacity: 0 });
 
   return tl;
 };
