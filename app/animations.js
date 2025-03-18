@@ -65,6 +65,14 @@ export const heroInitAnimation = (media) => {
     },
     '<'
   );
+  tl.fromTo(
+    '.selectedprojects__title',
+    {
+      opacity: 0,
+    },
+    { opacity: 1 },
+    '<'
+  );
 
   return tl;
 };

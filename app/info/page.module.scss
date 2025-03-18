@@ -6,16 +6,23 @@
   
   
   &__wrapper {
-    min-height: 200vh;
+    min-height: 100vh;
     position: relative;
     display: grid;
-    row-gap: 100px;
+    row-gap: 150px;
+    padding-bottom: 100vh;
     grid-template-columns: repeat(12, 1fr);
     &__description {
       mix-blend-mode: difference;
       font-size: 30px;
       grid-column: 1 / span 7;
     }
+    &__items {
+      mix-blend-mode: difference;
+      font-size: 60px;
+      grid-column: 3 / span 10;
+    }
+    
   }
   
 
@@ -38,5 +45,11 @@
     padding: 100px 50px;
     width: 80%;
     margin: 0 auto;
+
+    &__title {
+      mix-blend-mode: difference;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
   }
 }

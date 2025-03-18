@@ -1,5 +1,12 @@
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 
+import {
+  AiFillHome,
+  AiFillProject,
+  AiFillInfoCircle,
+  AiFillAppstore,
+} from 'react-icons/ai';
+
 const hiddenDocTypes = (listItem) =>
   !['homepage', 'work', 'about', 'selectedProjects'].includes(listItem.getId());
 
@@ -9,6 +16,7 @@ export const structure = (S) =>
     .items([
       S.listItem()
         .title('Homepage')
+        .icon(AiFillHome) // Add an icon
         .child(
           S.editor()
             .id('singleton-homepage')
@@ -17,6 +25,7 @@ export const structure = (S) =>
         ),
       S.listItem()
         .title('Work page')
+        .icon(AiFillAppstore) // Different icon
         .child(
           S.editor()
             .id('singleton-work')
@@ -25,6 +34,7 @@ export const structure = (S) =>
         ),
       S.listItem()
         .title('About page')
+        .icon(AiFillInfoCircle)
         .child(
           S.editor()
             .id('singleton-about')
@@ -34,6 +44,7 @@ export const structure = (S) =>
       ...S.documentTypeListItems().filter(hiddenDocTypes),
       S.listItem()
         .title('Selected Projects')
+        .icon(AiFillProject) // Different icon
         .child(
           S.editor()
             .id('selectedProjects')

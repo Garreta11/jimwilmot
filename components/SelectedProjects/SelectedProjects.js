@@ -15,6 +15,7 @@ const SelectedProjects = ({ projects }) => {
   const containerRef = useRef();
   const itemRefs = useRef([]);
   const videoRefs = useRef([]);
+  const titleRef = useRef();
 
   const { timeline } = useContext(TransitionContext);
   const { setVideoTime } = useContext(TimeContext);
@@ -46,60 +47,71 @@ const SelectedProjects = ({ projects }) => {
   };
 
   return (
-    <div
-      ref={containerRef}
-      className={`selectedprojects ${styles.selectedprojects}`}
-    >
-      {projects.projects.map((project, index) => (
-        <Link
-          key={index}
-          href={`/work/${project.slug}`}
-          className={`selectedprojects__item ${styles.selectedprojects__item} ${
-            hoveredIndex === index ? styles.hovered__item : ''
-          }`}
-          ref={(el) => (itemRefs.current[index] = el)}
-          onMouseEnter={() => setHoveredIndex(index)}
-          onMouseLeave={() => setHoveredIndex(null)}
-          onClick={(e) => {
-            e.preventDefault();
-            handleClickSelectedProject(index, `/work/${project.slug}`);
-          }}
-        >
-          <video
-            className={`${styles.selectedprojects__item__video} ${
-              hoveredIndex === index ? styles.hovered : ''
+    <div ref={containerRef} className={`${styles.selectedprojects}`}>
+      <p
+        ref={titleRef}
+        className={`selectedprojects__title ${styles.selectedprojects__title}`}
+      >
+        [ Selected Projects ]
+      </p>
+      <div className={`selectedprojects ${styles.selectedprojects__wrapper}`}>
+        {projects.projects.map((project, index) => (
+          <Link
+            key={index}
+            href={`/work/${project.slug}`}
+            className={`selectedprojects__item ${styles.selectedprojects__item} ${
+              hoveredIndex === index ? styles.hovered__item : ''
             }`}
-            ref={(el) => (videoRefs.current[index] = el)}
-            muted
-            loop
-            autoPlay
-            playsInline
+            ref={(el) => (itemRefs.current[index] = el)}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            onClick={(e) => {
+              e.preventDefault();
+              handleClickSelectedProject(index, `/work/${project.slug}`);
+            }}
           >
-            <source src={project.heroUrl} type='video/mp4' />
-            Your browser does not support the video tag.
-          </video>
+            <video
+              className={`${styles.selectedprojects__item__video} ${
+                hoveredIndex === index ? styles.hovered : ''
+              }`}
+              ref={(el) => (videoRefs.current[index] = el)}
+              muted
+              loop
+              autoPlay
+              playsInline
+            >
+              <source src={project.heroUrl} type='video/mp4' />
+              Your browser does not support the video tag.
+            </video>
 
-          <Image
-            className={`${styles.selectedprojects__item__thumbnail} ${
-              hoveredIndex === index ? styles.hovered : ''
-            } ${clickedIndex === index ? styles.hidden : ''}`}
-            src={project.thumbnailUrl}
-            width={1440}
-            height={1080}
-            alt='image'
-          />
+            {/* <Image
+              className={`${styles.selectedprojects__item__thumbnail} ${
+                hoveredIndex === index ? styles.hovered : ''
+              } ${clickedIndex === index ? styles.hidden : ''}`}
+              src={project.thumbnailUrl}
+              width={1440}
+              height={1080}
+              alt='image'
+            /> */}
 
-          <div
-            className={`${styles.selectedprojects__item__title} ${
-              hoveredIndex === index ? styles.hovered : ''
-            }`}
-          >
-            <p>
-              {project.client} | {project.title}
-            </p>
-          </div>
-        </Link>
-      ))}
+            {/* <div
+              className={`${styles.selectedprojects__item__thumbnail} ${
+                hoveredIndex === index ? styles.hovered : ''
+              } ${clickedIndex === index ? styles.hidden : ''}`}
+            ></div> */}
+
+            <div
+              className={`${styles.selectedprojects__item__title} ${
+                hoveredIndex === index ? styles.hovered : ''
+              }`}
+            >
+              <p>
+                {project.client} {/* | {project.title} */}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

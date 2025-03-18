@@ -12,7 +12,8 @@ import { TimeContext } from '../context/TimeContext';
 import useMousePosition from '@/app/hooks/useMousePosition';
 import { workPageAnimation } from '../animations';
 
-const WorkPage = ({ projects }) => {
+const WorkPage = ({ projects, categories }) => {
+  console.log(categories);
   const router = useRouter();
   const { x, y } = useMousePosition();
   const radius = 800;

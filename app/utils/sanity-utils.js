@@ -38,7 +38,11 @@ export async function getAboutpage(id) {
       _createdAt,
       title,
       description,
-      "profile":profilepicture.asset->url
+      "profile":profilepicture.asset->url,
+      items[] {
+        title,
+        number
+      }
     }
   `;
 
@@ -156,6 +160,19 @@ export async function getProjectsList() {
     }`;
   const data = await client.fetch(query);
   return data;
+}
+
+// Fetch all unique categories from projects
+export async function getAllCategories() {
+  const query = groq`
+    *[_type == 'projects'].category
+  `;
+  const categories = await client.fetch(query);
+
+  // Flatten and remove duplicates
+  const uniqueCategories = [...new Set(categories.flat())];
+
+  return uniqueCategories;
 }
 
 // All Studio Projects

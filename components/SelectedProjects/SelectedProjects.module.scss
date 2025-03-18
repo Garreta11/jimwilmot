@@ -1,13 +1,23 @@
 .selectedprojects {
-
-  position: fixed;
+  position: absolute;
   width: 100%;
   bottom: 100px;
   padding: 50px;
   padding-top: 0px;
+  padding-bottom: 0px;
 
-  display: flex;
-  gap: 20px;
+  &__title {
+    opacity: 0;
+    color: white;
+    mix-blend-mode: difference;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  
+  &__wrapper {
+    display: flex;
+    gap: 20px;
+  }
 
   &__item {
     position: relative;
@@ -38,8 +48,11 @@
       object-fit: cover;
       transition: all 0.3s ease;
 
+      filter: invert(1) brightness(0.2) sepia(1);
+
       &.hovered {
         transform: scale(1.5); // Example effect when hovered
+        filter: invert(0) brightness(1) sepia(0);
       }
     }
 
@@ -52,6 +65,8 @@
       object-fit: cover;
       transition: all 0.3s ease;
       opacity: 1;
+
+      background-color: black;
 
       &.hovered {
         opacity: 0;
@@ -68,14 +83,14 @@
       bottom: 0px;
       padding: 20px;
       transition: all 0.3s ease;
-      opacity: 0;
+      opacity: 1;
       mix-blend-mode: difference;
       line-height: 1;
 
       text-transform: uppercase;
       
       * {
-        font-size: 12px;
+        font-size: 20px;
         font-weight: 400;
       }
 

@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity';
+import { defineType, defineField, defineArrayMember } from 'sanity';
 import { PlayIcon } from '@sanity/icons';
 
 export const aboutType = defineType({
@@ -40,6 +40,30 @@ export const aboutType = defineType({
       options: {
         hotspot: true,
       },
+    }),
+    defineField({
+      name: 'items',
+      title: 'Items',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          name: 'item',
+          title: 'Items',
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'title',
+              title: 'Title',
+              type: 'string',
+            }),
+            defineField({
+              name: 'number',
+              title: 'Number',
+              type: 'string',
+            }),
+          ],
+        }),
+      ],
     }),
   ],
 });

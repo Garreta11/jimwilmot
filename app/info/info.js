@@ -16,7 +16,7 @@ const InfoWrapper = ({ data }) => {
     if (imageRef.current) {
       gsap.fromTo(
         imageRef.current,
-        { width: '50vw', height: '50vh' },
+        { width: '10vw', height: '10vh' },
         {
           width: '100vw',
           height: '100vh',
@@ -43,8 +43,19 @@ const InfoWrapper = ({ data }) => {
         <div className={styles.page__wrapper__description}>
           <PortableText value={data.description} />
         </div>
+
+        <div className={styles.page__wrapper__items}>
+          {data.items.map((item, index) => (
+            <div key={index}>
+              <p>
+                {item.title} {item.number}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
       <div className={styles.page__contactform}>
+        <p className={styles.page__contactform__title}>[ Contact Form ]</p>
         <ContactForm />
       </div>
     </div>
