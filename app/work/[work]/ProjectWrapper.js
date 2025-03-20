@@ -19,7 +19,11 @@ const ProjectWrapper = ({ project }) => {
   const nextRef = useRef(null);
   const nextPrevRef = useRef(null);
   const videoRef = useRef(null);
+  const fullvideoWrapperRef = useRef(null);
+  const fullvideoRef = useRef(null);
+  const bgRef = useRef(null);
   const [isHovered, setIsHovered] = useState(true);
+  const [fullvideoVisible, setFullvideoVisible] = useState(false);
 
   const { timeline } = useContext(TransitionContext);
   const { videoTime } = useContext(TimeContext);
@@ -65,9 +69,46 @@ const ProjectWrapper = ({ project }) => {
     timeline.play();
   };
 
+  const handleFullVideo = () => {
+    setFullvideoVisible((prev) => !prev);
+    if (!fullvideoVisible) {
+      // animation bg
+      gsap.fromTo(bgRef.current, { autoAlpha: 0 }, { autoAlpha: 0.9 });
+      // animation video
+      gsap.fromTo(
+        fullvideoWrapperRef.current,
+        {
+          scale: 0,
+        },
+        {
+          scale: 0.8,
+          onComplete: () => {
+            fullvideoRef.current.play();
+          },
+        }
+      );
+    } else {
+      // animation bg
+      gsap.fromTo(bgRef.current, { autoAlpha: 0.9 }, { autoAlpha: 0 });
+      // animation video
+      gsap.fromTo(
+        fullvideoWrapperRef.current,
+        {
+          scale: 0.8,
+        },
+        {
+          scale: 0,
+          onComplete: () => {
+            fullvideoRef.current.pause();
+          },
+        }
+      );
+    }
+  };
+
   return (
     <div className={styles.page}>
-      <div className={styles.page__wrapper}>
+      <div className={styles.page__wrapper} onClick={handleFullVideo}>
         <div className={styles.page__wrapper__title}>
           <div className={styles.page__wrapper__title__wrapper}>
             <h3>
@@ -163,15 +204,15 @@ const ProjectWrapper = ({ project }) => {
               <source src={project.prevProject.heroUrl} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
-            <Image
+            {/* <Image
               className={`${styles.page__wrapper__nextprev__prev__thumbnail}`}
               src={project.prevProject.thumbnailUrl}
               width={1440}
               height={1080}
               alt='image'
-            />
+            /> */}
             <p className={styles.page__wrapper__nextprev__text}>
-              {project.prevProject.client} | {project.prevProject.title}
+              {project.prevProject.client}
             </p>
           </Link>
           <Link
@@ -199,15 +240,15 @@ const ProjectWrapper = ({ project }) => {
               <source src={project.nextProject.heroUrl} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
-            <Image
+            {/* <Image
               className={`${styles.page__wrapper__nextprev__next__thumbnail}`}
               src={project.nextProject.thumbnailUrl}
               width={1440}
               height={1080}
               alt='image'
-            />
+            /> */}
             <p className={styles.page__wrapper__nextprev__text}>
-              {project.nextProject.client} | {project.nextProject.title}
+              {project.nextProject.client}
             </p>
           </Link>
         </div>
@@ -227,8 +268,31 @@ const ProjectWrapper = ({ project }) => {
         </video>
       </div>
 
+      <div
+        ref={bgRef}
+        className={styles.page__bg}
+        onClick={handleFullVideo}
+        onMouseEnter={() => setIsHovered(true)}
+      />
+
+      <div
+        ref={fullvideoWrapperRef}
+        className={styles.page__fullvideo}
+        onMouseEnter={() => setIsHovered(false)}
+      >
+        <video
+          ref={fullvideoRef}
+          className={styles.page__fullvideo__media}
+          playsInline
+          controls
+        >
+          <source src={project.fullvideoUrl} type='video/mp4' />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
       <div ref={mouseRef} className={styles.page__playvideo}>
-        <p>[ PLAY FULL VIDEO ]</p>
+        <p>{fullvideoVisible ? '[ CLOSE ]' : '[ PLAY FULL VIDEO ]'}</p>
       </div>
     </div>
   );

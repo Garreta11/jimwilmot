@@ -85,6 +85,12 @@ export const workPageAnimation = () => {
     { left: '-100vw' },
     { left: '-60vw', duration: 1 }
   );
+  tl.fromTo(
+    '.work__categories',
+    { right: '-100vw' },
+    { right: 20, duration: 1 },
+    '<'
+  );
 
   tl.fromTo('.work__video', { scale: 0 }, { scale: 1 });
 

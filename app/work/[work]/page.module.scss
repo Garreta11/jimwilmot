@@ -1,9 +1,10 @@
-.page {  
+.page {
   &__wrapper {
     margin: 160px 50px;
     display: flex;
     flex-direction: column;
     position: relative;
+    
 
     &__title {
       mix-blend-mode: difference;
@@ -44,6 +45,7 @@
       width: 100%;
       min-height: 100vh;
       padding: 160px 0px;
+      
     }
 
     &__builder {
@@ -131,8 +133,10 @@
 
       &__prev, &__next {
         width: 15vw;
-        height: 15vh;
+        height: auto;
         position: relative;
+        aspect-ratio: 1.77;
+        overflow: hidden;
 
         video {
           position: absolute;
@@ -141,6 +145,15 @@
           width: 100%;
           height: 100%;
           object-fit: cover;
+          filter: invert(1) brightness(0.2) sepia(1);
+          transition: all 0.3s ease;
+        }
+
+        &:hover {
+          video {
+            transform: scale(1.5); // Example effect when hovered
+            filter: invert(0) brightness(1) sepia(0);
+          }
         }
 
         img  {
@@ -171,12 +184,12 @@
         padding: 20px;
 
         transition: all ease 0.3s;
+        text-transform: uppercase;
       }
 
     }
 
   }
-  
 
   &__video {
     position: fixed;
@@ -185,12 +198,38 @@
     left: 0;
     width: 100vw;
     height: 100vh;
+    pointer-events: all;
     &__media {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
+  }
+
+  &__bg {
+    background-color: #3B3429;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &__fullvideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    scale: 0;
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   &__playvideo {

@@ -13,15 +13,16 @@ import useMousePosition from '@/app/hooks/useMousePosition';
 import { workPageAnimation } from '../animations';
 
 const WorkPage = ({ projects, categories }) => {
-  console.log(categories);
   const router = useRouter();
   const { x, y } = useMousePosition();
   const radius = 800;
 
-  const [currentVideo, setCurrentVideo] = useState(projects[0] || '');
-  const [mainProject, setMainProject] = useState(projects[0] || '');
+  const [currentVideo, setCurrentVideo] = useState(null);
+  const [mainProject, setMainProject] = useState(null);
   const [count, setCount] = useState('01');
   const [isHovered, setIsHovered] = useState(false);
+
+  const [selectedCategory, setSelectedCategory] = useState('All');
 
   const wrapperRef = useRef(null);
   const containerRef = useRef(null);
@@ -33,6 +34,10 @@ const WorkPage = ({ projects, categories }) => {
 
   const { timeline } = useContext(TransitionContext);
   const { setVideoTime } = useContext(TimeContext);
+
+  useEffect(() => {
+    console.log(selectedCategory);
+  }, [selectedCategory]);
 
   useEffect(() => {
     if (!wrapperRef.current || !projects.length) return;
@@ -104,9 +109,11 @@ const WorkPage = ({ projects, categories }) => {
       updatePosition();
     };
 
+    updatePosition();
+
     document.addEventListener('wheel', handleWheel);
     return () => document.removeEventListener('wheel', handleWheel);
-  }, [projects]);
+  }, [projects, itemRefs, selectedCategory]);
 
   useEffect(() => {
     videoRefs.current.forEach((video, index) => {
@@ -182,49 +189,54 @@ const WorkPage = ({ projects, categories }) => {
 
   return (
     <div ref={containerRef} className={`${styles.page}`}>
+      {/* Projects List */}
       <div className={`${styles.page__wrapper} work__wrapper`} ref={wrapperRef}>
-        {projects.map((item, index) => (
-          <div
-            key={index}
-            ref={(el) => (itemRefs.current[index] = el)}
-            className={`workItems ${index} ${styles.page__item} ${index === projects.findIndex((p) => p === currentVideo) ? styles.page__item__current : ''}`}
-            onMouseEnter={() => {
-              setCurrentVideo(item);
-            }}
-            onMouseLeave={() => {
-              setCurrentVideo(mainProject);
-            }}
-          >
-            <Link
-              href={`/work/${item.slug}`}
-              onClick={(e) => {
-                e.preventDefault(); // Prevent default Next.js Link navigation
-                setCurrentVideo(item); // Ensures correct video is selected
-                handleClickProject(); // Run the animation and navigation
+        {projects.map((item, index) => {
+          return (
+            <div
+              key={index}
+              ref={(el) => (itemRefs.current[index] = el)}
+              data-cat={item.category}
+              className={`workItems ${index} ${styles.page__item} ${index === projects.findIndex((p) => p === currentVideo) ? styles.page__item__current : ''}`}
+              onMouseEnter={() => {
+                setCurrentVideo(item);
+              }}
+              onMouseLeave={() => {
+                setCurrentVideo(mainProject);
               }}
             >
-              <TextGlitch>
-                <h3>
-                  {item.client}
-                  &emsp;
-                  <span>
-                    &nbsp;[&nbsp;
-                    {item.category
-                      .split('-')
-                      .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                      )
-                      .join(' ')}
-                    &nbsp;]&nbsp;
-                  </span>
-                </h3>
-                <h3>{item.title}</h3>
-              </TextGlitch>
-            </Link>
-          </div>
-        ))}
+              <Link
+                href={`/work/${item.slug}`}
+                onClick={(e) => {
+                  e.preventDefault(); // Prevent default Next.js Link navigation
+                  setCurrentVideo(item); // Ensures correct video is selected
+                  handleClickProject(); // Run the animation and navigation
+                }}
+              >
+                <TextGlitch>
+                  <h3>
+                    {item.client}
+                    &emsp;
+                    <span>
+                      &nbsp;[&nbsp;
+                      {item.category
+                        .split('-')
+                        .map(
+                          (word) => word.charAt(0).toUpperCase() + word.slice(1)
+                        )
+                        .join(' ')}
+                      &nbsp;]&nbsp;
+                    </span>
+                  </h3>
+                  <h3>{item.title}</h3>
+                </TextGlitch>
+              </Link>
+            </div>
+          );
+        })}
       </div>
 
+      {/* Videos */}
       <div
         ref={videoRef}
         className={`${styles.page__video} work__video`}
@@ -249,9 +261,46 @@ const WorkPage = ({ projects, categories }) => {
 
         <div ref={countRef} className={styles.page__video__count}>
           <p>
-            [<span>{count}</span> / <span>{projects.length}</span>]
+            [<span>{count}</span> /{' '}
+            <span>{projects.length.toString().padStart(2, '0')}</span>]
           </p>
         </div>
+      </div>
+
+      {/* Categories */}
+      <div className={`${styles.page__categories} work__categories`}>
+        <div
+          className={`${styles.page__categories__item} ${
+            selectedCategory === 'All'
+              ? styles.page__categories__item__selected
+              : ''
+          }`}
+          onClick={() => setSelectedCategory('All')}
+        >
+          <TextGlitch>
+            <p>All</p>
+          </TextGlitch>
+        </div>
+        {categories.map((cat, index) => (
+          <div
+            key={index}
+            onClick={() => setSelectedCategory(cat)}
+            className={`${styles.page__categories__item} ${
+              selectedCategory === cat
+                ? styles.page__categories__item__selected
+                : ''
+            }`}
+          >
+            <TextGlitch>
+              <p>
+                {cat
+                  .split('-')
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ')}
+              </p>
+            </TextGlitch>
+          </div>
+        ))}
       </div>
 
       <div ref={mouseRef} className={styles.page__mouse}>
