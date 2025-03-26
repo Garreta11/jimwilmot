@@ -29,17 +29,23 @@
     clip-path: inset(0px 100% 0px 0px);
     
     background:
-    linear-gradient(to right, black 4px, transparent 4px) 0 0,
-    linear-gradient(to right, black 4px, transparent 4px) 0 100%,
-    linear-gradient(to left, black 4px, transparent 4px) 100% 0,
-    linear-gradient(to left, black 4px, transparent 4px) 100% 100%,
-    linear-gradient(to bottom, black 4px, transparent 4px) 0 0,
-    linear-gradient(to bottom, black 4px, transparent 4px) 100% 0,
-    linear-gradient(to top, black 4px, transparent 4px) 0 100%,
-    linear-gradient(to top, black 4px, transparent 4px) 100% 100%;
+    linear-gradient(to right, rgba(255, 255, 255, 1) 1px, transparent 1px) 0 0,
+    linear-gradient(to right, rgba(255, 255, 255, 1) 1px, transparent 1px) 0 100%,
+    linear-gradient(to left, rgba(255, 255, 255, 1) 1px, transparent 1px) 100% 0,
+    linear-gradient(to left, rgba(255, 255, 255, 1) 1px, transparent 1px) 100% 100%,
+    linear-gradient(to bottom, rgba(255, 255, 255, 1) 1px, transparent 1px) 0 0,
+    linear-gradient(to bottom, rgba(255, 255, 255, 1) 1px, transparent 1px) 100% 0,
+    linear-gradient(to top, rgba(255, 255, 255, 1) 1px, transparent 1px) 0 100%,
+    linear-gradient(to top, rgba(255, 255, 255, 1) 1px, transparent 1px) 100% 100%;
 
     background-repeat: no-repeat;
-    background-size: 20px 20px;
+    background-size: 0px 0px;
+    
+    padding: 0px;
+    &:hover {
+      background-size: 20px 20px;
+      padding: 10px;
+    }
 
 
     &__video {
@@ -51,7 +57,7 @@
       filter: invert(1) brightness(0.2) sepia(1);
 
       &.hovered {
-        transform: scale(1.5); // Example effect when hovered
+        // transform: scale(1.1); // Example effect when hovered
         filter: invert(0) brightness(1) sepia(0);
       }
     }

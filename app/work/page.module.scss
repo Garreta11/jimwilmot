@@ -1,6 +1,6 @@
 .page {
   position: relative;
-  background-color: #3B3429;
+  background-color: var(--black);
   width: 100vw;
   height: 300vh;
 
@@ -79,10 +79,12 @@
         display: flex;
         gap: 10px;
         &::before {
+          color: white;
           content: '[ ';
           display: block;
         }
         &::after {
+          color: white;
           content: '] ';
           display: block;
         }

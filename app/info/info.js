@@ -5,6 +5,7 @@ import { PortableText } from '@portabletext/react';
 import ContactForm from '@/components/ContactForm/ContactForm';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Gradient from '@/components/Gradient/Gradient';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,6 +37,7 @@ const InfoWrapper = ({ data }) => {
 
   return (
     <div className={styles.page}>
+      <Gradient />
       <div ref={imageRef} className={styles.page__image}>
         <img src={data.profile} alt='Page builder image' />
       </div>

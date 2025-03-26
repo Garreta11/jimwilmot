@@ -11,6 +11,7 @@ import TextGlitch from '@/components/TextGlitch/TextGlitch';
 import { TimeContext } from '../context/TimeContext';
 import useMousePosition from '@/app/hooks/useMousePosition';
 import { workPageAnimation } from '../animations';
+import Gradient from '@/components/Gradient/Gradient';
 
 const WorkPage = ({ projects, categories }) => {
   const router = useRouter();
@@ -23,6 +24,7 @@ const WorkPage = ({ projects, categories }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [filteredProjects, setFilteredProjects] = useState([]);
 
   const wrapperRef = useRef(null);
   const containerRef = useRef(null);
@@ -37,7 +39,16 @@ const WorkPage = ({ projects, categories }) => {
 
   useEffect(() => {
     console.log(selectedCategory);
+    setFilteredProjects(
+      selectedCategory === 'All'
+        ? projects
+        : projects.filter((project) => project.category === selectedCategory)
+    );
   }, [selectedCategory]);
+
+  useEffect(() => {
+    console.log(filteredProjects);
+  }, [filteredProjects]);
 
   useEffect(() => {
     if (!wrapperRef.current || !projects.length) return;
@@ -75,7 +86,7 @@ const WorkPage = ({ projects, categories }) => {
       let closestIndex = -1;
       let maxX = -Infinity;
 
-      itemRefs.current.forEach((item, index) => {
+      projects.forEach((item, index) => {
         const angle = (index + indexScroll) * angleIncrement;
         const x = centerX + radius * Math.cos(angle) * 0.9;
         const y = centerY + radius * Math.sin(angle) * 0.5;
@@ -90,7 +101,7 @@ const WorkPage = ({ projects, categories }) => {
           closestIndex = index;
         }
 
-        gsap.to(item, {
+        gsap.to(itemRefs.current[index], {
           duration: 0.5,
           x,
           y,
@@ -105,7 +116,7 @@ const WorkPage = ({ projects, categories }) => {
     };
 
     const handleWheel = (event) => {
-      scrollOffset += event.deltaY * 0.0001; // Adjust sensitivity
+      scrollOffset += event.deltaY * 0.0002; // Adjust sensitivity
       updatePosition();
     };
 
@@ -113,7 +124,7 @@ const WorkPage = ({ projects, categories }) => {
 
     document.addEventListener('wheel', handleWheel);
     return () => document.removeEventListener('wheel', handleWheel);
-  }, [projects, itemRefs, selectedCategory]);
+  }, [projects, itemRefs]);
 
   useEffect(() => {
     videoRefs.current.forEach((video, index) => {
@@ -189,6 +200,9 @@ const WorkPage = ({ projects, categories }) => {
 
   return (
     <div ref={containerRef} className={`${styles.page}`}>
+      {/* Background Gradient */}
+      <Gradient />
+
       {/* Projects List */}
       <div className={`${styles.page__wrapper} work__wrapper`} ref={wrapperRef}>
         {projects.map((item, index) => {
@@ -244,20 +258,22 @@ const WorkPage = ({ projects, categories }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {projects.map((item, index) => (
-          <video
-            key={index}
-            ref={(el) => (videoRefs.current[index] = el)}
-            className={styles.page__video__media}
-            muted
-            loop
-            playsInline
-            style={{ opacity: 0, visibility: 'hidden' }}
-          >
-            <source src={item.heroUrl} type='video/mp4' />
-            Your browser does not support the video tag.
-          </video>
-        ))}
+        {projects.map((item, index) => {
+          return (
+            <video
+              key={index}
+              ref={(el) => (videoRefs.current[index] = el)}
+              className={styles.page__video__media}
+              muted
+              loop
+              playsInline
+              style={{ opacity: 0, visibility: 'hidden' }}
+            >
+              <source src={item.heroUrl} type='video/mp4' />
+              Your browser does not support the video tag.
+            </video>
+          );
+        })}
 
         <div ref={countRef} className={styles.page__video__count}>
           <p>
