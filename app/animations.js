@@ -83,7 +83,7 @@ export const workPageAnimation = () => {
   tl.fromTo(
     '.work__wrapper',
     { left: '-100vw' },
-    { left: '-60vw', duration: 1 }
+    { left: '-35%', duration: 1 }
   );
   tl.fromTo(
     '.work__categories',

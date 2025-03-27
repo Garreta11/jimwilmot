@@ -9,11 +9,11 @@
     width: 100%;
     height: 100%;
 
-    left: -60vw;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
 
-    overflow: hidden;
+    /* overflow: hidden; */
     mix-blend-mode: difference;
     z-index: 1;
 
@@ -22,16 +22,32 @@
 
   &__item {
     position: absolute;
-    top: 0;
+    /* top: 0;
     left: 0;
-    transform: translate(-50%, -50%);
-    width: 800px;
+    transform: translate(-50%, -50%); */
+    /* width: 800px; */
     height: fit-content;
     cursor: pointer;
     transform-origin: left;
     text-transform: uppercase;
 
     pointer-events: all;
+
+    &__clientcategory {
+      &__client {
+        margin-right: 20px;
+      }
+      &__cat {
+        &::before {
+          content:'[';
+          margin-right: 10px;
+        }
+        &::after {
+          content:']';
+          margin-left: 10px;
+        }
+      }
+    }
 
     a {
       text-wrap-mode: nowrap;

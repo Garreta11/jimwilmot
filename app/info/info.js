@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.scss';
 import { PortableText } from '@portabletext/react';
 import ContactForm from '@/components/ContactForm/ContactForm';
@@ -12,6 +12,19 @@ gsap.registerPlugin(ScrollTrigger);
 const InfoWrapper = ({ data }) => {
   const imageRef = useRef(null);
   const wrapperRef = useRef(null);
+
+  /* Check if user uses GMAIL */
+  const [emailHref, setEmailHref] = useState('');
+  useEffect(() => {
+    const gmailHref =
+      'https://mail.google.com/mail/u/0/?fs=1&to=jim@wilberg.studio&tf=cm';
+    const mailtoHref = 'mailto:jim@wilberg.studio';
+
+    // Check if the user is using Gmail (basic check)
+    const isGmailUser = navigator.userAgent.includes('Gmail');
+
+    setEmailHref(isGmailUser ? gmailHref : mailtoHref);
+  }, []);
 
   useEffect(() => {
     if (imageRef.current) {
@@ -57,8 +70,15 @@ const InfoWrapper = ({ data }) => {
         </div>
       </div>
       <div className={styles.page__contactform}>
-        <p className={styles.page__contactform__title}>[ Contact Form ]</p>
-        <ContactForm />
+        {/* <p className={styles.page__contactform__title}>[ Contact Form ]</p>
+        <ContactForm /> */}
+        <a
+          className={styles.page__contactform__link}
+          href={emailHref}
+          target='_blank'
+        >
+          [ CONTACT ME ]
+        </a>
       </div>
     </div>
   );

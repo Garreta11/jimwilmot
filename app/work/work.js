@@ -14,82 +14,66 @@ import { workPageAnimation } from '../animations';
 import Gradient from '@/components/Gradient/Gradient';
 
 const WorkPage = ({ projects, categories }) => {
+  /* Hooks */
   const router = useRouter();
   const { x, y } = useMousePosition();
-  const radius = 800;
 
-  const [currentVideo, setCurrentVideo] = useState(null);
-  const [mainProject, setMainProject] = useState(null);
-  const [count, setCount] = useState('01');
-  const [isHovered, setIsHovered] = useState(false);
+  /* useRefs */
+  const containerRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const mouseRef = useRef(null);
+  const countRef = useRef(null);
+  const videoRef = useRef(null);
+  const videosRef = useRef([]);
+  const scrollOffset = useRef(0);
 
+  /* useStates */
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const [count, setCount] = useState('01');
+  const [isHovered, setIsHovered] = useState(false);
+  const [currentProject, setCurrentProject] = useState(null);
 
-  const wrapperRef = useRef(null);
-  const containerRef = useRef(null);
-  const itemRefs = useRef([]);
-  const videoRefs = useRef([]);
-  const videoRef = useRef(null);
-  const countRef = useRef(null);
-  const mouseRef = useRef(null);
-
+  /* useContext */
   const { timeline } = useContext(TransitionContext);
   const { setVideoTime } = useContext(TimeContext);
 
+  /* START ANIMATION */
   useEffect(() => {
-    console.log(selectedCategory);
-    setFilteredProjects(
+    workPageAnimation();
+  }, []);
+
+  /* Set FilteredProjects When Category Has Changed */
+  useEffect(() => {
+    videosRef.current = [];
+    scrollOffset.current = 0;
+    const f =
       selectedCategory === 'All'
         ? projects
-        : projects.filter((project) => project.category === selectedCategory)
-    );
+        : projects.filter((project) => project.category === selectedCategory);
+    setFilteredProjects(f);
   }, [selectedCategory]);
 
+  const normalizeAngle = (a) => Math.atan2(Math.sin(a), Math.cos(a));
+  /* Show FilteredProjects */
   useEffect(() => {
-    console.log(filteredProjects);
-  }, [filteredProjects]);
-
-  useEffect(() => {
-    if (!wrapperRef.current || !projects.length) return;
-
-    workPageAnimation();
-
+    if (!filteredProjects.length) return;
+    const radius = 800;
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
-    const angleIncrement = (2 * Math.PI) / projects.length;
-    let scrollOffset = 0;
-
-    const normalizeAngle = (a) => Math.atan2(Math.sin(a), Math.cos(a));
-
-    projects.forEach((item, index) => {
-      const angle = index * angleIncrement;
-      const x = centerX + radius * Math.cos(angle) * 0.9;
-      const y = centerY + radius * Math.sin(angle) * 0.5;
-
-      const diff = Math.abs(normalizeAngle(angle));
-      const maxAngle = Math.PI / 3;
-      const newOpacity = diff >= maxAngle ? 0 : 1 - diff / maxAngle;
-      const newScale = newOpacity;
-
-      gsap.set(wrapperRef.current.children[index], {
-        x,
-        y,
-        opacity: newOpacity,
-        scale: newScale,
-      });
-    });
+    const angleIncrement = (2 * Math.PI) / filteredProjects.length;
 
     const updatePosition = () => {
-      const indexScroll = parseInt(scrollOffset * projects.length);
-
+      const indexScroll = parseInt(
+        scrollOffset.current * filteredProjects.length
+      );
       let closestIndex = -1;
       let maxX = -Infinity;
 
-      projects.forEach((item, index) => {
+      filteredProjects.forEach((item, index) => {
         const angle = (index + indexScroll) * angleIncrement;
-        const x = centerX + radius * Math.cos(angle) * 0.9;
-        const y = centerY + radius * Math.sin(angle) * 0.5;
+        const x = centerX + radius * Math.cos(angle) * 0.8;
+        const y = centerY + radius * Math.sin(angle) * 0.3;
 
         const diff = Math.abs(normalizeAngle(angle));
         const maxAngle = Math.PI / 3;
@@ -101,55 +85,30 @@ const WorkPage = ({ projects, categories }) => {
           closestIndex = index;
         }
 
-        gsap.to(itemRefs.current[index], {
-          duration: 0.5,
+        gsap.to(wrapperRef.current.children[index], {
           x,
           y,
+          duration: 0.5,
           opacity: newOpacity,
           scale: newScale,
           ease: 'none',
         });
       });
 
-      setCurrentVideo(projects[closestIndex]);
-      setMainProject(projects[closestIndex]);
+      setCurrentProject(filteredProjects[closestIndex]);
     };
 
     const handleWheel = (event) => {
-      scrollOffset += event.deltaY * 0.0002; // Adjust sensitivity
+      scrollOffset.current += event.deltaY * 0.0002; // Adjust sensitivity
       updatePosition();
     };
 
     updatePosition();
-
     document.addEventListener('wheel', handleWheel);
     return () => document.removeEventListener('wheel', handleWheel);
-  }, [projects, itemRefs]);
+  }, [filteredProjects, currentProject]);
 
-  useEffect(() => {
-    videoRefs.current.forEach((video, index) => {
-      if (video) {
-        const isActive = projects[index] === currentVideo;
-
-        if (isActive) {
-          video.play();
-        } else {
-          video.pause();
-        }
-
-        gsap.to(video, {
-          duration: 0.5,
-          autoAlpha: isActive ? 1 : 0,
-          ease: 'power2.out',
-        });
-      }
-    });
-
-    let index = projects.findIndex((project) => project === currentVideo);
-    index++;
-    setCount(index.toString().padStart(2, '0'));
-  }, [currentVideo, projects]);
-
+  /* Move Mouse Text */
   useEffect(() => {
     if (mouseRef.current) {
       gsap.to(mouseRef.current, {
@@ -161,6 +120,7 @@ const WorkPage = ({ projects, categories }) => {
     }
   }, [x, y]);
 
+  /* Show Mouse Text */
   useEffect(() => {
     if (mouseRef.current) {
       gsap.to(mouseRef.current, {
@@ -171,10 +131,30 @@ const WorkPage = ({ projects, categories }) => {
     }
   }, [isHovered]);
 
+  useEffect(() => {
+    if (!videoRef.current) return;
+    const videos = Array.from(videoRef.current.getElementsByTagName('video'));
+    videos.forEach((video, index) => {
+      const isActive = video.dataset.title === currentProject.title;
+      if (isActive) {
+        video.play();
+      } else {
+        video.pause();
+      }
+      gsap.to(video, {
+        duration: 0.5,
+        autoAlpha: isActive ? 1 : 0,
+        scale: isActive ? 1 : 0.5,
+        ease: 'power2.out',
+      });
+    });
+  }, [currentProject]);
+
   const handleClickProject = () => {
-    videoRefs.current.forEach((video, index) => {
+    const videos = Array.from(videoRef.current.getElementsByTagName('video'));
+    videos.forEach((video, index) => {
       if (video) {
-        const isActive = projects[index] === currentVideo;
+        const isActive = video.dataset.title === currentProject.title;
         if (isActive) {
           setVideoTime(video.currentTime);
           video.pause();
@@ -183,7 +163,7 @@ const WorkPage = ({ projects, categories }) => {
     });
 
     timeline.pause().clear();
-    const project = projects.find((project) => project === currentVideo);
+    const project = projects.find((project) => project === currentProject);
     const url = `/work/${project.slug}`;
 
     // Set the onComplete callback globally on the timeline
@@ -205,43 +185,35 @@ const WorkPage = ({ projects, categories }) => {
 
       {/* Projects List */}
       <div className={`${styles.page__wrapper} work__wrapper`} ref={wrapperRef}>
-        {projects.map((item, index) => {
+        {filteredProjects.map((item, index) => {
           return (
             <div
               key={index}
-              ref={(el) => (itemRefs.current[index] = el)}
-              data-cat={item.category}
-              className={`workItems ${index} ${styles.page__item} ${index === projects.findIndex((p) => p === currentVideo) ? styles.page__item__current : ''}`}
-              onMouseEnter={() => {
-                setCurrentVideo(item);
-              }}
-              onMouseLeave={() => {
-                setCurrentVideo(mainProject);
-              }}
+              className={`workItems ${styles.page__item} `}
+              data-category={item.category}
             >
               <Link
                 href={`/work/${item.slug}`}
                 onClick={(e) => {
                   e.preventDefault(); // Prevent default Next.js Link navigation
-                  setCurrentVideo(item); // Ensures correct video is selected
+                  setCurrentProject(item); // Ensures correct video is selected
                   handleClickProject(); // Run the animation and navigation
                 }}
               >
                 <TextGlitch>
-                  <h3>
-                    {item.client}
-                    &emsp;
-                    <span>
-                      &nbsp;[&nbsp;
+                  <div className={styles.page__item__clientcategory}>
+                    <h3 className={styles.page__item__clientcategory__client}>
+                      {item.client}
+                    </h3>
+                    <p className={styles.page__item__clientcategory__cat}>
                       {item.category
                         .split('-')
                         .map(
                           (word) => word.charAt(0).toUpperCase() + word.slice(1)
                         )
                         .join(' ')}
-                      &nbsp;]&nbsp;
-                    </span>
-                  </h3>
+                    </p>
+                  </div>
                   <h3>{item.title}</h3>
                 </TextGlitch>
               </Link>
@@ -258,12 +230,15 @@ const WorkPage = ({ projects, categories }) => {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {projects.map((item, index) => {
+        {filteredProjects.map((item, index) => {
           return (
             <video
               key={index}
-              ref={(el) => (videoRefs.current[index] = el)}
               className={styles.page__video__media}
+              data-title={item.title}
+              data-project={item.client}
+              data-hero={item.heroUrl}
+              data-category={item.category}
               muted
               loop
               playsInline
@@ -278,7 +253,7 @@ const WorkPage = ({ projects, categories }) => {
         <div ref={countRef} className={styles.page__video__count}>
           <p>
             [<span>{count}</span> /{' '}
-            <span>{projects.length.toString().padStart(2, '0')}</span>]
+            <span>{filteredProjects.length.toString().padStart(2, '0')}</span>]
           </p>
         </div>
       </div>
@@ -319,6 +294,7 @@ const WorkPage = ({ projects, categories }) => {
         ))}
       </div>
 
+      {/* Mouse Text */}
       <div ref={mouseRef} className={styles.page__mouse}>
         <p>[ WATCH PROJECT ]</p>
       </div>
