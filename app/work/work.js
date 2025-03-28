@@ -102,6 +102,7 @@ const WorkPage = ({ projects, categories }) => {
       });
 
       setCurrentProject(filteredProjects[closestIndex]);
+      closestIndex++;
       setCount(closestIndex.toString().padStart(2, '0'));
     };
 
