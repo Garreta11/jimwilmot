@@ -25,7 +25,9 @@ const WorkPage = ({ projects, categories }) => {
   const countRef = useRef(null);
   const videoRef = useRef(null);
   const videosRef = useRef([]);
+  const indexScroll = useRef(0);
   const scrollOffset = useRef(0);
+  const isTittleSelected = useRef(false);
 
   /* useStates */
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -58,22 +60,26 @@ const WorkPage = ({ projects, categories }) => {
   /* Show FilteredProjects */
   useEffect(() => {
     if (!filteredProjects.length) return;
-    const radius = 800;
+    const radius =
+      window.innerWidth > window.innerHeight
+        ? window.innerHeight / 2
+        : window.innerWidth / 2;
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     const angleIncrement = (2 * Math.PI) / filteredProjects.length;
 
     const updatePosition = () => {
-      const indexScroll = parseInt(
+      if (isTittleSelected.current) return;
+      indexScroll.current = parseInt(
         scrollOffset.current * filteredProjects.length
       );
       let closestIndex = -1;
       let maxX = -Infinity;
 
       filteredProjects.forEach((item, index) => {
-        const angle = (index + indexScroll) * angleIncrement;
+        const angle = (index + indexScroll.current) * angleIncrement;
         const x = centerX + radius * Math.cos(angle) * 0.8;
-        const y = centerY + radius * Math.sin(angle) * 0.3;
+        const y = centerY + radius * Math.sin(angle) * 0.8;
 
         const diff = Math.abs(normalizeAngle(angle));
         const maxAngle = Math.PI / 3;
@@ -151,7 +157,7 @@ const WorkPage = ({ projects, categories }) => {
     });
   }, [currentProject]);
 
-  const handleClickProject = () => {
+  const handleClickVideo = () => {
     const videos = Array.from(videoRef.current.getElementsByTagName('video'));
     videos.forEach((video, index) => {
       if (video) {
@@ -179,6 +185,75 @@ const WorkPage = ({ projects, categories }) => {
     timeline.play();
   };
 
+  const handleClickProjectTitle = (_index) => {
+    isTittleSelected.current = true;
+
+    const radius =
+      window.innerWidth > window.innerHeight
+        ? window.innerHeight / 2
+        : window.innerWidth / 2;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+    const angleIncrement = (2 * Math.PI) / filteredProjects.length;
+
+    let closestIndex = -1;
+    let maxX = -Infinity;
+
+    const XX = Math.abs((parseInt(count) % filteredProjects.length) - _index);
+
+    filteredProjects.forEach((item, index) => {
+      const angle = (index + indexScroll.current - XX) * angleIncrement;
+      const x = centerX + radius * Math.cos(angle) * 0.8;
+      const y = centerY + radius * Math.sin(angle) * 0.8;
+
+      const diff = Math.abs(normalizeAngle(angle));
+      const maxAngle = Math.PI / 3;
+      const newOpacity = diff >= maxAngle ? 0 : 1 - diff / maxAngle;
+      const newScale = newOpacity;
+
+      if (x > maxX) {
+        maxX = x;
+        closestIndex = index;
+      }
+
+      gsap.to(wrapperRef.current.children[index], {
+        x,
+        y,
+        duration: 0.5,
+        opacity: newOpacity,
+        scale: newScale,
+        ease: 'none',
+      });
+    });
+
+    // setCurrentProject(filteredProjects[closestIndex]);
+    setCount(closestIndex.toString().padStart(2, '0'));
+
+    const videos = Array.from(videoRef.current.getElementsByTagName('video'));
+    videos.forEach((video, index) => {
+      if (video) {
+        video.pause();
+      }
+    });
+    setTimeout(() => {
+      timeline.pause().clear();
+      const project = projects.find(
+        (project) => project === filteredProjects[closestIndex]
+      );
+      const url = `/work/${project.slug}`;
+      // Set the onComplete callback globally on the timeline
+      timeline.eventCallback('onComplete', () => {
+        console.log('Video animation complete!');
+        router.push(url);
+        timeline.pause().clear();
+      });
+
+      timeline.add(projectSelectedFromWork(wrapperRef, videoRef, countRef));
+
+      timeline.play();
+    }, 500);
+  };
+
   return (
     <div ref={containerRef} className={`${styles.page}`}>
       {/* Background Gradient */}
@@ -198,7 +273,7 @@ const WorkPage = ({ projects, categories }) => {
                 onClick={(e) => {
                   e.preventDefault(); // Prevent default Next.js Link navigation
                   setCurrentProject(item); // Ensures correct video is selected
-                  handleClickProject(); // Run the animation and navigation
+                  handleClickProjectTitle(index); // Run the animation and navigation
                 }}
               >
                 <TextGlitch>
@@ -227,7 +302,7 @@ const WorkPage = ({ projects, categories }) => {
       <div
         ref={videoRef}
         className={`${styles.page__video} work__video`}
-        onClick={() => handleClickProject()}
+        onClick={() => handleClickVideo()}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >

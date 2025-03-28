@@ -9,12 +9,12 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, useContext } from 'react';
 import gsap from 'gsap';
 import { projectNextPrev } from '@/app/animations';
-import Image from 'next/image';
 
 const ProjectWrapper = ({ project }) => {
   const router = useRouter();
   const { x, y } = useMousePosition();
   const mouseRef = useRef(null);
+  const pageRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const nextPrevRef = useRef(null);
@@ -27,6 +27,10 @@ const ProjectWrapper = ({ project }) => {
 
   const { timeline } = useContext(TransitionContext);
   const { videoTime } = useContext(TimeContext);
+
+  useEffect(() => {
+    gsap.to(pageRef.current, { opacity: 1 });
+  }, []);
 
   useEffect(() => {
     videoRef.current.currentTime = videoTime;
@@ -55,6 +59,9 @@ const ProjectWrapper = ({ project }) => {
   }, [isHovered]);
 
   const handleNextPrev = (project, other, url) => {
+    bgRef.current.classList.add('remove');
+    gsap.set(fullvideoWrapperRef.current, { autoAlpha: 0 });
+
     timeline.pause().clear();
     timeline.eventCallback('onComplete', () => {
       console.log('Video animation complete!');
@@ -63,7 +70,7 @@ const ProjectWrapper = ({ project }) => {
     });
 
     timeline.add(
-      projectNextPrev(project.current, other.current, nextPrevRef.current)
+      projectNextPrev(project.current, other.current, pageRef.current)
     );
 
     timeline.play();
@@ -107,7 +114,7 @@ const ProjectWrapper = ({ project }) => {
   };
 
   return (
-    <div className={styles.page}>
+    <div className={styles.page} ref={pageRef}>
       <div className={styles.page__wrapper} onClick={handleFullVideo}>
         <div className={styles.page__wrapper__title}>
           <div className={styles.page__wrapper__title__wrapper}>

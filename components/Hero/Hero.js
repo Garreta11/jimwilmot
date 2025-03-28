@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState, useContext } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import styles from './Hero.module.scss';
 import gsap from 'gsap';
 import useMousePosition from '@/app/hooks/useMousePosition';
@@ -13,10 +13,6 @@ const Hero = (props) => {
   const [isHovered, setIsHovered] = useState(false); // Track hover state
   const [isMuted, setIsMuted] = useState(true);
   const { x, y } = useMousePosition();
-
-  useEffect(() => {
-    heroInitAnimation(mediaRef.current);
-  }, []);
 
   // Animate hero__sound to follow the mouse
   useEffect(() => {
@@ -79,18 +75,9 @@ const Hero = (props) => {
       onMouseLeave={() => setIsHovered(false)}
       onClick={handleClick} // Toggle sound on click
     >
-      <video
-        ref={mediaRef}
-        className={`${styles.hero__media}`}
-        muted
-        autoPlay
-        loop
-        controls={false}
-        playsInline
-      >
-        <source src={media} type='video/mp4' />
-        Your browser does not support the video tag.
-      </video>
+      <Suspense fallback={<p>Loading video...</p>}>
+        <VideoComponent mediaRef={mediaRef} media={media} />
+      </Suspense>
 
       <div ref={soundRef} className={styles.hero__sound}>
         <p>{isMuted ? '[ PLAY SOUND ]' : '[ PAUSE SOUND ]'}</p>
@@ -100,3 +87,23 @@ const Hero = (props) => {
 };
 
 export default Hero;
+
+const VideoComponent = ({ mediaRef, media }) => {
+  useEffect(() => {
+    heroInitAnimation(mediaRef.current);
+  }, []);
+  return (
+    <video
+      ref={mediaRef}
+      className={`${styles.hero__media}`}
+      muted
+      autoPlay
+      loop
+      controls={false}
+      playsInline
+    >
+      <source src={media} type='video/mp4' />
+      Your browser does not support the video tag.
+    </video>
+  );
+};

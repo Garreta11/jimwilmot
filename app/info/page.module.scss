@@ -18,11 +18,16 @@
     &__items {
       mix-blend-mode: difference;
       font-size: 60px;
-      grid-column: 3 / span 10;
+      grid-column: 5 / span 10;
+      &__data {
+        display: flex;
+        &__number {
+          min-width: 200px;
+        }
+      }
     }
     
   }
-  
 
   &__image {
     position: fixed;

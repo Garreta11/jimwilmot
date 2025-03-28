@@ -27,8 +27,6 @@ export default class Experience {
     this.router = _options.router;
     this.timeline = _options.timeline;
 
-    console.log(this.timeline);
-
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
 
@@ -177,6 +175,29 @@ export default class Experience {
       const smallMovementFactor = 0.01; // Adjust for desired sensitivity
       this.tx += (cursor.x - window.innerWidth / 2) * smallMovementFactor;
       this.ty += (cursor.y - window.innerHeight / 2) * smallMovementFactor;
+    }
+
+    // Perform raycasting
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+    const intersects = this.raycaster.intersectObjects(this.planes);
+
+    if (intersects.length > 0) {
+      this.targetElement.style.cursor = 'pointer';
+      const hoveredPlane = intersects[0].object;
+      gsap.to(hoveredPlane.material.uniforms.uOpacity, {
+        value: 1,
+        duration: 0.5,
+        ease: 'power2.out',
+      }); // Fade out
+    } else {
+      this.targetElement.style.cursor = 'default';
+      this.scene.children.map((plane, index) => {
+        gsap.to(plane.material.uniforms.uOpacity, {
+          value: 0.2,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      });
     }
   };
 

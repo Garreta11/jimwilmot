@@ -32,6 +32,7 @@ export default class Plane extends THREE.Object3D {
       u_size: { value: new THREE.Vector2(1, 1) },
       u_diff: { value: 0 },
       u_opacity: { value: 1.0 },
+      uOpacity: { value: 0.2 },
     };
 
     this.texture = loader.load(this.el.dataset.src, (texture) => {

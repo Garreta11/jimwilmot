@@ -27,6 +27,9 @@ const InfoWrapper = ({ data }) => {
   }, []);
 
   useEffect(() => {
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 0);
     if (imageRef.current) {
       gsap.fromTo(
         imageRef.current,
@@ -61,9 +64,12 @@ const InfoWrapper = ({ data }) => {
 
         <div className={styles.page__wrapper__items}>
           {data.items.map((item, index) => (
-            <div key={index}>
-              <p>
-                {item.title} {item.number}
+            <div className={styles.page__wrapper__items__data} key={index}>
+              <p className={styles.page__wrapper__items__data__number}>
+                {item.title}
+              </p>
+              <p className={styles.page__wrapper__items__data__text}>
+                {item.number}
               </p>
             </div>
           ))}

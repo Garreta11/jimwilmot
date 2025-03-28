@@ -1,4 +1,4 @@
-'use client'; // Required for hooks in client components
+'use client';
 
 import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
@@ -15,6 +15,7 @@ const Header = () => {
 
   const { x, y } = useMousePosition();
 
+  const headerRef = useRef();
   const iconRef = useRef();
 
   const links = [
@@ -31,6 +32,14 @@ const Header = () => {
       href: '/studio',
     },
   ];
+
+  useEffect(() => {
+    if (pathname === '/') {
+      headerRef.current.style.opacity = 0;
+    } else {
+      headerRef.current.style.opacity = 1;
+    }
+  }, [pathname]);
 
   useEffect(() => {
     if (!iconRef.current) return;
@@ -58,7 +67,7 @@ const Header = () => {
   }, [x, y]);
 
   return (
-    <div className={`header ${styles.header}`}>
+    <div ref={headerRef} className={`header ${styles.header}`}>
       <div className={styles.header__logo}>
         <Link className={styles.header__logo__wrapper} href='/'>
           <h1>{isStudioPage ? 'Wilberg.studio' : 'Jim Wilberg'}</h1>

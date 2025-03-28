@@ -80,11 +80,12 @@ export const heroInitAnimation = (media) => {
 export const workPageAnimation = () => {
   const tl = gsap.timeline();
 
-  tl.fromTo(
-    '.work__wrapper',
-    { left: '-100vw' },
-    { left: '-35%', duration: 1 }
-  );
+  const left =
+    window.innerWidth > window.innerHeight
+      ? `calc(-${window.innerHeight / 2}px + 150px)`
+      : `calc(-${window.innerWidth / 2}px + 150px)`;
+
+  tl.fromTo('.work__wrapper', { left: '-100vw' }, { left: left, duration: 1 });
   tl.fromTo(
     '.work__categories',
     { right: '-100vw' },
@@ -135,8 +136,15 @@ export const projectSelectedFromWork = (wrapper, video, count) => {
   return tl;
 };
 
-export const projectSelectedProject = (container, items, itemSelected) => {
+export const projectSelectedProject = (title, items, itemSelected) => {
   const tl = gsap.timeline();
+
+  tl.to(title, { autoAlpha: 0 });
+
+  /* tl.to(wrapper, {
+    padding: 0,
+    gap: 0,
+  });
 
   items.forEach((item, index) => {
     if (item !== itemSelected) {
@@ -147,7 +155,41 @@ export const projectSelectedProject = (container, items, itemSelected) => {
           height: 0,
           overflow: 'hidden',
           opacity: 0,
-          duration: 1,
+        },
+        '<'
+      );
+    }
+  });
+
+  tl.to(container, {
+    bottom: 0,
+    padding: 0,
+  });
+
+  items.forEach((item, index) => {
+    if (item === itemSelected) {
+      tl.to(item, {
+        width: '100vw',
+        height: '100vh',
+      });
+    }
+  }); */
+  /* tl.fromTo(
+    '.selectedprojects__title',
+    {
+      opacity: 1,
+    },
+    { opacity: 0 },
+    '<'
+  ); */
+  items.forEach((item, index) => {
+    if (item !== itemSelected) {
+      tl.to(
+        item,
+        {
+          clipPath: ' inset(0px 100% 0px 0px)',
+          stagger: 0.2,
+          ease: 'power1.in',
         },
         '<'
       );
@@ -156,56 +198,28 @@ export const projectSelectedProject = (container, items, itemSelected) => {
   items.forEach((item, index) => {
     if (item === itemSelected) {
       tl.to(item, {
-        width: '100vw',
-        height: '100vh',
-        duration: 1,
+        clipPath: ' inset(0px 0px 100% 0px)',
+        delay: 0.5,
+        ease: 'power1.in',
       });
     }
-  });
-
-  tl.to(container, {
-    bottom: 0,
-    padding: 0,
-    gap: 0,
-    duration: 1,
   });
 
   return tl;
 };
 
-export const projectNextPrev = (project, other, container) => {
+export const projectNextPrev = (project, other, page) => {
   const tl = gsap.timeline();
-
   tl.to(other, {
-    width: 0,
-    opacity: 0,
-    overflow: 'hidden',
+    clipPath: ' inset(0px 100% 0px 0px)',
+    ease: 'power1.in',
   });
-
-  // Scroll to the top of the page
-  tl.to(window, {
-    scrollTo: 0, // Scroll to the top (0px)
-    duration: 1, // Adjust the duration as needed
-    ease: 'power2.out',
+  tl.to(project, {
+    clipPath: ' inset(0px 0px 100% 0px)',
+    ease: 'power1.in',
+    delay: 0.5,
   });
-
-  tl.to(
-    container,
-    {
-      padding: 0,
-      top: 0,
-    },
-    '<'
-  );
-
-  tl.to(
-    project,
-    {
-      width: '100vw',
-      height: '100vh',
-    },
-    '<'
-  );
+  tl.to(page, { opacity: 0 });
 
   return tl;
 };

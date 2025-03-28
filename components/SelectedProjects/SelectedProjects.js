@@ -13,6 +13,7 @@ const SelectedProjects = ({ projects }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [clickedIndex, setClickedIndex] = useState(null);
   const containerRef = useRef();
+  const wrapperRef = useRef();
   const itemRefs = useRef([]);
   const videoRefs = useRef([]);
   const titleRef = useRef();
@@ -37,7 +38,7 @@ const SelectedProjects = ({ projects }) => {
 
     timeline.add(
       projectSelectedProject(
-        containerRef.current,
+        titleRef.current,
         itemRefs.current,
         itemRefs.current[index]
       )
@@ -54,7 +55,10 @@ const SelectedProjects = ({ projects }) => {
       >
         [ Selected Projects ]
       </p>
-      <div className={`selectedprojects ${styles.selectedprojects__wrapper}`}>
+      <div
+        ref={wrapperRef}
+        className={`selectedprojects ${styles.selectedprojects__wrapper}`}
+      >
         {projects.projects.map((project, index) => (
           <Link
             key={index}
@@ -83,22 +87,6 @@ const SelectedProjects = ({ projects }) => {
               <source src={project.heroUrl} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
-
-            {/* <Image
-              className={`${styles.selectedprojects__item__thumbnail} ${
-                hoveredIndex === index ? styles.hovered : ''
-              } ${clickedIndex === index ? styles.hidden : ''}`}
-              src={project.thumbnailUrl}
-              width={1440}
-              height={1080}
-              alt='image'
-            /> */}
-
-            {/* <div
-              className={`${styles.selectedprojects__item__thumbnail} ${
-                hoveredIndex === index ? styles.hovered : ''
-              } ${clickedIndex === index ? styles.hidden : ''}`}
-            ></div> */}
 
             <div
               className={`${styles.selectedprojects__item__title} ${

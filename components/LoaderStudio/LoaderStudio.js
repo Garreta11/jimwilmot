@@ -56,22 +56,24 @@ const LoaderStudio = () => {
       ctx.beginPath();
       ctx.moveTo(trail.current[0].x, trail.current[0].y);
 
+      const gradient = ctx.createLinearGradient(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+      gradient.addColorStop(0, 'rgba(67,101,206,0.1)'); // Blue
+      gradient.addColorStop(0.25, 'rgba(150,84,118,0.1)'); // Purple
+      gradient.addColorStop(0.5, 'rgba(221,70,43,0.1)'); // Red
+      gradient.addColorStop(0.75, 'rgba(227,212,49,0.1)'); // Yellow
+      gradient.addColorStop(1, 'rgba(63,164,96,0.1)'); // Green
+
       for (let i = 1; i < trail.current.length - 1; i++) {
         const xc = 0.5 * (trail.current[i].x + trail.current[i + 1].x);
         const yc = 0.5 * (trail.current[i].y + trail.current[i + 1].y);
         ctx.quadraticCurveTo(trail.current[i].x, trail.current[i].y, xc, yc);
         ctx.lineWidth = params.widthFactor * (params.pointsNumber - i);
-        const gradient = ctx.createLinearGradient(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-        gradient.addColorStop(0, 'rgba(67,101,206,1)'); // Blue
-        gradient.addColorStop(0.25, 'rgba(150,84,118,1)'); // Purple
-        gradient.addColorStop(0.5, 'rgba(221,70,43,1)'); // Red
-        gradient.addColorStop(0.75, 'rgba(227,212,49,1)'); // Yellow
-        gradient.addColorStop(1, 'rgba(63,164,96,1)'); // Green
+
         ctx.strokeStyle = gradient;
         ctx.stroke();
       }
@@ -79,7 +81,6 @@ const LoaderStudio = () => {
         trail.current[trail.current.length - 1].x,
         trail.current[trail.current.length - 1].y
       );
-      // ctx.stroke();
 
       requestAnimationFrame(update);
     };
