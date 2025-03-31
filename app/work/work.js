@@ -35,6 +35,7 @@ const WorkPage = ({ projects, categories }) => {
   const [count, setCount] = useState('01');
   const [isHovered, setIsHovered] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
+  const [touchStartY, setTouchStartY] = useState(null);
 
   /* useContext */
   const { timeline } = useContext(TransitionContext);
@@ -60,6 +61,9 @@ const WorkPage = ({ projects, categories }) => {
   /* Show FilteredProjects */
   useEffect(() => {
     if (!filteredProjects.length) return;
+
+    setCurrentProject(filteredProjects[0]); // Set to the first project in the new filtered list
+
     const radius =
       window.innerWidth > window.innerHeight
         ? window.innerHeight / 2
@@ -76,10 +80,12 @@ const WorkPage = ({ projects, categories }) => {
       let closestIndex = -1;
       let maxX = -Infinity;
 
+      const heightCircle = window.innerWidth > 1024 ? 0.8 : 1.5;
+
       filteredProjects.forEach((item, index) => {
         const angle = (index + indexScroll.current) * angleIncrement;
         const x = centerX + radius * Math.cos(angle) * 0.8;
-        const y = centerY + radius * Math.sin(angle) * 0.8;
+        const y = centerY + radius * Math.sin(angle) * heightCircle;
 
         const diff = Math.abs(normalizeAngle(angle));
         const maxAngle = Math.PI / 3;
@@ -111,9 +117,33 @@ const WorkPage = ({ projects, categories }) => {
       updatePosition();
     };
 
+    // Start touch tracking
+    const handleTouchStart = (event) => {
+      setTouchStartY(event.touches[0].clientY); // Store touch start position
+    };
+
+    const handleTouchMove = (event) => {
+      if (!touchStartY) return;
+      const touchEndY = event.touches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+      scrollOffset.current += deltaY * 0.0002; // Adjust sensitivity
+      updatePosition();
+      setTouchStartY(touchEndY); // Update the touch start position
+    };
+
     updatePosition();
     document.addEventListener('wheel', handleWheel);
-    return () => document.removeEventListener('wheel', handleWheel);
+    // Attach touch event listeners for mobile
+    document.addEventListener('touchstart', handleTouchStart, {
+      passive: true,
+    });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchmove', handleTouchMove);
+    };
   }, [filteredProjects, currentProject]);
 
   /* Move Mouse Text */
@@ -140,7 +170,7 @@ const WorkPage = ({ projects, categories }) => {
   }, [isHovered]);
 
   useEffect(() => {
-    if (!videoRef.current) return;
+    if (!videoRef.current || !currentProject) return;
     const videos = Array.from(videoRef.current.getElementsByTagName('video'));
     videos.forEach((video, index) => {
       const isActive = video.dataset.title === currentProject.title;
@@ -310,7 +340,7 @@ const WorkPage = ({ projects, categories }) => {
         {filteredProjects.map((item, index) => {
           return (
             <video
-              key={index}
+              key={item.title}
               className={styles.page__video__media}
               data-title={item.title}
               data-project={item.client}

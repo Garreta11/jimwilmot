@@ -1,3 +1,5 @@
+@import '../../app/_breakpoints';
+
 .header {
   position: fixed;
   z-index: 2;
@@ -13,6 +15,11 @@
   mix-blend-mode: difference;
 
   pointer-events: none;
+
+  @include mobile-query {
+    padding: 0px 20px;
+    pointer-events: all;
+  }
 
   opacity: 0;
   &__logo {
@@ -38,6 +45,9 @@
         font-size: 12px;
         font-weight: 400;
         line-height: 1;
+        @include mobile-query {
+          display: none;
+        }
       }
     }
   }
@@ -51,6 +61,11 @@
     pointer-events: all;
     display: flex;
     justify-content: center;
+
+    @include mobile-query {
+      display: none;
+    }
+
     a {
       display: block;
       width: fit-content;
@@ -66,9 +81,18 @@
     gap: 120px;
     font-size: 12px;
 
+    @include mobile-query {
+      display: none;
+      width: fit-content;
+      gap: 0px;
+    }
+
     &__item {
       width: 70px;
       pointer-events: all;
+      @include mobile-query {
+        width: fit-content;
+      }
       a {
         display: flex;
         gap: 0px;
@@ -108,4 +132,78 @@
     }
 
   }
+
+  &__burger {
+    display: none;
+    /* background: transparent; */
+    border: none;
+    height: 50px;
+    width: 50px;
+    @include mobile-query {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &__dot {
+      width: 5px;
+      height: 5px;
+      background-color: var(--white);
+      border-radius: 50%;
+    }
+  }
+
+  &__mobile {
+    position: fixed;
+    padding: 70px 20px;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--black);
+
+    &__close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      &__line {
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background-color: var(--white); /* Adjust color as needed */
+        transition: transform 0.3s ease;
+        &:first-child {
+          top: 15px;
+          transform: rotate(45deg);
+        }
+        &:last-child {
+          top: 15px;
+          transform: rotate(-45deg);
+        }
+      }
+    }
+
+    &__links {
+      margin: 50px 0px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      &__item {
+        font-size: 30px;
+      }
+    }
+
+    &__socialmedia {
+      position: absolute;
+      font-size: 12px;
+      display: flex;
+      gap: 30px;
+      bottom: 30px;
+    }
+  }
+
 }

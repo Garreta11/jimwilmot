@@ -1,3 +1,5 @@
+@import '../../_breakpoints';
+
 .project {
 
   min-height: 200vh;
@@ -8,6 +10,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
     mix-blend-mode: difference;
+    @include mobile-query {
+      width: 100%;
+      text-align: center;
+    }
   }
 
   &__img {
@@ -20,6 +26,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
+    @include mobile-query {
+      width: 100vw;
+      height: 100vh;
+    }
+    
   }
 
   &__goback {
@@ -30,8 +41,14 @@
     transform: translate(-50%, -50%);
     text-align: center;
     mix-blend-mode: difference;
+    @include mobile-query {
+      bottom: 70px;
+    }
     span {
       font-size: 30px;
+      @include mobile-query {
+        font-size: 20px;
+      }
     }
   }
 

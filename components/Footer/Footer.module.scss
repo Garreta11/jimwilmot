@@ -1,3 +1,5 @@
+@import '../../app/_breakpoints';
+
 .footer {
   position: fixed;
   z-index: 1;
@@ -21,6 +23,10 @@
   &__socialmedia {
     display: flex;
     gap: 120px;
+
+    @include mobile-query {
+      display: none;
+    }
 
     &__item {
       width: 100px;
@@ -52,9 +58,15 @@
     }
 
   }
+
   &__contact {
     display: flex;
     gap: 120px;
     text-transform: uppercase;
+    @include mobile-query {
+      width: 100%;
+      gap: 0;
+      justify-content: space-between;
+    }
   }
 }

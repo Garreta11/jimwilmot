@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import TextGlitch from '../TextGlitch/TextGlitch';
 import useMousePosition from '@/app/hooks/useMousePosition';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const Header = () => {
   const pathname = usePathname(); // Get the current URL path
@@ -17,6 +17,8 @@ const Header = () => {
 
   const headerRef = useRef();
   const iconRef = useRef();
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const links = [
     {
@@ -30,6 +32,17 @@ const Header = () => {
     {
       name: 'STUDIO',
       href: '/studio',
+    },
+  ];
+
+  const socialmedia = [
+    {
+      name: 'INSTAGRAM',
+      src: 'https://instagram.com',
+    },
+    {
+      name: 'LINKEDIN',
+      src: 'https://linkedin.com',
     },
   ];
 
@@ -66,51 +79,128 @@ const Header = () => {
     });
   }, [x, y]);
 
+  // Toggle mobile menu
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <div ref={headerRef} className={`header ${styles.header}`}>
-      <div className={styles.header__logo}>
-        <Link className={styles.header__logo__wrapper} href='/'>
-          <h1>{isStudioPage ? 'Wilberg.studio' : 'Jim Wilberg'}</h1>
-          <h3>
-            {isStudioPage
-              ? 'CREATIVE SERVICES FOR BRANDS, ARTISTS AND LIVE SPACES'
-              : 'FILM DIRECTOR FOR MUSIC, COMMERCIAL AND LIVE PROJECTS'}
-          </h3>
-        </Link>
+    <>
+      <div ref={headerRef} className={`header ${styles.header}`}>
+        <div className={styles.header__logo}>
+          <Link className={styles.header__logo__wrapper} href='/'>
+            <h1>{isStudioPage ? 'Wilberg.studio' : 'Jim Wilberg'}</h1>
+            <h3>
+              {isStudioPage
+                ? 'CREATIVE SERVICES FOR BRANDS, ARTISTS AND LIVE SPACES'
+                : 'FILM DIRECTOR FOR MUSIC, COMMERCIAL AND LIVE PROJECTS'}
+            </h3>
+          </Link>
+        </div>
+        <div className={styles.header__icon}>
+          <Link ref={iconRef} href='/'>
+            <Image
+              src={isStudioPage ? '/logo-rainbow.png' : '/logo.svg'}
+              width={63}
+              height={65}
+              alt='logo'
+            />
+          </Link>
+        </div>
+        <div className={styles.header__links}>
+          {links.map((link, index) => {
+            const isActive =
+              pathname === link.href || pathname.startsWith(link.href);
+            return (
+              <div
+                key={index}
+                className={`${styles.header__links__item} ${isActive ? styles.header__links__item__active : ''}`}
+              >
+                {link.href.startsWith('/studio') ? (
+                  <a href={link.href}>
+                    <TextGlitch>{link.name}</TextGlitch>
+                  </a>
+                ) : (
+                  <Link href={link.href}>
+                    <TextGlitch>{link.name}</TextGlitch>
+                  </Link>
+                )}
+              </div>
+            );
+          })}
+        </div>
+        {/* Mobile burger button */}
+        <div className={styles.header__burger} onClick={toggleMobileMenu}>
+          <span className={styles.header__burger__dot}></span>
+          <span className={styles.header__burger__dot}></span>
+          <span className={styles.header__burger__dot}></span>
+        </div>
       </div>
-      <div className={styles.header__icon}>
-        <Link ref={iconRef} href='/'>
-          <Image
-            src={isStudioPage ? '/logo-rainbow.png' : '/logo.svg'}
-            width={63}
-            height={65}
-            alt='logo'
-          />
-        </Link>
-      </div>
-      <div className={styles.header__links}>
-        {links.map((link, index) => {
-          const isActive =
-            pathname === link.href || pathname.startsWith(link.href);
-          return (
-            <div
-              key={index}
-              className={`${styles.header__links__item} ${isActive ? styles.header__links__item__active : ''}`}
-            >
-              {link.href.startsWith('/studio') ? (
-                <a href={link.href}>
-                  <TextGlitch>{link.name}</TextGlitch>
-                </a>
-              ) : (
-                <Link href={link.href}>
-                  <TextGlitch>{link.name}</TextGlitch>
-                </Link>
-              )}
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className={styles.header__mobile}>
+          {/* Close Menu */}
+          <div
+            className={styles.header__mobile__close}
+            onClick={toggleMobileMenu}
+          >
+            <span className={styles.header__mobile__close__line}></span>
+            <span className={styles.header__mobile__close__line}></span>
+          </div>
+
+          {/* Description */}
+          <div className={styles.header__mobile__text}>
+            <p>
+              {isStudioPage
+                ? 'CREATIVE SERVICES FOR BRANDS, ARTISTS AND LIVE SPACES'
+                : 'FILM DIRECTOR FOR MUSIC, COMMERCIAL AND LIVE PROJECTS'}
+            </p>
+          </div>
+
+          {/* Links Mobile */}
+          <div className={styles.header__mobile__links}>
+            <div className={`${styles.header__mobile__links__item}`}>
+              <a href='/' onClick={toggleMobileMenu}>
+                <TextGlitch>HOME</TextGlitch>
+              </a>
             </div>
-          );
-        })}
-      </div>
-    </div>
+            {links.map((link, index) => {
+              const isActive =
+                pathname === link.href || pathname.startsWith(link.href);
+              return (
+                <div
+                  key={index}
+                  className={`${styles.header__mobile__links__item}`}
+                >
+                  {link.href.startsWith('/studio') ? (
+                    <a href={link.href} onClick={toggleMobileMenu}>
+                      <TextGlitch>{link.name}</TextGlitch>
+                    </a>
+                  ) : (
+                    <Link href={link.href} onClick={toggleMobileMenu}>
+                      <TextGlitch>{link.name}</TextGlitch>
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          <div className={styles.header__mobile__socialmedia}>
+            {socialmedia.map((item, index) => (
+              <div
+                className={styles.header__mobile__socialmedia__item}
+                key={index}
+              >
+                <Link href={item.src}>
+                  <TextGlitch>{item.name}</TextGlitch>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

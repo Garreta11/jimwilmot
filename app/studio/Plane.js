@@ -36,11 +36,11 @@ export default class Plane extends THREE.Object3D {
     };
 
     this.texture = loader.load(this.el.dataset.src, (texture) => {
-      const { naturalWidth, naturalHeight } = texture.image;
+      const { width, height } = texture.image;
       const { u_size, u_texture } = this.material.uniforms;
       u_texture.value = texture;
-      u_size.value.x = naturalWidth;
-      u_size.value.y = naturalHeight;
+      u_size.value.x = width;
+      u_size.value.y = height;
     });
 
     this.mesh = new THREE.Mesh(this.geometry, this.material);

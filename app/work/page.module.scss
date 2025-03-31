@@ -1,3 +1,5 @@
+@import '../_breakpoints';
+
 .page {
   position: relative;
   background-color: var(--black);
@@ -34,17 +36,24 @@
     pointer-events: all;
 
     &__clientcategory {
+      @include mobile-query {
+        display: flex !important;
+        flex-direction: column-reverse;
+      }
       &__client {
-        margin-right: 20px;
+        margin-right: 10px;
+        @include mobile-query {
+          margin-right: 0px;
+        }
       }
       &__cat {
         &::before {
           content:'[';
-          margin-right: 10px;
+          margin-right: 5px;
         }
         &::after {
           content:']';
-          margin-left: 10px;
+          margin-left: 5px;
         }
       }
     }
@@ -58,8 +67,8 @@
       font-weight: 400;
       line-height: 1;
 
-      span {
-        font-size: 12px;
+      @include mobile-query {
+        font-size: 15px;
       }
 
     }
@@ -68,6 +77,9 @@
       font-weight: 400;
       line-height: 1;
       font-size: 16px;
+      @include mobile-query {
+        font-size: 8px;
+      }
     }
 
   }
@@ -84,6 +96,10 @@
     display: flex;
     flex-direction: column;
     align-items: end;
+
+    @include mobile-query {
+      display: none;
+    }
 
     &__item {
       width: fit-content;
@@ -119,6 +135,14 @@
     transform: translate(-50%, -50%);
     cursor: pointer;
 
+    @include mobile-query {
+      top: 0;
+      left: 0;
+      transform: none;
+      width: 100vw;
+      height: 100vh;
+    }
+
     &__media {
       width: 100%;
       height: 100%;
@@ -134,6 +158,10 @@
       left: 50%;
       transform: translate(-50%, -50%);
       mix-blend-mode: difference;
+
+      @include mobile-query {
+        bottom: 70px;
+      }
 
       p {
         display: flex;

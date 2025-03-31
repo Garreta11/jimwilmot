@@ -1,7 +1,13 @@
+@import '../_breakpoints';
+
 .page {
   background-color: #3B3429;
   width: 100vw;
   padding: 160px 50px;
+  
+  @include mobile-query {
+    padding: 100px 20px;
+  }
 
   &__wrapper {
     min-height: 100vh;
@@ -10,19 +16,33 @@
     row-gap: 150px;
     padding-bottom: 100vh;
     grid-template-columns: repeat(12, 1fr);
+    @include mobile-query {
+      row-gap: 100vh;
+    }
     &__description {
       mix-blend-mode: difference;
       font-size: 30px;
       grid-column: 1 / span 7;
+      @include mobile-query {
+        font-size: 20px;
+        grid-column: 1 / span 12;
+      }
     }
     &__items {
       mix-blend-mode: difference;
       font-size: 60px;
       grid-column: 5 / span 10;
+      @include mobile-query {
+        font-size: 30px;
+        grid-column: 1 / span 10;
+      }
       &__data {
         display: flex;
         &__number {
           min-width: 200px;
+          @include mobile-query {
+            min-width: 50%;
+          }
         }
       }
     }
@@ -62,6 +82,9 @@
       font-size: 100px;
       background-color: transparent;
       transition: all ease 0.3s;
+      @include mobile-query {
+        font-size: 30px;
+      }
       &:hover {
         background-color: var(--brown);
       }

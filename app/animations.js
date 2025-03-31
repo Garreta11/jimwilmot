@@ -81,9 +81,11 @@ export const workPageAnimation = () => {
   const tl = gsap.timeline();
 
   const left =
-    window.innerWidth > window.innerHeight
-      ? `calc(-${window.innerHeight / 2}px + 150px)`
-      : `calc(-${window.innerWidth / 2}px + 150px)`;
+    window.innerWidth < 1024
+      ? '-30%'
+      : window.innerWidth > window.innerHeight
+        ? `calc(-${window.innerHeight / 2}px + 150px)`
+        : `calc(-${window.innerWidth / 2}px + 150px)`;
 
   tl.fromTo('.work__wrapper', { left: '-100vw' }, { left: left, duration: 1 });
   tl.fromTo(
