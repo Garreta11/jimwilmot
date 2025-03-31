@@ -10,14 +10,14 @@
   }
 
   &__wrapper {
-    min-height: 100vh;
+    min-height: 100dvh;
     position: relative;
     display: grid;
     row-gap: 150px;
-    padding-bottom: 100vh;
+    padding-bottom: 100dvh;
     grid-template-columns: repeat(12, 1fr);
     @include mobile-query {
-      row-gap: 100vh;
+      row-gap: 100dvh;
     }
     &__description {
       mix-blend-mode: difference;

@@ -18,8 +18,8 @@ export const heroInitAnimation = (media) => {
   );
   tl.fromTo(
     '.background',
-    { width: '10vw', height: '10vh' },
-    { width: '100vw', height: '100vh', duration: 2 },
+    { width: '10vw', height: '10dvh' },
+    { width: '100vw', height: '100dvh', duration: 2 },
     '<'
   );
 

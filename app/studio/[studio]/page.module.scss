@@ -2,7 +2,7 @@
 
 .project {
 
-  min-height: 200vh;
+  min-height: 200dvh;
 
   &__title {
     position: absolute;
@@ -18,7 +18,7 @@
 
   &__img {
     width: auto;
-    height: 80vh;
+    height: 80dvh;
     object-fit: cover;
     opacity: 0;
     position: fixed;
@@ -28,7 +28,7 @@
     z-index: -1;
     @include mobile-query {
       width: 100vw;
-      height: 100vh;
+      height: 100dvh;
     }
     
   }

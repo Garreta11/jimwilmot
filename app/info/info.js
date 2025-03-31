@@ -33,10 +33,10 @@ const InfoWrapper = ({ data }) => {
     if (imageRef.current) {
       gsap.fromTo(
         imageRef.current,
-        { width: '10vw', height: '10vh' },
+        { width: '10vw', height: '10dvh' },
         {
           width: '100vw',
-          height: '100vh',
+          height: '100dvh',
           right: 0,
           bottom: 0,
           ease: 'power2.out',
