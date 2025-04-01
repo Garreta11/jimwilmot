@@ -89,9 +89,11 @@ const SelectedProjects = ({ projects }) => {
                 hoveredIndex === index ? styles.hovered : ''
               }`}
               ref={(el) => (videoRefs.current[index] = el)}
+              poster={project.thumbnailUrl}
               muted
               loop
               playsInline
+              preload='auto'
             >
               <source src={project.heroUrl} type='video/mp4' />
               Your browser does not support the video tag.

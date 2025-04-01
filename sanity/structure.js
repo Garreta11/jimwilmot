@@ -24,15 +24,6 @@ export const structure = (S) =>
             .documentId('singleton-homepage')
         ),
       S.listItem()
-        .title('Work page')
-        .icon(AiFillAppstore) // Different icon
-        .child(
-          S.editor()
-            .id('singleton-work')
-            .schemaType('work')
-            .documentId('singleton-work')
-        ),
-      S.listItem()
         .title('About page')
         .icon(AiFillInfoCircle)
         .child(

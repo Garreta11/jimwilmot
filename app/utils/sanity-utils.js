@@ -156,7 +156,8 @@ export async function getProjectsList() {
       client,
       "slug": slug.current,
       category,
-      "heroUrl": hero.asset->url
+      "heroUrl": hero.asset->url,
+      "thumbnailUrl": thumbnail.asset->url
     }`;
   const data = await client.fetch(query);
   return data;

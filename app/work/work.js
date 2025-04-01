@@ -342,6 +342,7 @@ const WorkPage = ({ projects, categories }) => {
             <video
               key={item.title}
               className={styles.page__video__media}
+              poster={item.thumbnailUrl}
               data-title={item.title}
               data-project={item.client}
               data-hero={item.heroUrl}
@@ -349,6 +350,7 @@ const WorkPage = ({ projects, categories }) => {
               muted
               loop
               playsInline
+              preload='auto'
               style={{ opacity: 0, visibility: 'hidden' }}
             >
               <source src={item.heroUrl} type='video/mp4' />

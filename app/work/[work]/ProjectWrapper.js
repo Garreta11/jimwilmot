@@ -176,6 +176,7 @@ const ProjectWrapper = ({ project }) => {
                     className={`${styles.page__wrapper__builder__video__media}`}
                     controls={true}
                     playsInline
+                    preload='auto'
                   >
                     <source src={block.videoUrl} type='video/mp4' />
                     Your browser does not support the video tag.
@@ -277,6 +278,7 @@ const ProjectWrapper = ({ project }) => {
           loop
           autoPlay
           playsInline
+          preload='auto'
         >
           <source src={project.heroUrl} type='video/mp4' />
           Your browser does not support the video tag.
@@ -300,6 +302,7 @@ const ProjectWrapper = ({ project }) => {
           className={styles.page__fullvideo__media}
           playsInline
           controls
+          preload='auto'
         >
           <source src={project.fullvideoUrl} type='video/mp4' />
           Your browser does not support the video tag.

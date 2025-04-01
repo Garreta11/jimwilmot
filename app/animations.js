@@ -38,7 +38,7 @@ export const heroInitAnimation = (media) => {
 
   // Second Animation Face
   tl.to(media, {
-    maskSize: '4500%',
+    maskSize: window.innerWidth > 1024 ? '4500%' : '7500%',
     duration: 1,
     ease: 'power1.in',
   });
