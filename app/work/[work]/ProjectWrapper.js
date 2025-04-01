@@ -11,7 +11,6 @@ import gsap from 'gsap';
 import { projectNextPrev } from '@/app/animations';
 
 const ProjectWrapper = ({ project }) => {
-  console.log(project);
   const router = useRouter();
   const { x, y } = useMousePosition();
   const mouseRef = useRef(null);
