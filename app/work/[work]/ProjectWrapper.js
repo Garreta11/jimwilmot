@@ -11,6 +11,7 @@ import gsap from 'gsap';
 import { projectNextPrev } from '@/app/animations';
 
 const ProjectWrapper = ({ project }) => {
+  console.log(project);
   const router = useRouter();
   const { x, y } = useMousePosition();
   const mouseRef = useRef(null);
@@ -217,6 +218,7 @@ const ProjectWrapper = ({ project }) => {
             <video
               ref={prevVideoRef}
               className={styles.page__wrapper__nextprev__prev__video}
+              poster={project.prevProject.thumbnailUrl}
               muted
               loop
               playsInline
@@ -256,6 +258,7 @@ const ProjectWrapper = ({ project }) => {
             <video
               ref={nextVideoRef}
               className={styles.page__wrapper__nextprev__prev__video}
+              poster={project.nextProject.thumbnailUrl}
               muted
               loop
               playsInline
