@@ -1,3 +1,5 @@
+@import '../../_breakpoints';
+
 .page {
   // opacity: 0;
   &__wrapper {
@@ -5,6 +7,11 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    
+    @include mobile-query {
+      margin: 160px 10px;
+      margin-bottom: 100px;
+    }
     
 
     &__title {
@@ -25,10 +32,14 @@
         h3 {
           font-size: 32px;
           font-weight: 400;
-          /* font-weight: 700; */
           line-height: 1;
           span {
             font-size: 12px;
+          }
+
+          @include mobile-query {
+            display: flex;
+            flex-direction: column-reverse;
           }
         }
         
@@ -54,6 +65,11 @@
       gap: 20px;
       grid-template-columns: repeat(12, 1fr);
       margin-bottom: 480px;
+
+      @include mobile-query {
+        gap: 10px;
+        margin-bottom: 300px;
+      }
       
       &__item  {
         &:nth-of-type(9n+1) {
@@ -103,6 +119,11 @@
             margin-top: 150px;
             grid-column: 1 / span 5;
         }
+
+        @include mobile-query {
+          margin-top: 0px !important;
+          grid-column: 1 / span 12 !important;
+        }
       }
 
       &__text {
@@ -134,6 +155,7 @@
 
       &__prev, &__next {
         width: 15vw;
+        min-width: 150px;
         height: auto;
         position: relative;
         aspect-ratio: 1.77;
@@ -198,6 +220,10 @@
 
         transition: all ease 0.3s;
         text-transform: uppercase;
+
+        @include mobile-query {
+          padding: 10px;
+        }
       }
 
     }

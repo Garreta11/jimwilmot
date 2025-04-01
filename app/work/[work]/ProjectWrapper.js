@@ -17,6 +17,8 @@ const ProjectWrapper = ({ project }) => {
   const pageRef = useRef(null);
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+  const prevVideoRef = useRef(null);
+  const nextVideoRef = useRef(null);
   const nextPrevRef = useRef(null);
   const videoRef = useRef(null);
   const fullvideoWrapperRef = useRef(null);
@@ -190,8 +192,18 @@ const ProjectWrapper = ({ project }) => {
             ref={prevRef}
             href={`/work/${project.prevProject.slug.current}`}
             className={styles.page__wrapper__nextprev__prev}
-            onMouseEnter={() => setIsHovered(false)}
-            onMouseLeave={() => setIsHovered(true)}
+            onMouseEnter={() => {
+              setIsHovered(false);
+              if (prevVideoRef.current) {
+                prevVideoRef.current.play();
+              }
+            }}
+            onMouseLeave={() => {
+              setIsHovered(true);
+              if (prevVideoRef.current) {
+                prevVideoRef.current.pause();
+              }
+            }}
             onClick={(e) => {
               e.preventDefault();
               handleNextPrev(
@@ -202,22 +214,15 @@ const ProjectWrapper = ({ project }) => {
             }}
           >
             <video
+              ref={prevVideoRef}
               className={styles.page__wrapper__nextprev__prev__video}
               muted
               loop
               playsInline
-              autoPlay
             >
               <source src={project.prevProject.heroUrl} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
-            {/* <Image
-              className={`${styles.page__wrapper__nextprev__prev__thumbnail}`}
-              src={project.prevProject.thumbnailUrl}
-              width={1440}
-              height={1080}
-              alt='image'
-            /> */}
             <p className={styles.page__wrapper__nextprev__text}>
               {project.prevProject.client}
             </p>
@@ -226,8 +231,18 @@ const ProjectWrapper = ({ project }) => {
             ref={nextRef}
             href={`/work/${project.nextProject.slug.current}`}
             className={styles.page__wrapper__nextprev__next}
-            onMouseEnter={() => setIsHovered(false)}
-            onMouseLeave={() => setIsHovered(true)}
+            onMouseEnter={() => {
+              setIsHovered(false);
+              if (nextVideoRef.current) {
+                nextVideoRef.current.play();
+              }
+            }}
+            onMouseLeave={() => {
+              setIsHovered(true);
+              if (nextVideoRef.current) {
+                nextVideoRef.current.pause();
+              }
+            }}
             onClick={(e) => {
               e.preventDefault();
               handleNextPrev(
@@ -238,22 +253,15 @@ const ProjectWrapper = ({ project }) => {
             }}
           >
             <video
+              ref={nextVideoRef}
               className={styles.page__wrapper__nextprev__prev__video}
               muted
               loop
               playsInline
-              autoPlay
             >
               <source src={project.nextProject.heroUrl} type='video/mp4' />
               Your browser does not support the video tag.
             </video>
-            {/* <Image
-              className={`${styles.page__wrapper__nextprev__next__thumbnail}`}
-              src={project.nextProject.thumbnailUrl}
-              width={1440}
-              height={1080}
-              alt='image'
-            /> */}
             <p className={styles.page__wrapper__nextprev__text}>
               {project.nextProject.client}
             </p>

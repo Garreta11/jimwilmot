@@ -67,8 +67,18 @@ const SelectedProjects = ({ projects }) => {
               hoveredIndex === index ? styles.hovered__item : ''
             }`}
             ref={(el) => (itemRefs.current[index] = el)}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
+            onMouseEnter={() => {
+              setHoveredIndex(index);
+              if (videoRefs.current[index]) {
+                videoRefs.current[index].play();
+              }
+            }}
+            onMouseLeave={() => {
+              setHoveredIndex(null);
+              if (videoRefs.current[index]) {
+                videoRefs.current[index].pause();
+              }
+            }}
             onClick={(e) => {
               e.preventDefault();
               handleClickSelectedProject(index, `/work/${project.slug}`);
@@ -81,7 +91,6 @@ const SelectedProjects = ({ projects }) => {
               ref={(el) => (videoRefs.current[index] = el)}
               muted
               loop
-              autoPlay
               playsInline
             >
               <source src={project.heroUrl} type='video/mp4' />
