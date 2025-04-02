@@ -119,11 +119,13 @@ const WorkPage = ({ projects, categories }) => {
 
     // Start touch tracking
     const handleTouchStart = (event) => {
+      console.log('touch start');
       setTouchStartY(event.touches[0].clientY); // Store touch start position
     };
 
     const handleTouchMove = (event) => {
-      if (!touchStartY) return;
+      //if (!touchStartY) return;
+      console.log('touch move');
       const touchEndY = event.touches[0].clientY;
       const deltaY = touchStartY - touchEndY;
       scrollOffset.current += deltaY * 0.0002; // Adjust sensitivity
@@ -133,7 +135,6 @@ const WorkPage = ({ projects, categories }) => {
 
     updatePosition();
     document.addEventListener('wheel', handleWheel);
-    // Attach touch event listeners for mobile
     document.addEventListener('touchstart', handleTouchStart, {
       passive: true,
     });
@@ -189,6 +190,7 @@ const WorkPage = ({ projects, categories }) => {
   }, [currentProject]);
 
   const handleClickVideo = () => {
+    if (window.innerWidth < 1024) return;
     const videos = Array.from(videoRef.current.getElementsByTagName('video'));
     videos.forEach((video, index) => {
       if (video) {

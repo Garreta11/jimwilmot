@@ -158,11 +158,13 @@
     position: fixed;
     padding: 70px 20px;
     top: 0;
-    left: 0;
+    left: 100%;
     z-index: 10;
     width: 100vw;
     height: 100dvh;
     background-color: var(--black);
+
+    animation: mobileMenu 0.3s ease forwards;
 
     &__close {
       position: absolute;
@@ -197,13 +199,31 @@
       }
     }
 
-    &__socialmedia {
+    &__footer {
       position: absolute;
+      bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      width: calc(100% - 40px);
+    }
+
+    &__socialmedia {
+      
       font-size: 12px;
       display: flex;
       gap: 30px;
-      bottom: 30px;
+      
     }
   }
 
+}
+
+@keyframes mobileMenu {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: 0%;
+  }
 }

@@ -186,17 +186,27 @@ const Header = () => {
             })}
           </div>
 
-          <div className={styles.header__mobile__socialmedia}>
-            {socialmedia.map((item, index) => (
-              <div
-                className={styles.header__mobile__socialmedia__item}
-                key={index}
-              >
-                <Link href={item.src}>
-                  <TextGlitch>{item.name}</TextGlitch>
-                </Link>
-              </div>
-            ))}
+          <div className={styles.header__mobile__footer}>
+            <div className={styles.header__mobile__socialmedia}>
+              {socialmedia.map((item, index) => (
+                <div
+                  className={styles.header__mobile__socialmedia__item}
+                  key={index}
+                >
+                  <Link href={item.src}>
+                    <TextGlitch>{item.name}</TextGlitch>
+                  </Link>
+                </div>
+              ))}
+            </div>
+            <Link href='/' onClick={toggleMobileMenu}>
+              <Image
+                src={isStudioPage ? '/logo-rainbow.png' : '/logo.svg'}
+                width={63}
+                height={65}
+                alt='logo'
+              />
+            </Link>
           </div>
         </div>
       )}

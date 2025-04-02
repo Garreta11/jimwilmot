@@ -145,6 +145,7 @@
       transform: none;
       width: 100vw;
       height: 100dvh;
+      pointer-events: none;
     }
 
     &__media {
@@ -187,6 +188,9 @@
     font-size: 12px;
     mix-blend-mode: difference;
     pointer-events: none;
+    @include mobile-query {
+      display: none;
+    }
   }
 }
 

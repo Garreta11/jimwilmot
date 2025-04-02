@@ -120,7 +120,7 @@ const ProjectWrapper = ({ project }) => {
       <div className={styles.page__wrapper} onClick={handleFullVideo}>
         <div className={styles.page__wrapper__title}>
           <div className={styles.page__wrapper__title__wrapper}>
-            <h3>
+            <h3 className={styles.page__wrapper__title__wrapper__client}>
               {project.client}
               &emsp;
               <span>
@@ -132,7 +132,9 @@ const ProjectWrapper = ({ project }) => {
                 &nbsp;]&nbsp;
               </span>
             </h3>
-            <h3>{project.title}</h3>
+            <h3 className={styles.page__wrapper__title__wrapper__title}>
+              {project.title}
+            </h3>
           </div>
         </div>
 
