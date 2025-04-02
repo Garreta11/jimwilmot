@@ -37,8 +37,9 @@ export const heroInitAnimation = (media) => {
   );
 
   // Second Animation Face
+  const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
   tl.to(media, {
-    maskSize: window.innerWidth > 1024 ? '4500%' : '7500%',
+    maskSize: isDesktop ? '4500%' : '7500%',
     duration: 1,
     ease: 'power1.in',
   });
