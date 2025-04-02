@@ -236,7 +236,7 @@ const WorkPage = ({ projects, categories }) => {
   const handleClickProjectTitle = (_index) => {
     isTittleSelected.current = true;
 
-    const radius =
+    /* const radius =
       window.innerWidth > window.innerHeight
         ? window.innerHeight / 2
         : window.innerWidth / 2;
@@ -275,7 +275,7 @@ const WorkPage = ({ projects, categories }) => {
     });
 
     // setCurrentProject(filteredProjects[closestIndex]);
-    setCount(closestIndex.toString().padStart(2, '0'));
+    setCount(closestIndex.toString().padStart(2, '0')); */
 
     const videos = Array.from(videoRef.current.getElementsByTagName('video'));
     videos.forEach((video, index) => {
@@ -286,7 +286,7 @@ const WorkPage = ({ projects, categories }) => {
     setTimeout(() => {
       timeline.pause().clear();
       const project = projects.find(
-        (project) => project === filteredProjects[closestIndex]
+        (project) => project === filteredProjects[_index]
       );
       const url = `/work/${project.slug}`;
       // Set the onComplete callback globally on the timeline
@@ -375,13 +375,6 @@ const WorkPage = ({ projects, categories }) => {
             </video>
           );
         })}
-
-        <div ref={countRef} className={styles.page__video__count}>
-          <p>
-            [<span>{count}</span> /{' '}
-            <span>{filteredProjects.length.toString().padStart(2, '0')}</span>]
-          </p>
-        </div>
       </div>
 
       {/* Mobile Thumbnail Image */}
@@ -396,6 +389,14 @@ const WorkPage = ({ projects, categories }) => {
             />
           );
         })}
+      </div>
+
+      {/* Count */}
+      <div ref={countRef} className={styles.page__count}>
+        <p>
+          [<span>{count}</span> /{' '}
+          <span>{filteredProjects.length.toString().padStart(2, '0')}</span>]
+        </p>
       </div>
 
       {/* Categories */}

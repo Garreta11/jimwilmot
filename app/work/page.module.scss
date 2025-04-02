@@ -146,7 +146,6 @@
       width: 100vw;
       height: 100dvh;
       pointer-events: none;
-      display: none;
     }
 
     &__media {
@@ -156,30 +155,34 @@
       position: absolute;
       top: 0;
       left: 0;
-    }
-
-    &__count {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      mix-blend-mode: difference;
-
       @include mobile-query {
-        bottom: 70px;
+        display: none;
       }
+    }
 
-      p {
-        display: flex;
-        gap: 10px;
+  }
+  
+  &__count {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
 
-        span {
-          width: 20px;
-        }
+    @include mobile-query {
+      bottom: 70px;
+    }
 
+    p {
+      display: flex;
+      gap: 10px;
+
+      span {
+        width: 20px;
       }
 
     }
+
   }
 
   &__mobile__img {
