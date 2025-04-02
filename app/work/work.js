@@ -25,6 +25,7 @@ const WorkPage = ({ projects, categories }) => {
   const countRef = useRef(null);
   const videoRef = useRef(null);
   const videosRef = useRef([]);
+  const mobileImgsRef = useRef(null);
   const indexScroll = useRef(0);
   const scrollOffset = useRef(0);
   const isTittleSelected = useRef(false);
@@ -172,21 +173,35 @@ const WorkPage = ({ projects, categories }) => {
 
   useEffect(() => {
     if (!videoRef.current || !currentProject) return;
-    const videos = Array.from(videoRef.current.getElementsByTagName('video'));
-    videos.forEach((video, index) => {
-      const isActive = video.dataset.title === currentProject.title;
-      if (isActive) {
-        video.play();
-      } else {
-        video.pause();
-      }
-      gsap.to(video, {
-        duration: 0.5,
-        autoAlpha: isActive ? 1 : 0,
-        scale: isActive ? 1 : 0.5,
-        ease: 'power2.out',
+    if (window.innerWidth > 1024) {
+      const videos = Array.from(videoRef.current.getElementsByTagName('video'));
+      videos.forEach((video, index) => {
+        const isActive = video.dataset.title === currentProject.title;
+        if (isActive) {
+          video.play();
+        } else {
+          video.pause();
+        }
+        gsap.to(video, {
+          duration: 0.5,
+          autoAlpha: isActive ? 1 : 0,
+          scale: isActive ? 1 : 0.5,
+          ease: 'power2.out',
+        });
       });
-    });
+    } else {
+      const imgs = Array.from(
+        mobileImgsRef.current.getElementsByTagName('img')
+      );
+      imgs.forEach((img, index) => {
+        const isActive = img.dataset.title === currentProject.title;
+        gsap.to(img, {
+          duration: 0.5,
+          autoAlpha: isActive ? 1 : 0,
+          ease: 'power2.out',
+        });
+      });
+    }
   }, [currentProject]);
 
   const handleClickVideo = () => {
@@ -367,6 +382,20 @@ const WorkPage = ({ projects, categories }) => {
             <span>{filteredProjects.length.toString().padStart(2, '0')}</span>]
           </p>
         </div>
+      </div>
+
+      {/* Mobile Thumbnail Image */}
+      <div className={styles.page__mobile__img} ref={mobileImgsRef}>
+        {filteredProjects.map((item, index) => {
+          return (
+            <img
+              key={item.title}
+              data-title={item.title}
+              src={item.thumbnailUrl}
+              style={{ opacity: 0, visibility: 'hidden' }}
+            />
+          );
+        })}
       </div>
 
       {/* Categories */}
