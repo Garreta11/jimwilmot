@@ -71,7 +71,6 @@ const StudioWrapper = ({ projects }) => {
 
   return (
     <div className={`${styles.page} studio__wrapper`}>
-      {/* {!isLoaded && !hasWaited && <LoaderStudio />} */}
       <LoaderStudio />
 
       <div className={`js-grid ${styles.page__grid}`}>

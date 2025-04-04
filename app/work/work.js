@@ -16,7 +16,7 @@ import Gradient from '@/components/Gradient/Gradient';
 const WorkPage = ({ projects, categories }) => {
   /* Hooks */
   const router = useRouter();
-  const { x, y } = useMousePosition();
+  const { x, y } = useMousePosition(true);
 
   /* useRefs */
   const containerRef = useRef(null);

@@ -12,7 +12,7 @@ import { projectNextPrev } from '@/app/animations';
 
 const ProjectWrapper = ({ project }) => {
   const router = useRouter();
-  const { x, y } = useMousePosition();
+  const { x, y } = useMousePosition(true);
   const mouseRef = useRef(null);
   const pageRef = useRef(null);
   const prevRef = useRef(null);

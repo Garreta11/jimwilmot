@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 
-const useMousePosition = () => {
+const useMousePosition = (usePageCoordinates = false) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const requestRef = useRef(null);
 
@@ -10,7 +10,10 @@ const useMousePosition = () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
 
       requestRef.current = requestAnimationFrame(() => {
-        setMousePosition({ x: event.pageX, y: event.pageY });
+        setMousePosition({
+          x: usePageCoordinates ? event.pageX : event.clientX,
+          y: usePageCoordinates ? event.pageY : event.clientY,
+        });
       });
     };
 
@@ -20,7 +23,7 @@ const useMousePosition = () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
       window.removeEventListener('mousemove', updateMousePosition);
     };
-  }, []);
+  }, [usePageCoordinates]);
 
   return mousePosition;
 };

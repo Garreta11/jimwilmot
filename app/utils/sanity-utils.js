@@ -197,8 +197,16 @@ export async function getStudioProject(slug) {
       _id,
       _createdAt,
       title,
+      client,
+      type,
       "slug": slug.current,
-      "thumbnailUrl": thumbnail.asset->url
+      "thumbnailUrl": thumbnail.asset->url,
+      descriptions[]{
+        text
+      },
+      images[]{
+        "imageUrl": image.asset->url
+      }
     }`;
 
   const data = await client.fetch(query, { slug });

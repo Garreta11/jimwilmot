@@ -2,8 +2,6 @@
 
 .project {
 
-  min-height: 200dvh;
-
   &__title {
     position: absolute;
     top: 50%;
@@ -16,21 +14,84 @@
     }
   }
 
-  &__img {
-    width: auto;
-    height: 80dvh;
-    object-fit: cover;
-    opacity: 0;
+  &__grid{
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    @include mobile-query {
-      width: 100vw;
-      height: 100dvh;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    pointer-events: none;
+    
+    > div{
+      position: relative;
     }
     
+    &__plane{
+      position: absolute;
+      inset: 3rem;
+      padding: 0;
+      margin: 0;
+      opacity: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      pointer-events: none;
+      img {
+        max-height: 60dvh;
+        height: 100%;
+        width: auto;
+
+        @include mobile-query {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+  }
+
+  &__canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* pointer-events: none; */
+    opacity: 0;
+    transition: all ease 0.5s;
+
+    &__show {
+      opacity: 1;
+    }
+
+  }
+
+  &__wrapper {
+    position: relative;
+    z-index: 1;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    &__title {
+      width: 100vw;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 300px;
+      font-size: 30px;
+      text-transform: uppercase;
+    }
+    &__item {
+      width: 100vw;
+      height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 300px;
+      font-size: 20px;
+    }
   }
 
   &__goback {
