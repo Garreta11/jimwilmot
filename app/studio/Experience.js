@@ -40,7 +40,7 @@ export default class Experience {
     this.on = { x: 0, y: 0 };
     this.max = { x: 0, y: 0 };
 
-    this.dragIntensity = 10;
+    this.dragIntensity = 5;
 
     this.isDragging = false;
     this.tl = gsap.timeline({ paused: true });
@@ -216,6 +216,13 @@ export default class Experience {
 
     if (intersects.length > 0) {
       const clickedPlane = intersects[0].object;
+
+      gsap.to(clickedPlane.scale, {
+        x: clickedPlane.scale.x * 3,
+        y: clickedPlane.scale.y * 3,
+        z: clickedPlane.scale.z * 3,
+      });
+
       if (clickedPlane.userData && clickedPlane.userData.slug) {
         this.timeline.pause().clear();
         this.timeline.eventCallback('onComplete', () => {
@@ -244,8 +251,8 @@ export default class Experience {
     this.wheel.y *= mouse;
     this.wheel.x *= mouse;
 
-    this.tx += this.wheel.x;
-    this.ty -= this.wheel.y;
+    this.tx += this.wheel.x * 0.2;
+    this.ty -= this.wheel.y * 0.2;
   };
 
   // Update

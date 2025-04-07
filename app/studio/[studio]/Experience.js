@@ -36,7 +36,7 @@ export default class Experience {
     this.on = { x: 0, y: 0 };
     this.max = { x: 0, y: 0 };
 
-    this.dragIntensity = 10;
+    this.dragIntensity = 5;
 
     this.isDragging = false;
 
@@ -198,8 +198,8 @@ export default class Experience {
     this.wheel.y *= mouse;
     this.wheel.x *= mouse;
 
-    this.tx += this.wheel.x;
-    this.ty -= this.wheel.y;
+    this.tx += this.wheel.x * 0.2;
+    this.ty -= this.wheel.y * 0.2;
   };
 
   // Update
