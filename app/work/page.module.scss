@@ -168,6 +168,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     mix-blend-mode: difference;
+    font-size: 30px;
 
     @include mobile-query {
       bottom: 70px;
@@ -178,7 +179,7 @@
       gap: 10px;
 
       span {
-        width: 20px;
+        width: 40px;
       }
 
     }
