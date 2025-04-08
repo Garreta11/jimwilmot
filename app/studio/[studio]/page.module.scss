@@ -93,8 +93,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 300px;
+      /* padding: 300px; */
       font-size: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
       @include mobile-query {
         padding: 10px;
         font-size: 12px;
