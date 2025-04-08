@@ -15,7 +15,7 @@
     background-color: var(--brown);
     border-radius: 50%;
     filter: blur(30px);
-    animation: movePrimaryItem 100s linear infinite;
+    animation: movePrimaryItem 70s linear infinite;
   }
   &__item_2 {
     position: absolute;
@@ -43,28 +43,28 @@
 
 @keyframes movePrimaryItem {
   0% {
-    transform: translate(100%, -100%) scale(1.2);
+    transform: translate(50%, -50%) scale(1.2);
   }
   25% {
     transform: translate(-30%, -20%) scale(1);
   }
   50% {
-    transform: translate(0%, 50%) scale(1.2);
+    transform: translate(-150%, 50%) scale(1.2);
   }
   75% {
     transform: translate(-75%, -80%) scale(1);
   }
   100% {
-    transform: translate(100%, -100%) scale(1.2);
+    transform: translate(50%, -50%) scale(1.2);
   }
 }
 
-@keyframes moveTertiaryItem {
+@keyframes moveSecondaryItem {
   0% {
-    transform: translate(-80%, 80%) scale(1.2);
+    transform: translate(-300%, 80%) scale(1.2);
   }
   25% {
-    transform: translate(-50%, 0%) scale(1.2);
+    transform: translate(-100%, 0%) scale(1.2);
   }
   50% {
     transform: translate(100%, -80%) scale(1);
@@ -73,24 +73,24 @@
     transform: translate(60%, 80%) scale(1.2);
   }
   100% {
-    transform: translate(-80%, 80%) scale(1.2);
+    transform: translate(-300%, 80%) scale(1.2);
   }
 }
 
-@keyframes moveSecondaryItem {
+@keyframes moveTertiaryItem {
   0% {
-    transform: translate(0%, 0%) scale(1);
+    transform: translate(-200%, 80%) scale(1.2);
   }
   25% {
-    transform: translate(-50%, 10%) scale(1.2);
+    transform: translate(-180%, 0%) scale(1.5);
   }
   50% {
-    transform: translate(10%, 5%) scale(1);
+    transform: translate(100%, -80%) scale(1);
   }
   75% {
-    transform: translate(100%, 50%) scale(1.2);
+    transform: translate(60%, 80%) scale(1.5);
   }
   100% {
-    transform: translate(0%, 0%) scale(1);
+    transform: translate(-180%, 80%) scale(1.2);
   }
 }

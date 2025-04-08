@@ -1,7 +1,8 @@
 @import '../_breakpoints';
 
 .page {
-  background-color: #3B3429;
+  /* background-color: #3B3429; */
+  background-color: var(--black);
   width: 100vw;
   padding: 160px 50px;
   
