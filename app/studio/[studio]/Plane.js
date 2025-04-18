@@ -21,7 +21,7 @@ export default class Plane extends THREE.Object3D {
     this.y = 0;
 
     this.mx = 0.05 * Math.random() * 2 - 1;
-    this.my = 0.05 * Math.random() * 2 - 1;
+    this.my = 0.2 * Math.random() * 2 - 1;
 
     this.geometry = geometry;
     this.material = material.clone();
@@ -31,8 +31,8 @@ export default class Plane extends THREE.Object3D {
       u_res: { value: new THREE.Vector2(1, 1) },
       u_size: { value: new THREE.Vector2(1, 1) },
       u_diff: { value: 0 },
+      u_scale: { value: 0 },
       u_opacity: { value: 1.0 },
-      uOpacity: { value: 1.0 },
     };
 
     this.texture = loader.load(this.el.dataset.src, (texture) => {
@@ -46,6 +46,17 @@ export default class Plane extends THREE.Object3D {
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.add(this.mesh);
     this.resize();
+
+    // init animation
+    this.initAnimation();
+  }
+
+  initAnimation() {
+    gsap.to(this.material.uniforms.u_scale, {
+      value: 1,
+      delay: Math.random() * 5,
+      duration: 2,
+    });
   }
 
   update = (x, y, max, diff) => {

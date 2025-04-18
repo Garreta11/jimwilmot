@@ -14,7 +14,7 @@
     min-height: 100dvh;
     position: relative;
     display: grid;
-    row-gap: 150px;
+    row-gap: 50dvh;
     padding-bottom: 100dvh;
     grid-template-columns: repeat(12, 1fr);
     @include mobile-query {
@@ -31,7 +31,7 @@
     }
     &__items {
       mix-blend-mode: difference;
-      font-size: 60px;
+      font-size: 100px;
       grid-column: 5 / span 10;
       @include mobile-query {
         font-size: 30px;

@@ -392,7 +392,7 @@ const WorkPage = ({ projects, categories }) => {
       </div>
 
       {/* Count */}
-      <div ref={countRef} className={styles.page__count}>
+      <div ref={countRef} className={`${styles.page__count} work__count`}>
         <p>
           [<span>{count}</span> /{' '}
           <span>{filteredProjects.length.toString().padStart(2, '0')}</span>]

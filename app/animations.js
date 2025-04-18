@@ -79,7 +79,7 @@ export const heroInitAnimation = (media) => {
 };
 
 export const workPageAnimation = () => {
-  const tl = gsap.timeline();
+  const tl = gsap.timeline({ delay: 1 });
 
   const left =
     window.innerWidth < 1024
@@ -97,6 +97,8 @@ export const workPageAnimation = () => {
   );
 
   tl.fromTo('.work__video', { scale: 0 }, { scale: 1 });
+
+  tl.fromTo('.work__count', { opacity: 0, y: 100 }, { opacity: 1, y: 0 });
 
   return tl;
 };

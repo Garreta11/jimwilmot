@@ -184,17 +184,17 @@ export default class Experience {
     if (intersects.length > 0) {
       this.targetElement.style.cursor = 'pointer';
       const hoveredPlane = intersects[0].object;
-      gsap.to(hoveredPlane.material.uniforms.uOpacity, {
-        value: 1,
-        duration: 0.5,
+      gsap.to(hoveredPlane.material.uniforms.u_scale, {
+        value: 1.1,
+        duration: 1,
         ease: 'power2.out',
       }); // Fade out
     } else {
       this.targetElement.style.cursor = 'default';
       this.scene.children.map((plane, index) => {
-        gsap.to(plane.material.uniforms.uOpacity, {
-          value: 0.2,
-          duration: 0.5,
+        gsap.to(plane.material.uniforms.u_scale, {
+          value: 1,
+          duration: 1,
           ease: 'power2.out',
         });
       });

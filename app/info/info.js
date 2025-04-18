@@ -61,8 +61,8 @@ const InfoWrapper = ({ data }) => {
   // Check Mail
   useEffect(() => {
     const gmailHref =
-      'https://mail.google.com/mail/u/0/?fs=1&to=jim@wilberg.studio&tf=cm';
-    const mailtoHref = 'mailto:jim@wilberg.studio';
+      'https://mail.google.com/mail/u/0/?fs=1&to=contact@wilberg.studio&tf=cm';
+    const mailtoHref = 'mailto:contact@wilberg.studio';
 
     // Check if the user is using Gmail (basic check)
     const isGmailUser = navigator.userAgent.includes('Gmail');
