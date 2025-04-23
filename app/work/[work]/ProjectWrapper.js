@@ -36,6 +36,7 @@ const ProjectWrapper = ({ project }) => {
 
   useEffect(() => {
     videoRef.current.currentTime = videoTime;
+    videoRef.current.muted = false;
   }, [videoTime]);
 
   // Animate hero__sound to follow the mouse
