@@ -17,6 +17,10 @@
   }
 
   &__sound {
+    opacity: 0;
+  }
+
+  &__hello {
     position: absolute;
     top: 0;
     left: 0;

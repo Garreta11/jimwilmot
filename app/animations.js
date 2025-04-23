@@ -75,6 +75,15 @@ export const heroInitAnimation = (media) => {
     '<'
   );
 
+  tl.fromTo(
+    '.hero__sound',
+    {
+      opacity: 0,
+    },
+    { opacity: 1 },
+    '<'
+  );
+
   return tl;
 };
 

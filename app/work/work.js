@@ -12,6 +12,7 @@ import { TimeContext } from '../context/TimeContext';
 import useMousePosition from '@/app/hooks/useMousePosition';
 import { workPageAnimation } from '../animations';
 import Gradient from '@/components/Gradient/Gradient';
+import Audio from '@/components/Audio/Audio';
 
 const WorkPage = ({ projects, categories }) => {
   /* Hooks */
@@ -29,6 +30,7 @@ const WorkPage = ({ projects, categories }) => {
   const indexScroll = useRef(0);
   const scrollOffset = useRef(0);
   const isTittleSelected = useRef(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   /* useStates */
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -114,7 +116,7 @@ const WorkPage = ({ projects, categories }) => {
     };
 
     const handleWheel = (event) => {
-      scrollOffset.current += event.deltaY * 0.0002; // Adjust sensitivity
+      scrollOffset.current += event.deltaY * 0.0005; // Adjust sensitivity
       updatePosition();
     };
 
@@ -178,7 +180,7 @@ const WorkPage = ({ projects, categories }) => {
       videos.forEach((video, index) => {
         const isActive = video.dataset.title === currentProject.title;
         if (isActive) {
-          video.muted = false;
+          if (!isMuted) video.muted = false;
           video.play();
         } else {
           video.muted = true;
@@ -302,6 +304,19 @@ const WorkPage = ({ projects, categories }) => {
 
       timeline.play();
     }, 500);
+  };
+
+  const handleAudio = () => {
+    if (window.innerWidth > 1024) {
+      const videos = Array.from(videoRef.current.getElementsByTagName('video'));
+      videos.forEach((video, index) => {
+        const isActive = video.dataset.title === currentProject.title;
+        if (isActive) {
+          video.muted = isMuted ? false : true;
+        }
+      });
+    }
+    setIsMuted((prev) => !prev);
   };
 
   return (
@@ -441,6 +456,8 @@ const WorkPage = ({ projects, categories }) => {
       <div ref={mouseRef} className={styles.page__mouse}>
         <p>[ WATCH PROJECT ]</p>
       </div>
+
+      <Audio isMuted={isMuted} handleClick={handleAudio} />
     </div>
   );
 };

@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, useContext } from 'react';
 import gsap from 'gsap';
 import { projectNextPrev } from '@/app/animations';
+import Audio from '@/components/Audio/Audio';
 
 const ProjectWrapper = ({ project }) => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const ProjectWrapper = ({ project }) => {
   const bgRef = useRef(null);
   const [isHovered, setIsHovered] = useState(true);
   const [fullvideoVisible, setFullvideoVisible] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   const { timeline } = useContext(TransitionContext);
   const { videoTime } = useContext(TimeContext);
@@ -82,6 +84,9 @@ const ProjectWrapper = ({ project }) => {
   const handleFullVideo = () => {
     setFullvideoVisible((prev) => !prev);
     if (!fullvideoVisible) {
+      // pause small video
+      videoRef.current.muted = true;
+      gsap.to('.page__audio', { opacity: 0 });
       // animation bg
       gsap.fromTo(bgRef.current, { autoAlpha: 0 }, { autoAlpha: 0.9 });
       // animation video
@@ -98,6 +103,10 @@ const ProjectWrapper = ({ project }) => {
         }
       );
     } else {
+      // pause small video
+      videoRef.current.muted = true;
+      gsap.to('.page__audio', { opacity: 1 });
+      setIsMuted(true);
       // animation bg
       gsap.fromTo(bgRef.current, { autoAlpha: 0.9 }, { autoAlpha: 0 });
       // animation video
@@ -114,6 +123,11 @@ const ProjectWrapper = ({ project }) => {
         }
       );
     }
+  };
+
+  const handleAudio = () => {
+    videoRef.current.muted = isMuted ? false : true;
+    setIsMuted((prev) => !prev);
   };
 
   return (
@@ -229,7 +243,7 @@ const ProjectWrapper = ({ project }) => {
               Your browser does not support the video tag.
             </video>
             <p className={styles.page__wrapper__nextprev__text}>
-              {project.prevProject.client}
+              ← {project.prevProject.client}
             </p>
           </Link>
           <Link
@@ -269,7 +283,7 @@ const ProjectWrapper = ({ project }) => {
               Your browser does not support the video tag.
             </video>
             <p className={styles.page__wrapper__nextprev__text}>
-              {project.nextProject.client}
+              {project.nextProject.client} →
             </p>
           </Link>
         </div>
@@ -316,6 +330,10 @@ const ProjectWrapper = ({ project }) => {
 
       <div ref={mouseRef} className={styles.page__playvideo}>
         <p>{fullvideoVisible ? '[ CLOSE ]' : '[ PLAY FULL VIDEO ]'}</p>
+      </div>
+
+      <div className='page__audio'>
+        <Audio isMuted={isMuted} handleClick={handleAudio} />
       </div>
     </div>
   );

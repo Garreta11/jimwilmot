@@ -74,7 +74,7 @@
   }
   
   &__links {
-    // width: calc(100% / 3);
+    min-width: calc(100% / 3);
     height: fit-content;
     display: flex;
     justify-content: flex-end;
@@ -88,7 +88,7 @@
     }
 
     &__item {
-      width: 70px;
+      width: 85px;
       pointer-events: all;
       @include mobile-query {
         width: fit-content;

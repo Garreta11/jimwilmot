@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import useMousePosition from '@/app/hooks/useMousePosition';
 import { heroInitAnimation } from '@/app/animations';
 import { LoadingContext } from '@/app/context/LoadingContext';
+import Audio from '@/components/Audio/Audio';
 
 const Hero = (props) => {
   const { media } = props;
@@ -73,14 +74,16 @@ const Hero = (props) => {
       className={styles.hero}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={handleClick} // Toggle sound on click
     >
       <Suspense fallback={<p>Loading video...</p>}>
         <VideoComponent mediaRef={mediaRef} media={media} />
+        <div className={`${styles.hero__sound} hero__sound`}>
+          <Audio handleClick={handleClick} isMuted={isMuted} />
+        </div>
       </Suspense>
 
-      <div ref={soundRef} className={styles.hero__sound}>
-        <p>{isMuted ? '[ PLAY SOUND ]' : '[ PAUSE SOUND ]'}</p>
+      <div ref={soundRef} className={styles.hero__hello}>
+        <p>{'[ HELLO ]'}</p>
       </div>
     </div>
   );
