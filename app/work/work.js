@@ -178,8 +178,10 @@ const WorkPage = ({ projects, categories }) => {
       videos.forEach((video, index) => {
         const isActive = video.dataset.title === currentProject.title;
         if (isActive) {
+          video.muted = false;
           video.play();
         } else {
+          video.muted = true;
           video.pause();
         }
         gsap.to(video, {
