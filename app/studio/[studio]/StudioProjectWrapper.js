@@ -7,12 +7,15 @@ import Experience from './Experience';
 import Link from 'next/link';
 import TextGlitch from '@/components/TextGlitch/TextGlitch';
 import StudioMouse from '@/components/StudioMouse/StudioMouse';
+import Audio from '@/components/Audio/Audio';
 
 const StudioProjectWrapper = ({ project }) => {
+  console.log(project);
   const outputRef = useRef(null);
   const containerRef = useRef(null);
-
+  const audioRef = useRef(null);
   const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     // Load all images
@@ -56,9 +59,30 @@ const StudioProjectWrapper = ({ project }) => {
     };
   }, [imagesLoaded]);
 
+  const handleAudio = () => {
+    if (isMuted) {
+      audioRef.current.play();
+    } else {
+      audioRef.current.pause();
+    }
+    setIsMuted(!isMuted);
+  };
+
   return (
     <div className={styles.project}>
       <StudioMouse />
+      <div className={styles.project__wrapper}>
+        <div className={styles.project__wrapper__title}>
+          <h1>{project.client}</h1>
+          <h1>{project.title}</h1>
+        </div>
+        {project.descriptions?.map((item, index) => (
+          <div className={styles.project__wrapper__item} key={index}>
+            <PortableText value={item.text} />
+          </div>
+        ))}
+      </div>
+
       <div className={`js-grid ${styles.project__grid}`}>
         {project.images?.map((item, index) => (
           <div key={index}>
@@ -72,22 +96,17 @@ const StudioProjectWrapper = ({ project }) => {
         ))}
       </div>
 
-      <div className={styles.project__wrapper}>
-        <div className={styles.project__wrapper__title}>
-          <h1>{project.client}</h1>
-          <h1>{project.title}</h1>
-        </div>
-        {project.descriptions?.map((item, index) => (
-          <div className={styles.project__wrapper__item} key={index}>
-            <PortableText value={item.text} />
-          </div>
-        ))}
-      </div>
-
       <div
         className={`${styles.project__canvas} ${imagesLoaded ? styles.project__canvas__show : ''}`}
         ref={containerRef}
       ></div>
+
+      {project.audioUrl && (
+        <>
+          <audio ref={audioRef} src={project.audioUrl} loop />
+          <Audio isMuted={isMuted} handleClick={handleAudio} />
+        </>
+      )}
 
       <Link className={styles.project__goback} href='/studio'>
         <TextGlitch>

@@ -5,7 +5,7 @@ import Experience from './Experience';
 import LoaderStudio from '@/components/LoaderStudio/LoaderStudio';
 import { useRouter } from 'next/navigation';
 import { TransitionContext } from '@/app/context/TransitionContext';
-
+import Link from 'next/link';
 const StudioWrapper = ({ projects }) => {
   const router = useRouter();
 
@@ -46,6 +46,9 @@ const StudioWrapper = ({ projects }) => {
   useEffect(() => {
     if (!isLoaded || !containerRef.current) return;
 
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+    if (isMobile) return;
+
     if (outputRef.current) {
       outputRef.current.destroy();
       outputRef.current = null;
@@ -76,13 +79,19 @@ const StudioWrapper = ({ projects }) => {
       <div className={`js-grid ${styles.page__grid}`}>
         {projects.map((item, index) => (
           <div key={index}>
-            <figure
-              className={`js-plane ${styles.page__grid__plane}`}
-              data-src={item.thumbnailUrl}
-              data-slug={item.slug}
-            >
-              <img className={`js-img`} src={item.thumbnailUrl} alt='Trulli' />
-            </figure>
+            <Link href={`/studio/${item.slug}`}>
+              <figure
+                className={`js-plane ${styles.page__grid__plane}`}
+                data-src={item.thumbnailUrl}
+                data-slug={item.slug}
+              >
+                <img
+                  className={`js-img`}
+                  src={item.thumbnailUrl}
+                  alt='Trulli'
+                />
+              </figure>
+            </Link>
           </div>
         ))}
       </div>

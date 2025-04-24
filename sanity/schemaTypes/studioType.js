@@ -46,6 +46,14 @@ export const studioType = defineType({
       },
     }),
     defineField({
+      name: 'audio',
+      title: 'Audio File',
+      type: 'file',
+      options: {
+        accept: 'audio/*',
+      },
+    }),
+    defineField({
       name: 'descriptions',
       type: 'array',
       title: 'Descriptions',

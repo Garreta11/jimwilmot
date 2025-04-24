@@ -25,10 +25,10 @@
     height: 100%;
     width: 2px;
     border-radius: 50px;
-    animation: animate 1.2s linear infinite;
+    animation: animate 2s linear infinite;
 
     &__pause {
-      animation: none;
+      animation-play-state: paused;
     }
 
     &:nth-child(1) {
@@ -46,7 +46,6 @@
     &:nth-child(5) {
       animation-delay: 0s;
     }
-
   }
 
   &__diagonal {
@@ -56,13 +55,13 @@
     height: 0%;
     width: 2px;
     border-radius: 50px;
-    transform: rotate(45deg);
+    transform: rotate(90deg);
     left: 8px;
 
     transition: all ease 0.3s;
 
     &__pause {
-      height: 150%;
+      height: 100%;
     }
   }
 }

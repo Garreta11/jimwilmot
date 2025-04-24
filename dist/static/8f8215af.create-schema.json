@@ -717,6 +717,14 @@
         "type": "image"
       },
       {
+        "options": {
+          "accept": "audio/*"
+        },
+        "name": "audio",
+        "type": "file",
+        "title": "Audio File"
+      },
+      {
         "of": [
           {
             "fields": [

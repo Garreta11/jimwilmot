@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Gradient from '@/components/Gradient/Gradient';
 import SplitType from 'split-type';
+import TextGlitchContact from '@/components/TextGlitchContact/TextGlitchContact';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -193,7 +194,7 @@ const InfoWrapper = ({ data }) => {
           href={emailHref}
           target='_blank'
         >
-          [ CONTACT ME ]
+          [ <TextGlitchContact>CONTACT ME</TextGlitchContact> ]
         </a>
       </div>
     </div>

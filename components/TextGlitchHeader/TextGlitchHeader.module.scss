@@ -1,0 +1,44 @@
+.glitch {
+  display: flex;
+  flex-direction: column;
+  [data-char] {
+    color: transparent;
+    position: relative;
+
+    &::after {
+      --txt: attr(data-char);
+      --delay: attr(data-delay);
+      animation-name: none;
+      animation-duration: 0.2s;
+      animation-delay: 0.2s;
+      animation-delay: var(--delay, 0s);
+      animation-timing-function: steps(1);
+      animation-fill-mode: backwards;
+      animation-iteration-count: var(--count);
+      content: var(--txt);
+      color: var(--white);
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+  
+  &.active [data-char]::after {
+    animation-name: glitch-switch; // Apply animation when active class is added
+  }
+
+}
+
+@keyframes glitch-switch {
+  0% { content: var(--char-0); }
+  10% { content: var(--char-1); }
+  20% { content: var(--char-2); }
+  30% { content: var(--char-3); }
+  40% { content: var(--char-4); }
+  50% { content: var(--char-5); }
+  60% { content: var(--char-6); }
+  70% { content: var(--char-7); }
+  80% { content: var(--char-8); }
+  90% { content: var(--char-9); }
+  100% { content: var(--char-0); }
+}

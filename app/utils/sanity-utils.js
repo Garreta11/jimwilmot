@@ -201,6 +201,7 @@ export async function getStudioProject(slug) {
       type,
       "slug": slug.current,
       "thumbnailUrl": thumbnail.asset->url,
+      "audioUrl": audio.asset->url,
       descriptions[]{
         text
       },

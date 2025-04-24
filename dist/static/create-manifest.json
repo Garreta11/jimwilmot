@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "createdAt": "2025-04-23T08:23:36.709Z",
+  "createdAt": "2025-04-24T10:08:40.357Z",
   "workspaces": [
     {
       "name": "default",
@@ -9,7 +9,7 @@
       "projectId": "w3dlp9lz",
       "dataset": "production",
       "icon": "<img alt=\"My Logo\" src=\"/logo.svg\">",
-      "schema": "4aa72554.create-schema.json",
+      "schema": "8f8215af.create-schema.json",
       "tools": "45117e79.create-tools.json"
     }
   ]

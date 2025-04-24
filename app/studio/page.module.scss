@@ -4,8 +4,11 @@
   width: 100vw;
   height: 100dvh;
   position: fixed;
-  /* pointer-events: none;
- */
+  @include mobile-query {
+    height: auto;
+    position: initial;
+  }
+
   &__canvas {
     position: fixed;
     top: 0;
@@ -20,10 +23,12 @@
       opacity: 1;
     }
 
+    @include mobile-query {
+      display: none;
+    }
   }
 
-
-  &__grid{
+  &__grid {
     position: fixed;
     top: 0;
     left: 0;
@@ -32,12 +37,19 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     pointer-events: none;
-    
-    > div{
+
+    > div {
       position: relative;
     }
-    
-    &__plane{
+
+    @include mobile-query {
+      position: initial;
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    &__plane {
       position: absolute;
       inset: 3rem;
       padding: 0;
@@ -48,6 +60,14 @@
       align-items: center;
 
       pointer-events: none;
+
+      @include mobile-query {
+        opacity: 1;
+        pointer-events: all;
+        position: initial;
+        inset: 0;
+      }
+
       img {
         height: 100%;
         width: auto;
@@ -59,7 +79,6 @@
       }
     }
   }
-  
 }
 
 .masonry-grid {

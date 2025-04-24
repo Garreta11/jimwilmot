@@ -6,6 +6,7 @@ import styles from './Header.module.scss';
 import Link from 'next/link';
 import Image from 'next/image';
 import TextGlitch from '../TextGlitch/TextGlitch';
+import TextGlitchHeader from '../TextGlitchHeader/TextGlitchHeader';
 import useMousePosition from '@/app/hooks/useMousePosition';
 import { useEffect, useRef, useState } from 'react';
 
@@ -89,12 +90,15 @@ const Header = () => {
       <div ref={headerRef} className={`header ${styles.header}`}>
         <div className={styles.header__logo}>
           <Link className={styles.header__logo__wrapper} href='/'>
-            <h1>{isStudioPage ? 'Wilberg.studio' : 'Jim Wilberg'}</h1>
-            <h3>
-              {isStudioPage
-                ? 'CREATIVE SERVICES FOR BRANDS, ARTISTS AND LIVE SPACES'
-                : 'FILM DIRECTOR FOR MUSIC, COMMERCIAL AND LIVE PROJECTS'}
-            </h3>
+            <TextGlitchHeader>
+              <h1>{isStudioPage ? 'Wilberg.studio' : 'Jim Wilberg'}</h1>
+
+              <h3>
+                {isStudioPage
+                  ? 'CREATIVE SERVICES FOR BRANDS, ARTISTS AND LIVE SPACES'
+                  : 'FILM DIRECTOR FOR MUSIC, COMMERCIAL AND LIVE PROJECTS'}
+              </h3>
+            </TextGlitchHeader>
           </Link>
         </div>
         <div className={styles.header__icon}>
