@@ -37,7 +37,8 @@ export const heroInitAnimation = (media) => {
   );
 
   // Second Animation Face
-  const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  const isDesktop = !isMobile;
   tl.to(media, {
     maskSize: isDesktop ? '4500%' : '10000%',
     duration: 1,
