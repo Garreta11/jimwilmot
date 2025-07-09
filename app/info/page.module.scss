@@ -1,4 +1,5 @@
-@import '../_breakpoints';
+// @import '../_breakpoints';
+@use '../_breakpoints' as *;
 
 .page {
   /* background-color: #3B3429; */

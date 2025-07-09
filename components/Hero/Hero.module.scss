@@ -1,4 +1,5 @@
-@import '../../app/_breakpoints';
+// @import '../../app/_breakpoints';
+@use '../../app/_breakpoints' as *;
 
 .hero {
   width: 100vw;
@@ -12,7 +13,7 @@
 
     mask-position: center;
     mask-size: 0%;
-    mask-image: url("/logo.svg");
+    mask-image: url('/logo.svg');
     mask-repeat: no-repeat;
   }
 

@@ -58,7 +58,8 @@ export default defineConfig({
   basePath: '/dashboard',
   projectId: 'w3dlp9lz',
   dataset: 'production',
-  title: 'Jim Wilberg - Dashboard',
+  title: 'Wilberg - Dashboard',
+  useCdn: true,
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
   plugins: [

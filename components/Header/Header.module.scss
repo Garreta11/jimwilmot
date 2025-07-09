@@ -1,4 +1,5 @@
-@import '../../app/_breakpoints';
+// @import '../../app/_breakpoints';
+@use '../../app/_breakpoints' as *;
 
 .header {
   position: fixed;
@@ -16,12 +17,13 @@
 
   pointer-events: none;
 
+  opacity: 0;
+
   @include mobile-query {
     padding: 0px 20px;
     pointer-events: all;
   }
 
-  opacity: 0;
   &__logo {
     width: calc(100% / 3);
     pointer-events: all;

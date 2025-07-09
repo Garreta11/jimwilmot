@@ -1,11 +1,12 @@
-@import '../_breakpoints';
+// @import '../_breakpoints';
+@use '../_breakpoints' as *;
 
 .page {
   position: relative;
   background-color: var(--black);
   width: 100vw;
   height: 300vh;
-  
+
   @include mobile-query {
     height: 100vh;
   }
@@ -52,11 +53,11 @@
       }
       &__cat {
         &::before {
-          content:'[';
+          content: '[';
           margin-right: 5px;
         }
         &::after {
-          content:']';
+          content: ']';
           margin-left: 5px;
         }
       }
@@ -74,9 +75,8 @@
       @include mobile-query {
         font-size: 15px;
       }
-
     }
-    
+
     p {
       font-weight: 400;
       line-height: 1;
@@ -85,7 +85,6 @@
         font-size: 8px;
       }
     }
-
   }
 
   &__categories {
@@ -159,9 +158,8 @@
         display: none;
       }
     }
-
   }
-  
+
   &__count {
     position: fixed;
     bottom: 100px;
@@ -181,9 +179,7 @@
       span {
         width: 40px;
       }
-
     }
-
   }
 
   &__mobile__img {
@@ -205,7 +201,6 @@
       top: 0;
       left: 0;
     }
-
   }
 
   &__mouse {
@@ -220,4 +215,3 @@
     }
   }
 }
-

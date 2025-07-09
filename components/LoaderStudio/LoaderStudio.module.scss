@@ -1,4 +1,6 @@
-@import '../../app/_breakpoints';
+// @import '../../app/_breakpoints';
+@use '../../app/_breakpoints' as *;
+
 .loader {
   width: 100vw;
   height: 100dvh;
