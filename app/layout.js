@@ -9,7 +9,7 @@ import { TimeProvider } from './context/TimeContext';
 import { LoadingProvider } from './context/LoadingContext';
 
 export const metadata = {
-  title: 'Jim Wilmot',
+  title: 'Wilberg Studio',
   description: 'FILM DIRECTOR FOR MUSIC, COMMERCIAL AND LIVE PROJECTS',
 };
 
