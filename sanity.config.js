@@ -59,7 +59,7 @@ export default defineConfig({
   projectId: 'w3dlp9lz',
   dataset: 'production',
   title: 'Wilberg - Dashboard',
-  useCdn: true,
+  useCdn: false,
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
   plugins: [
