@@ -3,6 +3,8 @@ import styles from './page.module.scss';
 import { getHomepage, getSelectedProjects } from './utils/sanity-utils';
 import SelectedProjects from '@/components/SelectedProjects/SelectedProjects';
 
+export const dynamic = 'force-dynamic';
+
 const Home = async () => {
   const home = await getHomepage('singleton-homepage');
   const selectedProjects = await getSelectedProjects('selectedProjects');

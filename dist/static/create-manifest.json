@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "createdAt": "2025-07-15T15:31:29.015Z",
+  "workspaces": [
+    {
+      "name": "default",
+      "title": "Wilberg - Dashboard",
+      "basePath": "/dashboard",
+      "projectId": "w3dlp9lz",
+      "dataset": "production",
+      "icon": "<img alt=\"My Logo\" src=\"/logo.svg\">",
+      "schema": "8f8215af.create-schema.json",
+      "tools": "45117e79.create-tools.json"
+    }
+  ]
+}
