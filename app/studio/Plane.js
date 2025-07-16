@@ -59,7 +59,7 @@ export default class Plane extends THREE.Object3D {
   initAnimation() {
     gsap.to(this.material.uniforms.u_scale, {
       value: 1,
-      delay: Math.random() * 5,
+      delay: Math.random(),
       duration: 2,
     });
   }
