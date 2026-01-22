@@ -18,7 +18,7 @@
     "glslify-loader": "^2.0.0",
     "gsap": "^3.12.7",
     "lenis": "^1.1.20",
-    "next": "15.1.6",
+    "next": "15.1.11",
     "next-sanity": "^9.8.51",
     "nodemailer": "^6.10.0",
     "react": "^18.3.1",
